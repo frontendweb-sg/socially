@@ -6,4 +6,7 @@ export const AppContent = {
   cancel: "Cancel",
   ok: "Ok",
   close: "Close",
+  signIn: "Sign in",
+  signUp: "Sign up",
+  loading: "Loading...",
 };

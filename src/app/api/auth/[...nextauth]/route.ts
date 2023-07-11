@@ -1,13 +1,10 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import { AuthError } from "../../errors/auth-error";
+import { login } from "@/lib/auth";
 
 const handler = NextAuth({
-  secret: process.env.NEXTAUTH_SECRET,
   jwt: {
-    maxAge: 1 * 60 * 60,
-  },
-  session: {
     maxAge: 1 * 60 * 60,
   },
   providers: [
@@ -17,30 +14,35 @@ const handler = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials, req) {
-        const response = await fetch(process.env.NEXTAUTH_URL + "/api/signin", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials!),
+        const data = await login({
+          email: credentials?.email!,
+          password: credentials?.password!,
         });
 
-        const user = await response.json();
-
-        if (user?.errors) {
-          throw new AuthError(user.errors.message);
+        if (data?.errors) {
+          throw new AuthError(data.errors.message);
         }
 
-        if (user) {
-          return user;
+        if (data) {
+          return data;
         }
 
         return null;
       },
     }),
   ],
-  callbacks: {},
+  callbacks: {
+    async jwt({ token, user }) {
+      console.log(token, user);
+      return { ...token, ...user };
+    },
+    async session({ session, token }) {
+      session.user = token as any;
+      return session;
+    },
+  },
   pages: {
     signIn: "/auth/signin",
   },

@@ -17,8 +17,8 @@ export type DIRECTION =
   | "bottom-right";
 
 export interface IAuth {
-  email: "";
-  password: "";
+  email: string;
+  password: string;
 }
 
 export interface IAuthRegister {
