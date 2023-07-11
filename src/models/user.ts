@@ -6,7 +6,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  picture: string;
+  image: string;
   mobile: string;
   role: string;
   verify: string;
@@ -21,7 +21,7 @@ const schema = new Schema(
     email: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true, trim: true },
     mobile: { type: String, required: true, trim: true },
-    picture: { type: String, default: "" },
+    image: { type: String, default: "" },
     role: { type: String, default: "user", enum: ["user", "admin"] },
     verify: { type: Boolean, default: false },
     resetToken: { type: String, default: null },
