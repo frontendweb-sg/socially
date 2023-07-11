@@ -9,4 +9,6 @@ export const AppContent = {
   signIn: "Sign in",
   signUp: "Sign up",
   loading: "Loading...",
+  signInWait: "Please wait authenticating...",
+  signUpWait: "Please wait registering...",
 };

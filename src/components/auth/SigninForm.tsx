@@ -27,7 +27,6 @@ const SigninForm = () => {
           ...values,
         });
 
-        console.log(result);
         if (result?.error) {
           setError(result.error);
         }
@@ -36,10 +35,11 @@ const SigninForm = () => {
       },
     });
 
+  let message = loading && <p>{AppContent.signInWait}</p>;
   return (
     <form onSubmit={handleSubmit}>
       {error && <p>{error}</p>}
-      {loading && <p>Wait authenticating...</p>}
+      {message}
       <input
         placeholder="Email id"
         name="email"

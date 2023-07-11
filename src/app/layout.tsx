@@ -1,7 +1,9 @@
 import AuthProvider from "@/components/providers/AuthProvider";
-import "./globals.css";
-import type { Metadata } from "next";
+import Header from "@/components/layout/Header";
 import { Inter } from "next/font/google";
+import type { Metadata } from "next";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <Header />
+          <div className="container mt-4 mb-4">{children}</div>
+        </AuthProvider>
       </body>
     </html>
   );
