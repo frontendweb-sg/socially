@@ -1,0 +1,33 @@
+.form-control {
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  .fw-input,
+  .fw-textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 12px 5px;
+    background-color: transparent;
+    &:focus {
+      background-color: transparent;
+    }
+  }
+  &:focus-within {
+    background-color: $gray-100;
+  }
+
+  &.textarea {
+    align-items: flex-start;
+    padding-top: 15px;
+    .fw-textarea {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+
+.password {
+  display: flex;
+  align-items: center;
+}

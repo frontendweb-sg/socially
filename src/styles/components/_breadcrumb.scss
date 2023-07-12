@@ -1,0 +1,9 @@
+.breadcrumb {
+  &-item {
+    .nav-link {
+      &:hover {
+        color: $secondary;
+      }
+    }
+  }
+}

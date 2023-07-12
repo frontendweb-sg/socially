@@ -1,0 +1,12 @@
+@for $k from 1 through 20 {
+  .w-#{$k * 5} {
+    width: $k * 5px;
+  }
+  .h-#{$k *5} {
+    height: $k * 5px;
+  }
+  .wh-#{$k * 5} {
+    width: $k * 5px;
+    height: $k * 5px;
+  }
+}

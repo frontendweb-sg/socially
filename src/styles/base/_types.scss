@@ -1,0 +1,98 @@
+%line-common {
+  content: '';
+  width: 40px;
+  height: 2px;
+}
+
+h1 {
+  &.h1 {
+    font-size: $font-size-base * 3.5;
+  }
+}
+
+.text {
+  @each $k, $v in $text-size {
+    &-#{$k} {
+      font-size: map-get($text-size, $k, 'size');
+      line-height: map-get($text-size, $k, 'line-height');
+      @debug $v;
+    }
+  }
+
+  @each $k, $v in $text-font-weight {
+    &-#{$k} {
+      font-weight: $v;
+    }
+  }
+
+  @each $k, $v in $text-line-height {
+    &-line-#{$k} {
+      line-height: $v;
+    }
+  }
+
+  &-attr {
+    position: relative;
+    z-index: 1;
+    &:before {
+      content: attr(data-attr);
+      position: absolute;
+      font-size: $font-size-base * 3;
+      z-index: -1;
+      transform: translateY(-50%);
+      top: 50%;
+      left: -15px;
+      color: $gray-300;
+    }
+  }
+
+  &.line {
+    &-left,
+    &-right,
+    &-both,
+    &-bottom,
+    &-top {
+      --margin: 10px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    &-both {
+      &:before,
+      &:after {
+        @extend %line-common;
+      }
+      &:before {
+        margin-right: var(--margin);
+      }
+      &:after {
+        margin-left: var(--margin);
+      }
+    }
+
+    &-bottom {
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      &:after {
+        @extend %line-common;
+        position: absolute;
+        bottom: 0;
+      }
+    }
+
+    &-left {
+      &:before {
+        @extend %line-common;
+        margin-right: var(--margin);
+      }
+    }
+
+    &-right {
+      &:after {
+        @extend %line-common;
+        margin-left: var(--margin);
+      }
+    }
+  }
+}

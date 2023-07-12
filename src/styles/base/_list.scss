@@ -1,0 +1,47 @@
+$list: 'list' !default;
+.list {
+  &-gap {
+    .#{$list}-item {
+      margin-bottom: 20px;
+    }
+  }
+  &-item {
+    a {
+      padding: 3px 0;
+      transition: padding 200ms linear;
+      &:hover {
+        font-weight: 500;
+        color: $secondary;
+        padding-left: 10px;
+      }
+    }
+  }
+
+  &-inline {
+    display: flex;
+    align-items: center;
+    .list-item {
+      text-align: center;
+      margin-right: 15px;
+      a {
+        &:hover {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  &.sep {
+    .list-item {
+      display: flex;
+      align-items: center;
+
+      &:not(:last-child) {
+        &:after {
+          margin-left: 10px;
+          content: '/';
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.btn {
+  border-radius: 4px;
+  @each $k, $v in $btn-size {
+    &-#{$k} {
+      min-width: $v;
+      padding: map-get($btn-padding, $k);
+      font-size: map-get($btn-text-size, $k);
+    }
+  }
+}
+
+.btn-icon {
+  padding: 0;
+  margin: 0;
+  &.border-none {
+    border: none;
+  }
+
+  @each $k, $v in $btn-icon-size {
+    &-#{$k} {
+      width: $v;
+      height: $v;
+    }
+  }
+}

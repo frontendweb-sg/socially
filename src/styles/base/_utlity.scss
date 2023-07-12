@@ -1,0 +1,27 @@
+.list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 20px;
+
+  &-4 {
+    li {
+      width: 25%;
+    }
+  }
+  &-h {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 0.85rem;
+      svg {
+        margin-right: 8px;
+      }
+    }
+  }
+}

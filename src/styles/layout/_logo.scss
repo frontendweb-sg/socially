@@ -1,0 +1,83 @@
+$logo-icon-size: (
+  'sx': 35px,
+  'sm': 40px,
+  'md': 50px,
+  'lg': 60px,
+  'xl': 100px,
+) !default;
+
+.fw-logo {
+  font-family: var(--font-lato);
+  font-weight: 900;
+  font-style: italic;
+  display: flex;
+  text-decoration: none;
+  z-index: 1;
+  position: relative;
+  --dark-color: #{$primary};
+  --dark-bg: #{$primary};
+  --light-color: #{$white};
+  --light-bg: #{$white};
+
+  &-name,
+  &-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.5pt;
+  }
+
+  &-name {
+    font-size: $font-size-base * 1.4;
+    &.dark {
+      color: var(--dark-color);
+    }
+    &.light {
+      color: var(--light-color);
+    }
+  }
+
+  &-icon {
+    margin-right: 15px;
+    width: 35px;
+    height: 35px;
+    font-size: $font-size-base * 1.5;
+    position: relative;
+    &:before,
+    &:after {
+      border-radius: 4px;
+      width: 100%;
+      height: 100%;
+      content: '';
+      position: absolute;
+    }
+    &:before {
+      border-radius: 4px;
+
+      transform: rotate(45deg);
+      z-index: -1;
+    }
+    &:after {
+      transform: rotate(70deg);
+      z-index: -2;
+    }
+    &.dark {
+      color: var(--light-color);
+      &:before {
+        background-color: var(--dark-bg);
+      }
+      &:after {
+        background-color: $gray-400;
+      }
+    }
+    &.light {
+      color: var(--dark-color);
+      &:before {
+        background-color: var(--light-bg);
+      }
+      &:after {
+        background-color: $gray-400;
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+.fw-container {
+  @each $k, $v in $fw-container {
+    &-#{$k} {
+      max-width: $v;
+    }
+  }
+}

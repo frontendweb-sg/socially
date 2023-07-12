@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     if (!user) throw new NotFoundError("Email not found!");
 
-    const verify = Password.compare(body.password, user.password);
+    const verify = Password.compare(body.password, user?.password!);
     if (!verify) throw new AuthError("Invalid password");
 
     const token = Jwt.genToken({ email: user.email, id: user.id });

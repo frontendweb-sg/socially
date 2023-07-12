@@ -1,0 +1,212 @@
+@use 'sass:math';
+
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$blue: #0d6efd !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #d63384 !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #198754 !default;
+$teal: #20c997 !default;
+$cyan: #0dcaf0 !default;
+
+$grays: (
+  '100': $gray-100,
+  '200': $gray-200,
+  '300': $gray-300,
+  '400': $gray-400,
+  '500': $gray-500,
+  '600': $gray-600,
+  '700': $gray-700,
+  '800': $gray-800,
+  '900': $gray-900,
+) !default;
+
+$colors: (
+  'blue': $blue,
+  'indigo': $indigo,
+  'purple': $purple,
+  'pink': $pink,
+  'red': $red,
+  'orange': $orange,
+  'yellow': $yellow,
+  'green': $green,
+  'teal': $teal,
+  'cyan': $cyan,
+  'black': $black,
+  'white': $white,
+  'gray': $gray-600,
+) !default;
+
+$variable-prefix: fw- !default;
+
+$body-bg: $white !default;
+$body-color: $gray-700 !default;
+
+$brand-color: #1f1f40 !default;
+$primary: $brand-color !default;
+$secondary: #e12454 !default;
+
+$font-family-sans-serif: 'Roboto', sans-serif !default;
+$font-family-lato: 'Lato', sans-serif !default;
+$font-size-base: 0.875rem !default; // 16px
+
+$text-size: (
+  'xs': (
+    'size': 0.75rem,
+    'line-height': 1rem,
+  ),
+  'sm': (
+    'size': 0.875rem,
+    'line-height': 1.25rem,
+  ),
+  'base': (
+    'size': 1rem,
+    'line-height': 1.5rem,
+  ),
+  'md': (
+    'size': 1.125rem,
+    'line-height': 1.75rem,
+  ),
+  'lg': (
+    'size': 1.25rem,
+    'line-height': 1.75rem,
+  ),
+  'xl': (
+    'size': 1.5rem,
+    'line-height': 2rem,
+  ),
+  'xxl': (
+    'size': 1.75rem,
+    'line-height': 2rem,
+  ),
+  '2xl': (
+    'size': 2rem,
+    'line-height': 2.5rem,
+  ),
+  '3xl': (
+    'size': 3rem,
+    'line-height': 1,
+  ),
+  '4xl': (
+    'size': 4rem,
+    'line-height': 1,
+  ),
+  '5xl': (
+    'size': 5rem,
+    'line-height': 1,
+  ),
+  '6xl': (
+    'size': 6rem,
+    'line-height': 1,
+  ),
+) !default;
+
+$text-font-weight: (
+  300: 300,
+  400: 400,
+  500: 500,
+  700: 700,
+) !default;
+
+$text-line-height: (
+  0: 1,
+  1: 1.2,
+  2: 1.3,
+  3: 1.4,
+  4: 1.5,
+  5: 1.6,
+  6: 1.7,
+  7: 1.8,
+  8: 2,
+  9: 2.25,
+  10: 2.4,
+) !default;
+
+// shadow
+$shadow-3: 0 0 3px rgba(60, 72, 88, 0.15);
+
+// navbar
+// scss-docs-start navbar-variables
+$navbar-bg: $primary;
+$navbar-bg-light: $white;
+$navbar-height: 65px;
+$navbar-shadow: 0 0 10px $gray-800;
+
+// light
+
+// dark
+$navbar-dark-color: $white !default;
+$navbar-dark-hover-color: $secondary !default;
+$navbar-dark-active-color: $secondary !default;
+
+// social media
+$google: #d14c2d !default;
+$google-hover: #b7381b !default;
+$fb: #516fa3 !default;
+$fb-hover: #38588e !default;
+$twitter: #4eb7ec !default;
+$twitter-hover: #38abe4 !default;
+$github: #434343 !default;
+$github-hover: #252525 !default;
+
+// fw-container
+$fw-container: (
+  xs: 350px,
+  sm: 450px,
+  md: 550px,
+  lg: 650px,
+  xl: 750px,
+  xxl: 850px,
+) !default;
+
+$btn-icon-size: (
+  'xs': 30px,
+  'sm': 35px,
+  'md': 50px,
+  'lg': 60px,
+  'xl': 70px,
+  'xxl': 100px,
+) !default;
+
+// button
+$btn-size: (
+  'xs': 60px,
+  'sm': 80px,
+  'md': 120px,
+  'lg': 140px,
+  'xl': 180px,
+  'xxl': 200px,
+  'block': 100%,
+) !default;
+
+$btn-text-size: (
+  'xs': 0.7rem,
+  'sm': 0.8rem,
+  'md': 0.9rem,
+  'lg': 1rem,
+  'xl': 1.1rem,
+  'xxl': 1.2rem,
+) !default;
+
+$btn-padding: (
+  'xs': 5px 8px,
+  'sm': 6px 10px,
+  'md': 8px 10px,
+  'lg': 8px 12px,
+  'xl': 10px 15px,
+  'xxl': 12px 15px,
+) !default;

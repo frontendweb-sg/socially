@@ -1,0 +1,20 @@
+.footer {
+  &-auth {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &-public {
+    padding-top: 60px;
+    position: relative;
+    .footer-svg {
+      right: 0;
+      left: 0;
+      position: absolute;
+      fill: inherit;
+      display: none;
+    }
+  }
+}

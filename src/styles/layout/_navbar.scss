@@ -1,0 +1,33 @@
+$nav: 'nav' !default;
+$navbar: 'navbar' !default;
+
+.navbar {
+  --dark-bg: #{$navbar-bg};
+  --light-bg: #{$navbar-bg-light};
+  --height: #{$navbar-height};
+  --shadow: #{$navbar-shadow};
+
+  transition: all 300ms linear;
+  height: var(--height);
+
+  &-brand{
+    font-family: var(--font-lato);
+    font-weight: 900;
+    letter-spacing: 1px;
+  }
+  &-scroll {
+    background-color: var(--dark-bg);
+    box-shadow: var(--shadow);
+  }
+
+  &-nav {
+    .#{$nav}-item {
+      margin-left: 10px;
+    }
+    .#{$nav}-link {
+      &.active {
+        font-weight: 500;
+      }
+    }
+  }
+}

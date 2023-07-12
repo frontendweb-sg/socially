@@ -1,0 +1,9 @@
+a {
+  text-decoration: none;
+  outline: none;
+  color: $primary;
+  &:hover {
+    outline: none;
+    color: $secondary;
+  }
+}

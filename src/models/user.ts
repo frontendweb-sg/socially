@@ -5,12 +5,13 @@ export const USER_TABLE = "user";
 export interface IUser {
   name: string;
   email: string;
-  password: string;
+  password?: string;
   image: string;
   mobile: string;
   role: string;
   verify: string;
   resetToken: string;
+  provider_id?: string;
   active: boolean;
 }
 
@@ -19,8 +20,8 @@ const schema = new Schema(
   {
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true, unique: true },
-    password: { type: String, required: true, trim: true },
-    mobile: { type: String, required: true, trim: true },
+    password: { type: String, trim: true },
+    mobile: { type: String, trim: true },
     image: { type: String, default: "" },
     role: { type: String, default: "user", enum: ["user", "admin"] },
     verify: { type: Boolean, default: false },

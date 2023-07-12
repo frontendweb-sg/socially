@@ -2,12 +2,20 @@ import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import { AuthError } from "../../errors/auth-error";
 import { login } from "@/lib/auth";
+import GithubProvider from "next-auth/providers/github";
+import { connectDb } from "@/lib/db";
+import { IUserDoc, User } from "@/models/user";
 
 const handler = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   jwt: {
     maxAge: 1 * 60 * 60,
   },
   providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    }),
     CredentialProvider({
       name: "Signin",
       credentials: {
@@ -34,6 +42,28 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn({ user, account, profile, credentials }) {
+      await connectDb();
+
+      const email = user.email;
+      console.log("HI", { user, account, profile, credentials, email });
+
+      // get the user if the exist
+      const userExists = (await User.findOne({ email })) as IUserDoc;
+
+      if (!userExists) {
+        const newUser = new User({
+          name: user.name,
+          email: email,
+          image: user.image,
+          provider_id: user.id,
+        });
+
+        await newUser.save();
+      }
+      // if they don't exist , create user
+      return true;
+    },
     async jwt({ token, user }) {
       return { ...token, ...user };
     },
@@ -45,6 +75,7 @@ const handler = NextAuth({
   pages: {
     signIn: "/auth/signin",
   },
+  debug: process.env.NODE_ENV === "development",
 });
 
 export { handler as GET, handler as POST };

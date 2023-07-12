@@ -1,0 +1,24 @@
+.text {
+  @each $k, $v in $colors {
+    &-#{$k} {
+      color: $v;
+    }
+  }
+
+  @each $k, $v in $grays {
+    &-gray-#{$k} {
+      color: $v;
+    }
+  }
+
+  &.line {
+    @each $k, $v in $colors {
+      &-#{$k} {
+        &:before,
+        &:after {
+          background-color: $v;
+        }
+      }
+    }
+  }
+}
