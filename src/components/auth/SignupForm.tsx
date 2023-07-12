@@ -2,13 +2,15 @@
 import { signup } from "@/lib/auth";
 import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 /**
  * Sign-in component
  * @returns
  */
 const SignupForm = () => {
+  const router = useRouter();
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +30,7 @@ const SignupForm = () => {
           const result = await signup(values);
           if (result.status === 201) {
             setTimeout(() => {
-              redirect("/signin");
+              router.replace("/signin");
             }, 3000);
           }
         } catch (error) {

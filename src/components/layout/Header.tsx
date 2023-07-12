@@ -1,9 +1,10 @@
 import { AppContent } from "@/utils/content";
 import Link from "next/link";
+import Navbar from "./Navbar";
 
 const Header = () => {
   return (
-    <header className="navbar navbar-dark bg-primary">
+    <header className="navbar navbar-dark navbar-expand-lg bg-primary">
       <div className="container">
         <Link className="navbar-brand" href="/">
           {AppContent.brand}
@@ -20,6 +21,7 @@ const Header = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        <Navbar />
       </div>
     </header>
   );

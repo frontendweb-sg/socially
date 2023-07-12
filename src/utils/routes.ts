@@ -4,9 +4,10 @@ export const AppRoutes = {
   signup: "/signup",
   user: "/user",
   userProfile: "/user/profile",
-  userPost: "/user/post",
+  userPost: "/user/posts",
   userSetting: "/user/setting",
-  userPhoto: "/user/photo",
+  userPhoto: "/user/photos",
   userProject: "/user/project",
   admin: "/admin",
+  posts: "/posts",
 };
