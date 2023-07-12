@@ -1,5 +1,7 @@
+"use client";
 import { signIn, getProviders } from "next-auth/react";
 import { useEffect, useState } from "react";
+import Button from "../controls/Button";
 
 interface Provider {
   id: string;
@@ -23,19 +25,22 @@ const AuthProvider = () => {
   useEffect(() => {
     async function fetchProviders() {
       const res = await getProviders();
-      console.log(res);
-
       setProviders(res);
     }
     fetchProviders();
   }, []);
 
   if (providers) {
-    return Object.values(providers).map((provider: Provider) => (
-      <button key={provider.id} onClick={async () => await login(provider.id)}>
-        {provider.id}
-      </button>
-    ));
+    return Object.values(providers)
+      .filter((item) => item.id !== "credentials")
+      .map((provider: Provider) => (
+        <Button
+          key={provider.id}
+          onClick={async () => await login(provider.id)}
+        >
+          {provider.id}
+        </Button>
+      ));
   }
 
   return null;

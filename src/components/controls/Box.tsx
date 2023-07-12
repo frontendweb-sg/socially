@@ -1,13 +1,18 @@
-import { FC } from "react";
-interface DivProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
+import classNames from "classnames";
 
 /**
  * Div component
  * @param param0
  * @returns
  */
-const Box: FC<DivProps> = ({ children, ...rest }) => {
-  return <div {...rest}>{children}</div>;
+export type BoxProps = React.HtmlHTMLAttributes<HTMLDivElement> & {};
+const Box = ({ className, children, ...rest }: BoxProps) => {
+  const classes = classNames(className);
+  return (
+    <div className={classes} {...rest}>
+      {children}
+    </div>
+  );
 };
 
 export default Box;

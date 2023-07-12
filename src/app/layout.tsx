@@ -1,5 +1,4 @@
 import AuthSessionProvider from "@/components/providers/AuthSessionProvider";
-import Header from "@/components/layout/Header";
 import type { Metadata } from "next";
 import { inter, lato, roboto } from "../utils/font";
 import "@/styles/index.scss";
@@ -17,10 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${lato.variable} ${roboto.variable}`}>
-        <AuthSessionProvider>
-          <Header />
-          {children}
-        </AuthSessionProvider>
+        <AuthSessionProvider>{children}</AuthSessionProvider>
       </body>
     </html>
   );

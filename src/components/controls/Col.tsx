@@ -17,12 +17,12 @@ export interface IColProps
 const Col: FC<IColProps> = ({
   children,
   className,
-  xs,
-  sm,
-  md,
-  lg,
-  xl,
-  xxl,
+  xs = 0,
+  sm = 0,
+  md = 0,
+  lg = 0,
+  xl = 0,
+  xxl = 0,
   ...rest
 }) => {
   const classes = classNames(
@@ -42,15 +42,6 @@ const Col: FC<IColProps> = ({
       {children}
     </div>
   );
-};
-
-Col.defaultProps = {
-  xs: 0,
-  sm: 0,
-  md: 0,
-  lg: 0,
-  xl: 0,
-  xxl: 0,
 };
 
 Col.propTypes = {

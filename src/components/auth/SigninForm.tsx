@@ -2,13 +2,21 @@
 import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
-import AuthProvider from "../providers/AuthProvider";
+import { MouseEventHandler, useState } from "react";
+import Auth from ".";
+import Link from "next/link";
+import Form from "../controls/Form";
+import Input from "../controls/Input";
+import Button from "../controls/Button";
+import FormGroup from "../controls/FormGroup";
 /**
  * Sign-in component
  * @returns
  */
-const SigninForm = () => {
+interface SigninProps {
+  onChange?: MouseEventHandler<HTMLAnchorElement>;
+}
+const SigninForm = ({ onChange }: SigninProps) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -39,30 +47,37 @@ const SigninForm = () => {
   let message = loading && <p>{AppContent.signInWait}</p>;
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <Auth.Header title="Sign in">
+        If you dont hae an account, please click on{" "}
+        <Link className="text-secondary" href="#" onClick={onChange!}>
+          Sign up
+        </Link>
+      </Auth.Header>
+      <Form onSubmit={handleSubmit}>
         {error && <p>{error}</p>}
         {message}
-        <input
-          placeholder="Email id"
-          name="email"
-          type="email"
-          value={values.email}
-          onBlur={handleBlur}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="***********"
-          name="password"
-          type="password"
-          value={values.password}
-          onBlur={handleBlur}
-          onChange={handleChange}
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? AppContent.loading : AppContent.signIn}
-        </button>
-      </form>
-      <AuthProvider />
+        <FormGroup>
+          <Input
+            name="email"
+            type="email"
+            placeholder="Email id"
+            value={values.email}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input
+            placeholder="***********"
+            name="password"
+            type="password"
+            value={values.password}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <Button>{AppContent.signIn}</Button>
+      </Form>
     </>
   );
 };

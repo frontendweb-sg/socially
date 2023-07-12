@@ -19,8 +19,6 @@ const Row: FC<IProps> = ({ children, className, cover, ...rest }) => {
   );
 };
 
-Row.defaultProps = {};
-
 Row.propTypes = {
   className: PropTypes.string,
 };
