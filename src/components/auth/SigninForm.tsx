@@ -31,7 +31,7 @@ const SigninForm = ({ onChange }: SigninProps) => {
         setError("");
 
         const result = await signIn("credentials", {
-          redirect: true,
+          redirect: false,
           callbackUrl: "/",
           ...values,
         });
