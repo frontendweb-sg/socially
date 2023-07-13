@@ -1,4 +1,5 @@
 import { Color, Direction, Size } from "@/utils/types";
+import { AppState, IAppState } from "..";
 
 export enum AlertType {
   ALERT_SHOW = "ALERT SHOW",
@@ -36,20 +37,20 @@ const alertShow = (
 const alertHide = (dispatch: Function, payload: IAlert) => {
   dispatch({ type: AlertType.ALERT_HIDE, payload });
 };
-const reducer = (state: IAlert = alertState, action: AlertAction): IAlert => {
-  console.log("pay", action, state);
+
+const reducer = (state: IAppState = AppState, action: AlertAction) => {
   switch (action.type) {
     case AlertType.ALERT_SHOW:
       return {
-        ...state,
-        visible: true,
+        ...state.alertState,
         ...action.payload,
+        visible: true,
       };
     case AlertType.ALERT_HIDE:
       return {
-        ...state,
+        ...state.alertState,
+        message: "",
         visible: false,
-        ...action.payload,
       };
     default:
       return state;

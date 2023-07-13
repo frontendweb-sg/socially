@@ -56,6 +56,7 @@ const SigninForm = ({ onChange }: SigninProps) => {
 
   let message = loading && <p>{AppContent.signInWait}</p>;
 
+  console.log(state);
   return (
     <>
       <Form onSubmit={handleSubmit}>
