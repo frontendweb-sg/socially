@@ -15,7 +15,7 @@ const Textarea: FC<ITextareaProps> = ({
   name,
   value,
   cols,
-  rows,
+  rows = 5,
   errors,
   touched,
   startIcon,
@@ -50,7 +50,4 @@ const Textarea: FC<ITextareaProps> = ({
   );
 };
 
-Textarea.defaultProps = {
-  rows: 5,
-};
 export default Textarea;

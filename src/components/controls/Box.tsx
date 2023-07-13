@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { forwardRef } from "react";
 
 /**
  * Div component
@@ -6,13 +7,16 @@ import classNames from "classnames";
  * @returns
  */
 export type BoxProps = React.HtmlHTMLAttributes<HTMLDivElement> & {};
-const Box = ({ className, children, ...rest }: BoxProps) => {
-  const classes = classNames(className);
-  return (
-    <div className={classes} {...rest}>
-      {children}
-    </div>
-  );
-};
+export type boxRef = HTMLDivElement;
+const Box = forwardRef<boxRef, BoxProps>(
+  ({ className, children, ...rest }, ref) => {
+    const classes = classNames(className);
+    return (
+      <div className={classes} ref={ref} {...rest}>
+        {children}
+      </div>
+    );
+  }
+);
 
 export default Box;

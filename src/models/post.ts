@@ -6,7 +6,7 @@ export interface IComment {
   message: string;
 }
 export interface IPost {
-  user: string;
+  user?: string | undefined;
   title: string;
   slug: string;
   description: string;
