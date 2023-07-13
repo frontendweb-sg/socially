@@ -3,7 +3,7 @@ import { AppRoutes } from "@/utils/routes";
 
 const Sidebar = () => {
   return (
-    <aside>
+    <aside className="sidebar">
       <ul>
         <NavItem menu href={AppRoutes.userProfile}>
           Profile

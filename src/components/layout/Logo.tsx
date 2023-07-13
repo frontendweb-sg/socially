@@ -6,7 +6,7 @@ const Logo = ({ href = "/", children, className, ...rest }: LogoProps) => {
   const classes = classNames("navbar-brand", className);
   return (
     <Link href={href} {...rest} className={classes}>
-      {children}
+      Socially
     </Link>
   );
 };

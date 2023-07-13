@@ -1,8 +1,10 @@
-import SignupForm from "@/components/auth/SignupForm";
+import SigninForm from "@/components/auth/SigninForm";
 import Logo from "@/components/layout/Logo";
 import Container from "@/components/controls/Container";
 import Col from "@/components/controls/Col";
 import Typography from "@/components/controls/Typography";
+import ResetPassword from "@/components/auth/ResetPassword";
+
 const Page = () => {
   return (
     <>
@@ -13,7 +15,7 @@ const Page = () => {
       >
         <Container size="sm">
           <Logo className="mb-5" href="/" />
-          <Typography>Welcome to sign up</Typography>
+          <Typography>Welcome to sign in</Typography>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit eius
           sint, voluptatem nesciunt, laborum placeat sunt culpa magni expedita
           facilis aut iste amet, reprehenderit consequatur voluptate ullam
@@ -29,7 +31,7 @@ const Page = () => {
         md={6}
         style={{ position: "relative" }}
       >
-        <SignupForm />
+        <ResetPassword />
       </Col>
     </>
   );

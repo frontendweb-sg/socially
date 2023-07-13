@@ -9,6 +9,8 @@ import Form from "../controls/Form";
 import Input from "../controls/Input";
 import Button from "../controls/Button";
 import FormGroup from "../controls/FormGroup";
+import AuthProvider from "../providers/AuthProvider";
+import { FaKey } from "react-icons/fa";
 /**
  * Sign-in component
  * @returns
@@ -47,15 +49,15 @@ const SigninForm = ({ onChange }: SigninProps) => {
   let message = loading && <p>{AppContent.signInWait}</p>;
   return (
     <>
-      <Auth.Header title="Sign in">
-        If you dont hae an account, please click on{" "}
-        <Link className="text-secondary" href="#" onClick={onChange!}>
-          Sign up
-        </Link>
-      </Auth.Header>
       <Form onSubmit={handleSubmit}>
         {error && <p>{error}</p>}
         {message}
+        <Auth.Header title="Sign in">
+          If you dont hae an account, please click on{" "}
+          <Link className="text-secondary" href="/signup">
+            Sign up
+          </Link>
+        </Auth.Header>
         <FormGroup>
           <Input
             name="email"
@@ -76,8 +78,15 @@ const SigninForm = ({ onChange }: SigninProps) => {
             onChange={handleChange}
           />
         </FormGroup>
+        <FormGroup>
+          <Link href="/reset-password">
+            <FaKey className="me-2" /> Forgot Password
+          </Link>
+        </FormGroup>
         <Button>{AppContent.signIn}</Button>
       </Form>
+
+      {/* <AuthProvider /> */}
     </>
   );
 };

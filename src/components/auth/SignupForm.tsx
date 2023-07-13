@@ -54,15 +54,15 @@ const SignupForm = ({ onChange }: SigninProps) => {
 
   return (
     <>
-      <Auth.Header title="Sign up">
-        If you have an account, please click on{" "}
-        <Link className="text-secondary" href="#" onClick={onChange!}>
-          Sign in
-        </Link>
-      </Auth.Header>
       <Form onSubmit={handleSubmit}>
         {error && <p>{error}</p>}
         {loading && <p>{AppContent.signUpWait}</p>}
+        <Auth.Header title="Sign up">
+          If you have an account, please click on{" "}
+          <Link className="text-secondary" href="/signin">
+            Sign in
+          </Link>
+        </Auth.Header>
         <Row>
           <Col>
             <FormGroup>
