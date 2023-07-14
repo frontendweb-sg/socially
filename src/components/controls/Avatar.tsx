@@ -1,9 +1,8 @@
-import Image, { ImageProps } from "next/image";
 import Box from "./Box";
 import classNames from "classnames";
-import AvatarImg from "../public/avatar.png";
 import React, { FC } from "react";
-import { Align, Color } from "@/utils/types";
+import Image, { ImageProps } from "next/image";
+import { Align, Color, Size } from "@/utils/types";
 
 /**
  * Avatar
@@ -14,7 +13,8 @@ type IAvatarProps = ImageProps & {
   bg?: Color;
   src?: string;
   alt?: string;
-  size?: number;
+  width?: number;
+  size?: Size;
   align?: Align;
   color?: Color;
   style?: React.CSSProperties;
@@ -23,9 +23,9 @@ type IAvatarProps = ImageProps & {
 };
 
 const Avatar: FC<IAvatarProps> = ({
-  src,
-  alt,
-  size,
+  src = "/avatar.png",
+  alt = "Avatar",
+  width = 25,
   align,
   circle,
   color,
@@ -33,41 +33,50 @@ const Avatar: FC<IAvatarProps> = ({
   children,
   style,
   bg,
+  size,
   ...rest
 }) => {
-  const imgSrc = src || AvatarImg;
   const classes = classNames("avatar", {
     ["text-" + align]: align,
     ["border border-" + color]: color,
     ["border-" + border]: border,
     ["bg-" + bg]: bg,
+    ["avatar-" + size]: size,
     circle: circle,
   });
-  const sizeBorder = size! + border!;
+  const sizeBorder = width! + border!;
   const styles = {
     width: sizeBorder + "px",
     height: sizeBorder + "px",
     ...style,
   };
+
+  let imageEl = (
+    <Image
+      src={"/avatar.png"}
+      alt={alt! || "avatar"}
+      width={width}
+      height={width}
+      {...rest}
+    />
+  );
+  if (src) {
+    imageEl = (
+      <Image
+        src={src}
+        alt={alt! || "avatar"}
+        width={width}
+        height={width}
+        {...rest}
+      />
+    );
+  }
+
   return (
     <Box className={classes} style={{ ...styles }}>
-      {children ? (
-        children
-      ) : (
-        <Image
-          src={imgSrc}
-          alt={alt! || "avatar"}
-          width={size}
-          height={size}
-          {...rest}
-        />
-      )}
+      {children ? children : imageEl}
     </Box>
   );
 };
 
-Avatar.defaultProps = {
-  size: 35,
-  border: 0,
-};
 export default Avatar;

@@ -27,6 +27,7 @@ const NavItem = forwardRef<navItemRef, NavItemProps>(
   ) => {
     const pathname = usePathname();
     const classes = classNames(
+      "d-block",
       !custom && "nav-link",
       className,
       pathname === href && "active"

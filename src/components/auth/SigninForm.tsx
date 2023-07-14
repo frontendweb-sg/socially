@@ -1,20 +1,21 @@
 "use client";
-import { AppContent } from "@/utils/content";
-import { useFormik } from "formik";
-import { signIn } from "next-auth/react";
-import { MouseEventHandler, useContext, useState } from "react";
 import Link from "next/link";
 import Form from "../controls/Form";
 import Input from "../controls/Input";
 import Button from "../controls/Button";
 import FormGroup from "../controls/FormGroup";
 import Alert from "../controls/Alert";
+import Box from "../controls/Box";
+import { AppContent } from "@/utils/content";
+import { useFormik } from "formik";
+import { signIn } from "next-auth/react";
+import { MouseEventHandler, useContext, useState } from "react";
 import { FaKey } from "react-icons/fa";
 import { AppContext } from "../providers/AppProvider";
 import { AppDispatch, IAppState } from "../store";
 import { alertAction } from "../store/reducers/alert";
 import * as yup from "yup";
-import Box from "../controls/Box";
+import Typography from "../controls/Typography";
 
 const validation = yup.object().shape({
   email: yup.string().email("Invalid email id").required("Email is requried"),
@@ -71,11 +72,16 @@ const SigninForm = () => {
             color: "info",
           }}
         />
-        <Box title="Sign in">
-          {AppContent.dontHaveAccount}
-          <Link className="text-secondary" href="/signup">
+        <Box className="mb-4">
+          <Typography className="mb-2" variant="h3">
             {AppContent.signUp}
-          </Link>
+          </Typography>
+          <Typography variant="body2" className="mb-4">
+            {AppContent.dontHaveAccount}
+            <Link className="text-secondary" href="/signup">
+              {AppContent.signUp}
+            </Link>
+          </Typography>
         </Box>
         <FormGroup>
           <Input
@@ -108,8 +114,6 @@ const SigninForm = () => {
         </FormGroup>
         <Button>{AppContent.signIn}</Button>
       </Form>
-
-      {/* <AuthProvider /> */}
     </>
   );
 };

@@ -1,8 +1,12 @@
+import AddPost from "@/components/post/AddPost";
+import { cookies } from "next/headers";
+
 const Page = () => {
+  const cookie = cookies();
   return (
-    <div>
-      <h1>User</h1>
-    </div>
+    <>
+      <AddPost cookie={cookie} />
+    </>
   );
 };
 

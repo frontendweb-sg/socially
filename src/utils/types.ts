@@ -6,7 +6,7 @@ export type AppProps = {
 };
 export type Height = "25" | "50" | "75" | "100" | "auto";
 export type Width = "25" | "50" | "75" | "100" | "auto";
-export type Align = "left" | "right" | "center" | "justify";
+export type Align = "left" | "right" | "center" | "justify" | "auto";
 export type Theme = "light" | "dark";
 export type Size = "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | "block";
 export type Color =

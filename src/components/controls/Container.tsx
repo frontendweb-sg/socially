@@ -16,7 +16,7 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
  * @returns
  */
 const Container: FC<IProps> = ({
-  full,
+  full = false,
   size,
   children,
   className,
@@ -37,9 +37,6 @@ const Container: FC<IProps> = ({
   );
 };
 
-Container.defaultProps = {
-  full: false,
-};
 Container.propTypes = {
   full: PropTypes.bool,
   size: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl", "xxl"]),

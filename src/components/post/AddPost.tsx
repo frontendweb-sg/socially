@@ -7,6 +7,8 @@ import Textarea from "../controls/Textarea";
 import Button from "../controls/Button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Panel from "../controls/Panel";
+import { AppContent } from "@/utils/content";
 
 type AddPostProps = {
   cookie: any;
@@ -59,46 +61,49 @@ const AddPost = ({ cookie }: AddPostProps) => {
     });
 
   return (
-    <Form onSubmit={handleSubmit}>
-      {error && <p>{error}</p>}
-      {loading && <p>Please wait post saving...</p>}
-      <FormGroup>
-        <Input
-          name="title"
-          value={values.title}
-          placeholder="Title"
-          errors={errors}
-          touched={touched}
-          onBlur={handleBlur}
-          onChange={handleChange}
-        />{" "}
-      </FormGroup>
-      <FormGroup>
-        <Textarea
-          name="description"
-          value={values.description}
-          placeholder="Description"
-          errors={errors}
-          touched={touched}
-          onBlur={handleBlur}
-          onChange={handleChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Input
-          name="image"
-          value={values.image}
-          placeholder="Image url"
-          errors={errors}
-          touched={touched}
-          onBlur={handleBlur}
-          onChange={handleChange}
-        />
-      </FormGroup>
-      <Button disabled={loading} type="submit">
-        {loading ? "Adding..." : values.id ? "Update" : "Add"}
-      </Button>
-    </Form>
+    <Panel className="card-post mb-3">
+      <Panel.Title>{AppContent.addPost}</Panel.Title>
+      <Form onSubmit={handleSubmit}>
+        {error && <p>{error}</p>}
+        {loading && <p>Please wait post saving...</p>}
+        <FormGroup>
+          <Input
+            name="title"
+            value={values.title}
+            placeholder="Title"
+            errors={errors}
+            touched={touched}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />{" "}
+        </FormGroup>
+        <FormGroup>
+          <Textarea
+            name="description"
+            value={values.description}
+            placeholder="Description"
+            errors={errors}
+            touched={touched}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input
+            name="image"
+            value={values.image}
+            placeholder="Image url"
+            errors={errors}
+            touched={touched}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <Button disabled={loading} type="submit">
+          {loading ? "Adding..." : values.id ? "Update" : "Add"}
+        </Button>
+      </Form>
+    </Panel>
   );
 };
 

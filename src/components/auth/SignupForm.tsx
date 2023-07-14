@@ -3,8 +3,7 @@ import { signup } from "@/lib/auth";
 import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler, useState } from "react";
-
+import { MouseEventHandler, useContext, useState } from "react";
 import Link from "next/link";
 import Form from "../controls/Form";
 import Button from "../controls/Button";
@@ -13,6 +12,19 @@ import FormGroup from "../controls/FormGroup";
 import Row from "../controls/Row";
 import Col from "../controls/Col";
 import Box from "../controls/Box";
+import * as yup from "yup";
+import Typography from "../controls/Typography";
+import { AppContext } from "../providers/AppProvider";
+import { alertAction } from "../store/reducers/alert";
+import Alert from "../controls/Alert";
+import { Action, AppDispatch, IAppState } from "../store";
+
+const validation = yup.object().shape({
+  name: yup.string().required("Name is required!"),
+  email: yup.string().email("Invalid email id").required("Email is requried"),
+  password: yup.string().required("Password is required!"),
+  mobile: yup.string().required("Mobile is requried!"),
+});
 /**
  * Sign-in component
  * @returns
@@ -20,11 +32,12 @@ import Box from "../controls/Box";
 interface SigninProps {
   onChange?: MouseEventHandler<HTMLAnchorElement>;
 }
-const SignupForm = ({ onChange }: SigninProps) => {
+const SignupForm = () => {
   const router = useRouter();
-
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [state, dispatch] = useContext<[IAppState, AppDispatch]>(AppContext);
+  const { alertState } = state;
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -34,35 +47,51 @@ const SignupForm = ({ onChange }: SigninProps) => {
         password: "",
         mobile: "",
       },
+      validationSchema: validation,
       async onSubmit(values, {}) {
         setLoading(true);
-        setError("");
 
-        try {
-          const result = await signup(values);
-          if (result.status === 201) {
-            setTimeout(() => {
-              router.replace("/signin");
-            }, 3000);
-          }
-        } catch (error) {
-          if (error instanceof Error) setError(error.message);
-        } finally {
-          setLoading(false);
+        const result = await signup(values);
+        const data = await result.json();
+
+        if (data.errors) {
+          alertAction.alertShow(dispatch, {
+            message: data.errors.message,
+            color: "danger",
+          });
         }
+
+        if (result.status === 201) {
+          setTimeout(() => {
+            router.replace("/signin");
+          }, 3000);
+        }
+
+        setLoading(false);
       },
     });
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        {error && <p>{error}</p>}
-        {loading && <p>{AppContent.signUpWait}</p>}
-        <Box title="Sign up">
-          If you have an account, please click on{" "}
-          <Link className="text-secondary" href="/signin">
-            Sign in
-          </Link>
+        <Alert alert={alertState} />
+        <Alert
+          alert={{
+            visible: loading,
+            message: AppContent.signInWait,
+            color: "info",
+          }}
+        />
+        <Box className="mb-4">
+          <Typography className="mb-2" variant="h3">
+            {AppContent.signUp}
+          </Typography>
+          <Typography variant="body2">
+            If you have an account, please click on{" "}
+            <Link className="text-secondary" href="/signin">
+              Sign in
+            </Link>
+          </Typography>
         </Box>
         <Row>
           <Col>
@@ -72,6 +101,8 @@ const SignupForm = ({ onChange }: SigninProps) => {
                 type="text"
                 placeholder="Enter full name"
                 value={values.name}
+                errors={errors}
+                touched={touched}
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
@@ -83,6 +114,8 @@ const SignupForm = ({ onChange }: SigninProps) => {
                 name="email"
                 type="email"
                 placeholder="Email id"
+                errors={errors}
+                touched={touched}
                 value={values.email}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -96,6 +129,8 @@ const SignupForm = ({ onChange }: SigninProps) => {
             type="password"
             placeholder="***********"
             value={values.password}
+            errors={errors}
+            touched={touched}
             onBlur={handleBlur}
             onChange={handleChange}
           />
@@ -106,6 +141,8 @@ const SignupForm = ({ onChange }: SigninProps) => {
             type="text"
             placeholder="Mobile no"
             value={values.mobile}
+            errors={errors}
+            touched={touched}
             onBlur={handleBlur}
             onChange={handleChange}
           />

@@ -6,9 +6,9 @@ import { Error } from "mongoose";
 import { IAuthRegister } from "@/utils/types";
 import { IUserDoc, User } from "@/models/user";
 import { NotFoundError } from "../../errors/not-found-error";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     await connectDb(); // db connection
 

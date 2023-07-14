@@ -1,0 +1,34 @@
+.date {
+   
+    font-weight: bold;
+    color: $info;
+    margin-bottom: 10px;
+    time {
+      &:last-child {
+        &:before {
+          content: "-";
+          display: inline-block;
+          margin-left: 5px;
+          margin-right: 5px;
+        }
+      }
+      &:only-child {
+        &:before {
+          display: none;
+        }
+      }
+    }
+  
+    .date-icon {
+      span {
+        color: inherit;
+      }
+      time {
+        margin-left: 5px;
+        &:before {
+          display: none;
+        }
+      }
+    }
+  }
+  
