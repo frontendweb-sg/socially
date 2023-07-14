@@ -6,6 +6,7 @@ export const AppContent = {
   expedita facilis aut iste amet, reprehenderit consequatur voluptate
   ullam veniam ipsam quae!`,
   save: "Save",
+  edit: "Edit",
   update: "Update",
   delete: "Delete",
   cancel: "Cancel",
