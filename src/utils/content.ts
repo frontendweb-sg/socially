@@ -11,4 +11,6 @@ export const AppContent = {
   loading: "Loading...",
   signInWait: "Please wait authenticating...",
   signUpWait: "Please wait registering...",
+  dontHaveAccount: "If you don't have an account, please click on ",
+  forgotPassword: "Forgot Password",
 };

@@ -4,9 +4,9 @@ import { useFormik } from "formik";
 import Form from "../controls/Form";
 import Input from "../controls/Input";
 import Button from "../controls/Button";
-import Auth from ".";
 import Link from "next/link";
 import FormGroup from "../controls/FormGroup";
+import Box from "../controls/Box";
 
 const ResetPassword = () => {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -20,12 +20,12 @@ const ResetPassword = () => {
     });
   return (
     <Form onSubmit={handleSubmit}>
-      <Auth.Header title="Reset password">
+      <Box title="Reset password">
         Back to signin, please click on{" "}
         <Link className="text-secondary" href="/signin">
           Sign in
         </Link>
-      </Auth.Header>
+      </Box>
       <FormGroup>
         <Input
           name="email"

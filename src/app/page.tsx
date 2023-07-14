@@ -1,4 +1,3 @@
-import Auth from "@/components/auth";
 import Box from "@/components/controls/Box";
 import Col from "@/components/controls/Col";
 import Container from "@/components/controls/Container";

@@ -4,7 +4,7 @@ import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler, useState } from "react";
-import Auth from ".";
+
 import Link from "next/link";
 import Form from "../controls/Form";
 import Button from "../controls/Button";
@@ -12,6 +12,7 @@ import Input from "../controls/Input";
 import FormGroup from "../controls/FormGroup";
 import Row from "../controls/Row";
 import Col from "../controls/Col";
+import Box from "../controls/Box";
 /**
  * Sign-in component
  * @returns
@@ -57,12 +58,12 @@ const SignupForm = ({ onChange }: SigninProps) => {
       <Form onSubmit={handleSubmit}>
         {error && <p>{error}</p>}
         {loading && <p>{AppContent.signUpWait}</p>}
-        <Auth.Header title="Sign up">
+        <Box title="Sign up">
           If you have an account, please click on{" "}
           <Link className="text-secondary" href="/signin">
             Sign in
           </Link>
-        </Auth.Header>
+        </Box>
         <Row>
           <Col>
             <FormGroup>

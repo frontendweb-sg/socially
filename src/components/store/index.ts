@@ -1,13 +1,13 @@
 import { combineReducer } from "./combine-reducer";
-import { IAlert, alertReducer, alertState, AlertType } from "./slices/alert";
+import { IAlert, alertReducer, alertState } from "./reducers/alert";
 
 export interface IAppState {
   alertState: IAlert;
 }
 
-export type Action = {
-  type: AlertType;
-  payload: IAlert;
+export type Action<T, K> = {
+  type: T;
+  payload: K;
 };
 
 export const AppState: IAppState = { alertState };

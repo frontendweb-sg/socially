@@ -1,14 +1,14 @@
 import { Color, Direction, Size } from "@/utils/types";
-import { AppState, IAppState } from "..";
+import { Action, AppState, IAppState } from "..";
 
-export enum AlertType {
+export enum AlertActionType {
   ALERT_SHOW = "ALERT SHOW",
   ALERT_HIDE = "ALERT HIDE",
 }
 
 export type IAlert = {
-  visible?: boolean;
   message: string;
+  visible?: boolean;
   size?: Size;
   direction?: Direction;
   color?: Color;
@@ -22,31 +22,32 @@ export const alertState: IAlert = {
   direction: "top-right",
 };
 
-export type AlertAction = { type: AlertType; payload: IAlert };
-
 const alertShow = (
   dispatch: Function,
   payload: IAlert,
   time: number = 3000
 ) => {
-  dispatch({ type: AlertType.ALERT_SHOW, payload });
-  setTimeout(() => {
-    dispatch({ type: AlertType.ALERT_HIDE });
-  }, time);
+  dispatch({ type: AlertActionType.ALERT_SHOW, payload });
+  // setTimeout(() => {
+  //   dispatch({ type: AlertType.ALERT_HIDE });
+  // }, time);
 };
-const alertHide = (dispatch: Function, payload: IAlert) => {
-  dispatch({ type: AlertType.ALERT_HIDE, payload });
+const alertHide = (dispatch: Function, payload?: IAlert) => {
+  dispatch({ type: AlertActionType.ALERT_HIDE, payload });
 };
 
-const reducer = (state: IAppState = AppState, action: AlertAction) => {
+const reducer = (
+  state: IAppState = AppState,
+  action: Action<AlertActionType, IAlert>
+) => {
   switch (action.type) {
-    case AlertType.ALERT_SHOW:
+    case AlertActionType.ALERT_SHOW:
       return {
         ...state.alertState,
         ...action.payload,
         visible: true,
       };
-    case AlertType.ALERT_HIDE:
+    case AlertActionType.ALERT_HIDE:
       return {
         ...state.alertState,
         message: "",
