@@ -44,10 +44,10 @@ const Avatar: FC<IAvatarProps> = ({
     ["avatar-" + size]: size,
     circle: circle,
   });
-  const sizeBorder = width! + border!;
+
   const styles = {
-    width: sizeBorder + "px",
-    height: sizeBorder + "px",
+    width: width + "px",
+    height: width + "px",
     ...style,
   };
 

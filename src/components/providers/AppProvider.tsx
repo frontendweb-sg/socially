@@ -1,31 +1,25 @@
 "use client";
 
-import { ReactNode, useMemo, useReducer } from "react";
+import { ReactNode, useContext, useMemo, useReducer } from "react";
 import { createContext } from "react";
-import { Action, AppDispatch, AppState, IAppState, reducer } from "../store";
+import { AppState, reducer } from "../store";
+
 import { useEditing } from "@/hooks/useEditing";
 
-export const AppContext = createContext<any>({
-  alertState: {
-    message: "",
-  },
-});
+export const AppContext = createContext<AppState>({} as AppState);
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
-  const { editData, editHandler, resetEditing, setStatus, status } =
+  const [states, dispatch] = useReducer(reducer, AppState);
+  const { editData, editHandler, resetEditing, status, statusChangeHandler } =
     useEditing();
-  const [states, dispatch] = useReducer<Reducer<IAppState, Action<any, any>>>(
-    reducer,
-    AppState
-  );
 
   const state = useMemo(
     () => ({
-      states,
+      ...states,
       editData,
       status,
     }),
-    [states, editData, status]
+    [editData, states, status]
   );
 
   return (
@@ -35,7 +29,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         dispatch,
         editHandler,
         resetEditing,
-        setStatus,
+        statusChangeHandler,
       }}
     >
       {children}
@@ -43,4 +37,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+export const useAppState = () => {
+  return useContext(AppContext);
+};
 export default AppProvider;

@@ -18,7 +18,7 @@ const Post = ({ post }: PostProps) => {
   return (
     <Box className="card p-2 mb-3">
       <PostTitle name="Pradeep Kumar" image="/avatar.png">
-        <Dropdown />
+        <Dropdown>Hi</Dropdown>
       </PostTitle>
       <Box className="card-body">
         <h6>{post?.title}</h6>

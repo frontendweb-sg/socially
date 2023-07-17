@@ -35,8 +35,7 @@ interface SigninProps {
 const SignupForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
-  const [state, dispatch] = useContext<[IAppState, AppDispatch]>(AppContext);
+  const { state, dispatch } = useContext(AppContext);
   const { alertState } = state;
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =

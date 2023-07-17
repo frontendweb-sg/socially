@@ -2,9 +2,7 @@ import Box from "./Box";
 import classNames from "classnames";
 import { forwardRef, memo, useContext } from "react";
 import { IAlert, alertAction } from "../store/reducers/alert";
-import { AppContent } from "@/utils/content";
-import { AppContext } from "../providers/AppProvider";
-import { AppDispatch, IAppState } from "../store";
+import { AppContext, useAppState } from "../providers/AppProvider";
 
 export interface AlertProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   alert: IAlert;
@@ -18,7 +16,7 @@ const Alert = forwardRef<alertRef, AlertProps>(
       ["alert-" + alert.direction]: alert.direction,
     });
 
-    const [state, dispatch] = useContext<[IAppState, AppDispatch]>(AppContext);
+    const { dispatch } = useAppState();
 
     return alert.visible ? (
       <Box ref={ref} className={classes} role="alert">

@@ -15,6 +15,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   endIcon?: IconType;
   loading?: boolean;
   block?: boolean;
+  as?: "icon" | "button";
 };
 /**
  * Button component
@@ -24,6 +25,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 const Button = forwardRef<buttonRef, ButtonProps>(
   (
     {
+      as = "button",
       variant = "filled",
       children,
       color = "primary",
@@ -39,37 +41,41 @@ const Button = forwardRef<buttonRef, ButtonProps>(
     },
     ref
   ) => {
+    const common = {
+      btn: true,
+      ["btn-" + size]: as === "button",
+      ["btn-icon-" + size]: as === "icon",
+    };
+
     let classes = classNames(
-      {
-        btn: true,
-        "w-100": block,
-        ["btn-" + color]: color,
-        ["btn-" + size]: size,
-      },
+      common,
+      { "w-100": block, ["btn-" + color]: color },
       block ? "btn-block" : null,
       className
     );
+
     if (variant === "text") {
       classes = classNames(
-        "btn",
-        { ["btn-text-" + color]: color, ["btn-" + size]: size },
+        common,
+        {
+          ["btn-text-" + color]: color,
+        },
         className
       );
     }
 
     if (variant === "outline") {
       classes = classNames(
-        "btn",
-        { ["btn-outline-" + color]: color, ["btn-" + size]: size },
+        common,
+        {
+          ["btn-outline-" + color]: color,
+        },
         className
       );
     }
 
     if (custom) {
-      classes = classNames(
-        { ["btn-" + color]: color, ["btn-" + size]: size },
-        className
-      );
+      classes = classNames({ ["btn-" + color]: color }, className);
     }
 
     return (

@@ -5,60 +5,88 @@ import FormGroup from "../controls/FormGroup";
 import Input from "../controls/Input";
 import Textarea from "../controls/Textarea";
 import Button from "../controls/Button";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Panel from "../controls/Panel";
+import {
+  ProviderProps,
+  ServerContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useRouter } from "next/navigation";
 import { AppContent } from "@/utils/content";
+import { AppContext, useAppState } from "../providers/AppProvider";
 
 type AddPostProps = {
   cookie: any;
 };
 const AddPost = ({ cookie }: AddPostProps) => {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const router = useRouter();
+  const { state, dispatch, resetEditing, editHandler } = useAppState();
+  const { editData } = state;
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: {
-        id: "",
-        title: "",
-        slug: "",
-        description: "",
-        image: "",
-        active: true,
-        isFeature: false,
-        isRecent: false,
-        comments: [],
-      },
-      async onSubmit(values, formikHelpers) {
-        setLoading(true);
-        setError("");
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    setValues,
+    resetForm,
+  } = useFormik({
+    initialValues: {
+      id: "",
+      title: "",
+      slug: "",
+      description: "",
+      image: "",
+      active: true,
+      isFeature: false,
+      isRecent: false,
+      comments: [],
+    },
+    async onSubmit(values, formikHelpers) {
+      setLoading(true);
+      setError("");
 
-        const url = values.id ? "/post/" + values.id : "/post";
+      const url = values.id ? "/post/" + values.id : "/post";
 
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
-          method: values.id ? "PUT" : "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Cookie: `${cookie}`,
-          },
-          body: JSON.stringify(values),
-        });
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
+        method: values.id ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `${cookie}`,
+        },
+        body: JSON.stringify(values),
+      });
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (data?.errors) {
-          setError(data.errors.message);
-        }
+      if (data?.errors) {
+        setError(data.errors.message);
+      }
 
-        if (response.status === 201) {
-          router.refresh();
-        }
-        setLoading(true);
-      },
-    });
+      if (response.status === 201) {
+        router.refresh();
+      }
+      setLoading(true);
+    },
+  });
+
+  const cancelHandler = () => {
+    resetEditing();
+  };
+
+  useEffect(() => {
+    if (editData) {
+      setValues((prev) => ({ ...prev, ...editData }));
+    }
+  }, [editData, setValues]);
 
   return (
     <Panel className="card-post mb-3">
@@ -99,6 +127,7 @@ const AddPost = ({ cookie }: AddPostProps) => {
             onChange={handleChange}
           />
         </FormGroup>
+        <Button onClick={cancelHandler}>Cancel</Button>
         <Button disabled={loading} type="submit">
           {loading ? "Adding..." : values.id ? "Update" : "Add"}
         </Button>

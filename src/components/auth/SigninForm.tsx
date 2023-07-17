@@ -6,16 +6,15 @@ import Button from "../controls/Button";
 import FormGroup from "../controls/FormGroup";
 import Alert from "../controls/Alert";
 import Box from "../controls/Box";
+import Typography from "../controls/Typography";
 import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import { MouseEventHandler, useContext, useState } from "react";
 import { FaKey } from "react-icons/fa";
-import { AppContext } from "../providers/AppProvider";
-import { AppDispatch, IAppState } from "../store";
+import { AppContext, useAppState } from "../providers/AppProvider";
 import { alertAction } from "../store/reducers/alert";
 import * as yup from "yup";
-import Typography from "../controls/Typography";
 
 const validation = yup.object().shape({
   email: yup.string().email("Invalid email id").required("Email is requried"),
@@ -31,7 +30,7 @@ interface SigninProps {
 const SigninForm = () => {
   const [loading, setLoading] = useState(false);
 
-  const [state, dispatch] = useContext<[IAppState, AppDispatch]>(AppContext);
+  const { state, dispatch } = useAppState();
   const { alertState } = state;
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -51,7 +50,7 @@ const SigninForm = () => {
         });
 
         if (result?.error) {
-          alertAction.alertShow(dispatch, {
+          alertAction.alertShow(dispatch!, {
             message: result.error,
             color: "danger",
           });
