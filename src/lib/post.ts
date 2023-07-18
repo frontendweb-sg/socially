@@ -80,3 +80,20 @@ export async function deletePost(id: string) {
   );
   return await response.json();
 }
+
+/**
+ * Get all comments
+ * @param id
+ */
+export async function getComments(id: string) {
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_API_URL + "/post/" + id + "/comment",
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  console.log("r", response);
+  return await response.json();
+}

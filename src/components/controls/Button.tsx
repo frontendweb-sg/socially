@@ -29,7 +29,7 @@ const Button = forwardRef<buttonRef, ButtonProps>(
       variant = "filled",
       children,
       color = "primary",
-      size = "md",
+      size = "sm",
       className,
       custom,
       startIcon,

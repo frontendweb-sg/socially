@@ -33,7 +33,7 @@ const Dropdown = forwardRef<dropdownRef, DropdownProps>(
   ) => {
     const { isOpen, toggleHandler, closeHandler } = useToggle();
     const classes = classNames("dropdown", className);
-    const btnClass = classNames("dropdown-toggle", isOpen && "show");
+    const btnClass = classNames(isOpen && "show");
     const refs = useRef<dropdownRef>(null);
 
     useClickOutside(refs, closeHandler);
@@ -42,7 +42,6 @@ const Dropdown = forwardRef<dropdownRef, DropdownProps>(
       <Component as={as} className={classes} ref={refs} {...rest}>
         <Button
           as="icon"
-          variant="outline"
           size="xs"
           className={btnClass}
           onClick={toggleHandler}

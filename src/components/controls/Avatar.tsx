@@ -20,6 +20,7 @@ type IAvatarProps = ImageProps & {
   style?: React.CSSProperties;
   circle?: boolean;
   border?: number;
+  rounded?: number;
 };
 
 const Avatar: FC<IAvatarProps> = ({
@@ -34,6 +35,7 @@ const Avatar: FC<IAvatarProps> = ({
   style,
   bg,
   size,
+  rounded = 5,
   ...rest
 }) => {
   const classes = classNames("avatar", {
@@ -48,6 +50,7 @@ const Avatar: FC<IAvatarProps> = ({
   const styles = {
     width: width + "px",
     height: width + "px",
+    borderRadius: rounded + "px",
     ...style,
   };
 

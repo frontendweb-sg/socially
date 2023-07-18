@@ -6,11 +6,13 @@ import NavItem from "../layout/NavItem";
 import Box from "../controls/Box";
 import Button from "../controls/Button";
 import { useContext } from "react";
-import { IPostDoc } from "@/models/post";
+import { ICommentDoc, IPostDoc } from "@/models/post";
 import { AppContent } from "@/utils/content";
 import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
 import { deletePost } from "@/lib/post";
+import AddComment from "./comments/AddComment";
+import Comments from "./comments/Comments";
 
 export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   post?: IPostDoc;
@@ -36,15 +38,33 @@ const Post = ({ post }: PostProps) => {
   return (
     <Box className="card p-4 mb-3">
       <PostTitle name="Pradeep Kumar" image="/avatar.png">
-        <Dropdown>
-          <NavItem scroll={false} href="#" onClick={() => {}}>
-            <FaPen /> Edit
+        <Dropdown buttonProps={{ variant: "text" }}>
+          <NavItem
+            custom
+            className="dropdown-item"
+            scroll={false}
+            href="#"
+            onClick={() => {}}
+          >
+            <FaPen className="me-2" /> {AppContent.edit}
           </NavItem>
-          <NavItem href="#" onClick={() => {}}>
-            <FaEyeSlash /> Inactive
+          <NavItem
+            custom
+            className="dropdown-item"
+            scroll={false}
+            href="#"
+            onClick={() => {}}
+          >
+            <FaEyeSlash className="me-2" /> Inactive
           </NavItem>
-          <NavItem scroll={false} href="#" onClick={onDeletePost}>
-            <FaTrash /> Delete
+          <NavItem
+            custom
+            className="dropdown-item"
+            scroll={false}
+            href="#"
+            onClick={onDeletePost}
+          >
+            <FaTrash className="me-2" /> {AppContent.delete}
           </NavItem>
         </Dropdown>
       </PostTitle>
@@ -54,6 +74,8 @@ const Post = ({ post }: PostProps) => {
         <p>{post?.description}</p>
         <Button onClick={() => editHandler(post)}>{AppContent.edit}</Button>
       </Box>
+      <Comments comments={post?.comments as ICommentDoc[]} />
+      <AddComment postId={post?.id} />
     </Box>
   );
 };

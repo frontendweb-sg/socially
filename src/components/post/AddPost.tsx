@@ -16,6 +16,7 @@ import {
 import { useRouter } from "next/navigation";
 import { AppContent } from "@/utils/content";
 import { AppContext, useAppState } from "../providers/AppProvider";
+import Box from "../controls/Box";
 
 type AddPostProps = {
   cookie: any;
@@ -129,10 +130,14 @@ const AddPost = ({ cookie }: AddPostProps) => {
             onChange={handleChange}
           />
         </FormGroup>
-        <Button onClick={cancelHandler}>Cancel</Button>
-        <Button disabled={loading} type="submit">
-          {loading ? "loading..." : values.id ? "Update" : "Add"}
-        </Button>
+        <Box className="d-flex align-items-center justify-content-end">
+          <Button className="me-3" color="secondary" onClick={cancelHandler}>
+            {AppContent.cancel}
+          </Button>
+          <Button disabled={loading} type="submit">
+            {loading ? "loading..." : values.id ? "Update" : "Add"}
+          </Button>
+        </Box>
       </Form>
     </Panel>
   );

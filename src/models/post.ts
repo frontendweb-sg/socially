@@ -5,6 +5,7 @@ export const POST_TABLE = "post";
 export interface IComment {
   message: string;
 }
+export interface ICommentDoc extends Document<IComment>, IComment {}
 export interface IPost {
   user?: string | undefined;
   title: string;

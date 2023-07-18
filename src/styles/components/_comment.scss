@@ -1,0 +1,48 @@
+.post{
+  &-comment{
+    display: flex;
+    align-items: flex-start;
+    justify-content:flex-start;
+    margin-bottom: 10px;
+    .avatar{
+      flex-shrink: 0;
+    }
+    &-content{
+      padding:10px;
+ 
+      margin-left: 15px;
+      background-color: $gray-100;
+      position: relative;
+      &:before{
+        content:"";
+        border-right:10px solid $gray-100;
+        border-top:10px solid transparent;
+        border-bottom:10px solid transparent;
+        position: absolute;
+        left:-10px
+      }
+    }
+  }
+}
+.comment {
+  &-add {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: $gray-100;
+    .btn {
+      border-radius: 50px;
+    }
+    .form-control {
+      border: 0;
+      margin-left: 15px;
+      margin-right: 15px;
+      flex: 1;
+      &:focus{
+        background-color: $gray-300;
+      }
+    }
+  }
+}
