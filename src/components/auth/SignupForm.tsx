@@ -17,7 +17,7 @@ import Typography from "../controls/Typography";
 import { AppContext } from "../providers/AppProvider";
 import { alertAction } from "../store/reducers/alert";
 import Alert from "../controls/Alert";
-import { Action, AppDispatch, IAppState } from "../store";
+import { Action, AppDispatch } from "../store";
 
 const validation = yup.object().shape({
   name: yup.string().required("Name is required!"),

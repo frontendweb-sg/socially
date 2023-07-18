@@ -1,5 +1,5 @@
 import { Color, Direction, Size } from "@/utils/types";
-import { Action, AppState, IAppState } from "..";
+import { Action, AppState } from "..";
 
 export enum AlertActionType {
   ALERT_SHOW = "ALERT SHOW",
@@ -36,10 +36,7 @@ const alertHide = (dispatch: Function, payload?: IAlert) => {
   dispatch({ type: AlertActionType.ALERT_HIDE, payload });
 };
 
-const reducer = (
-  state: IAppState = AppState,
-  action: Action<AlertActionType, IAlert>
-) => {
+const reducer = (state = AppState, action: Action<AlertActionType, IAlert>) => {
   switch (action.type) {
     case AlertActionType.ALERT_SHOW:
       return {

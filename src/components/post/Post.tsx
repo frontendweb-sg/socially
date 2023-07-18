@@ -1,15 +1,16 @@
 "use client";
-import { IPostDoc } from "@/models/post";
-import Box from "../controls/Box";
-import Button from "../controls/Button";
-import { useContext } from "react";
-import { AppContent } from "@/utils/content";
-import { AppContext } from "../providers/AppProvider";
 import PostTitle from "./PostTitle";
 import Dropdown from "../controls/Dropdown";
 import PostImage from "./PostImage";
 import NavItem from "../layout/NavItem";
+import Box from "../controls/Box";
+import Button from "../controls/Button";
+import { useContext } from "react";
+import { IPostDoc } from "@/models/post";
+import { AppContent } from "@/utils/content";
+import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
+import { deletePost } from "@/lib/post";
 
 export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   post?: IPostDoc;
@@ -19,12 +20,15 @@ const Post = ({ post }: PostProps) => {
   const { onConfirm, state, editHandler, onCancelConfirm } =
     useContext(AppContext);
 
-  const deletePost = () => {
+  const onDeletePost = () => {
     onConfirm({
       open: true,
       async onSubmit() {
-        console.log("Hi");
-        onCancelConfirm();
+        const response = await deletePost(post?.id);
+        if (response.errors) {
+        } else {
+          onCancelConfirm();
+        }
       },
     });
   };
@@ -39,7 +43,7 @@ const Post = ({ post }: PostProps) => {
           <NavItem href="#" onClick={() => {}}>
             <FaEyeSlash /> Inactive
           </NavItem>
-          <NavItem scroll={false} href="#" onClick={deletePost}>
+          <NavItem scroll={false} href="#" onClick={onDeletePost}>
             <FaTrash /> Delete
           </NavItem>
         </Dropdown>

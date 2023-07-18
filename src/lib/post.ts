@@ -66,10 +66,8 @@ export async function updatePost(
   return await response.json();
 }
 
-export async function deletePost(
-  id: string,
-  cookie: ReturnType<typeof cookies>
-) {
+export async function deletePost(id: string) {
+  const cookie = cookies();
   const response = await fetch(
     process.env.NEXT_PUBLIC_API_URL + "/post/" + id,
     {
@@ -80,6 +78,5 @@ export async function deletePost(
       },
     }
   );
-
   return await response.json();
 }
