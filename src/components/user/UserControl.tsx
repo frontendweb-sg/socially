@@ -6,7 +6,7 @@ import Typography from "../controls/Typography";
 
 const UserControl = () => {
   const { data: session, status } = useSession();
-  console.log("data", session);
+
   return (
     <Box className="sidebar-user">
       <Avatar

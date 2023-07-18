@@ -21,4 +21,9 @@ export const AppContent = {
   forgotPassword: "Forgot Password",
   signout: "Sign out",
   addPost: "Add Post",
+  dashboard: "Dashboard",
+  profile: "Profile",
+  posts: "Posts",
+  Photos: "Photos",
+  setting: "Settings",
 };
