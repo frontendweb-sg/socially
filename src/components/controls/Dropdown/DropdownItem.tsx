@@ -1,23 +1,18 @@
 import { forwardRef } from "react";
 import Box from "../Box";
 import NavItem, { NavItemProps } from "@/components/layout/NavItem";
+import { LinkProps } from "next/link";
 
 type DropdownItemProps = React.HtmlHTMLAttributes<
   HTMLLIElement | HTMLDivElement
-> & {
-  menu?: boolean;
-  linkProps?: NavItemProps;
-};
+> &
+  LinkProps & {};
 
 export type dropdownItem = HTMLDivElement | HTMLLIElement | HTMLAnchorElement;
 const DropdownItem = forwardRef<dropdownItem, DropdownItemProps>(
-  ({ children, menu, linkProps, ...rest }, ref) => {
-    return menu ? (
-      <NavItem href={linkProps?.href!} {...linkProps}>
-        {children}
-      </NavItem>
-    ) : (
-      <NavItem href={linkProps?.href!} {...linkProps}>
+  ({ children, href, menu, ...rest }, ref) => {
+    return (
+      <NavItem href={href} {...rest}>
         {children}
       </NavItem>
     );

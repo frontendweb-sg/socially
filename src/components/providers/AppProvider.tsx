@@ -5,6 +5,7 @@ import { createContext } from "react";
 import { AppState, reducer } from "../store";
 
 import { useEditing } from "@/hooks/useEditing";
+import useConfirmation from "@/hooks/useConfirmation";
 
 export const AppContext = createContext<AppState>({} as AppState);
 
@@ -12,14 +13,15 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [states, dispatch] = useReducer(reducer, AppState);
   const { editData, editHandler, resetEditing, status, statusChangeHandler } =
     useEditing();
-
+  const { confirm, onCancelConfirm, onConfirm } = useConfirmation();
   const state = useMemo(
     () => ({
       ...states,
       editData,
       status,
+      confirm,
     }),
-    [editData, states, status]
+    [editData, confirm, states, status]
   );
 
   return (
@@ -30,6 +32,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         editHandler,
         resetEditing,
         statusChangeHandler,
+        onCancelConfirm,
+        onConfirm,
       }}
     >
       {children}

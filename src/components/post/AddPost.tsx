@@ -37,7 +37,6 @@ const AddPost = ({ cookie }: AddPostProps) => {
     handleChange,
     handleSubmit,
     setValues,
-    resetForm,
   } = useFormik({
     initialValues: {
       id: "",
@@ -50,7 +49,7 @@ const AddPost = ({ cookie }: AddPostProps) => {
       isRecent: false,
       comments: [],
     },
-    async onSubmit(values, formikHelpers) {
+    async onSubmit(values, { resetForm }) {
       setLoading(true);
       setError("");
 
@@ -64,17 +63,18 @@ const AddPost = ({ cookie }: AddPostProps) => {
         },
         body: JSON.stringify(values),
       });
-
       const data = await response.json();
 
       if (data?.errors) {
         setError(data.errors.message);
       }
 
-      if (response.status === 201) {
+      if (response.statusText === "OK") {
+        resetForm();
         router.refresh();
       }
-      setLoading(true);
+
+      setLoading(false);
     },
   });
 
@@ -93,7 +93,9 @@ const AddPost = ({ cookie }: AddPostProps) => {
       <Panel.Title>{AppContent.addPost}</Panel.Title>
       <Form onSubmit={handleSubmit}>
         {error && <p>{error}</p>}
-        {loading && <p>Please wait post saving...</p>}
+        {loading && (
+          <p>Please wait post {values.id ? "updating..." : "saving..."}</p>
+        )}
         <FormGroup>
           <Input
             name="title"
@@ -129,7 +131,7 @@ const AddPost = ({ cookie }: AddPostProps) => {
         </FormGroup>
         <Button onClick={cancelHandler}>Cancel</Button>
         <Button disabled={loading} type="submit">
-          {loading ? "Adding..." : values.id ? "Update" : "Add"}
+          {loading ? "loading..." : values.id ? "Update" : "Add"}
         </Button>
       </Form>
     </Panel>

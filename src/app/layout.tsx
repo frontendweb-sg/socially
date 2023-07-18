@@ -2,6 +2,7 @@ import AuthSessionProvider from "@/components/providers/AuthSessionProvider";
 import type { Metadata } from "next";
 import { inter, lato, roboto } from "../utils/font";
 import "@/styles/index.scss";
+import ConfirmModal from "@/components/controls/ConfirmModal";
 
 export const metadata: Metadata = {
   title: "Socially",
@@ -16,7 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${lato.variable} ${roboto.variable}`}>
-        <AuthSessionProvider>{children}</AuthSessionProvider>
+        <AuthSessionProvider>
+          <ConfirmModal />
+          {children}
+        </AuthSessionProvider>
       </body>
     </html>
   );
