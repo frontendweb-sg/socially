@@ -68,10 +68,11 @@ const Post = ({ post }: PostProps) => {
           </NavItem>
         </Dropdown>
       </PostTitle>
-      <PostImage fill src={post?.image!} alt={post?.title!} />
+      {post?.media.map((image) => (
+        <PostImage fill src={image!} alt={image} key={image} />
+      ))}
       <Box className="card-body">
-        <h6>{post?.title}</h6>
-        <p>{post?.description}</p>
+        <p>{post?.content}</p>
         <Button onClick={() => editHandler(post)}>{AppContent.edit}</Button>
       </Box>
       <Comments comments={post?.comments as ICommentDoc[]} />
