@@ -26,4 +26,5 @@ export const AppContent = {
   posts: "Posts",
   Photos: "Photos",
   setting: "Settings",
+  notFound: "not found!",
 };

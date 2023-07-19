@@ -18,11 +18,6 @@ export async function POST(req: NextRequest) {
     const body = (await req.json()) as IPost;
 
     body.user = token.id as string;
-    body.slug = body.title.replace(/\s+/g, "-");
-    const post = await Post.findOne({ slug: body.slug });
-    if (post) {
-      throw new BadRequestError("Post already existed with this title!");
-    }
 
     const newPost = new Post(body);
     const result = (await newPost.save()) as IPostDoc;

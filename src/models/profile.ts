@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { USER_TABLE } from "./user";
+import { ISkillDoc } from "./skill";
 export const PROFILE_TABLE = "profile";
 export interface IAward {
   title: string;
@@ -32,12 +33,6 @@ export interface IEducation {
   marks?: number | null;
   current?: boolean;
   subjects?: string[];
-}
-
-export interface ISkill {
-  language: string;
-  proficiency: Proficiency;
-  rating: number;
 }
 
 export enum Gender {
@@ -88,7 +83,7 @@ export interface IProfile {
   hobbies: string[];
   employment?: IEmployment[];
   education?: IEducation[];
-  skills: ISkill[];
+  skills: ISkillDoc[];
 }
 
 export interface IProfileDoc extends Document<IProfile>, IProfile {}
