@@ -4,14 +4,13 @@ body {
   text-size-adjust: 100%;
 }
 
-body{
+body {
   font-family: var(--font-roboto);
 }
 
 #__next {
   height: 100%;
 }
-
 
 a {
   text-decoration: none;
@@ -21,4 +20,14 @@ a {
     outline: none;
     color: $secondary;
   }
+}
+
+.auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-auto {
+  margin-left: auto;
+  margin-right: auto;
 }

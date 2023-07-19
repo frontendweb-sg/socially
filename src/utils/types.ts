@@ -4,12 +4,32 @@ export type AppProps = {
   children?: ReactNode | ReactElement;
   className?: string;
 };
+export type Display = "flex" | "block" | "inline" | "inline-flex";
 export type Height = "25" | "50" | "75" | "100" | "auto";
 export type Width = "25" | "50" | "75" | "100" | "auto";
 export type Align = "left" | "right" | "center" | "justify" | "auto";
 export type Theme = "light" | "dark";
 export type Size = "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | "block";
 export type Status = "new" | "edit" | "update" | "delete" | "default";
+export type alignItems =
+  | "start"
+  | "end"
+  | "flex-start"
+  | "flex-end"
+  | "baseline"
+  | "stretch"
+  | "initial"
+  | "inherit";
+export type justifyContent =
+  | "flex-start"
+  | "center"
+  | "flex-end"
+  | "space-between"
+  | "space-around"
+  | "space-evenly"
+  | "initial"
+  | "inherit";
+
 export type Color =
   | "primary"
   | "secondary"

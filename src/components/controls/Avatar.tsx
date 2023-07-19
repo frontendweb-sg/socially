@@ -10,46 +10,29 @@ import { Align, Color, Size } from "@/utils/types";
  */
 
 type IAvatarProps = ImageProps & {
-  bg?: Color;
-  src?: string;
-  alt?: string;
-  width?: number;
-  size?: Size;
   align?: Align;
-  color?: Color;
-  style?: React.CSSProperties;
-  circle?: boolean;
-  border?: number;
+  size?: number;
   rounded?: number;
 };
 
 const Avatar: FC<IAvatarProps> = ({
   src = "/avatar.png",
   alt = "Avatar",
-  width = 25,
   align,
-  circle,
   color,
-  border,
   children,
   style,
-  bg,
-  size,
+  size = 35,
   rounded = 5,
   ...rest
 }) => {
   const classes = classNames("avatar", {
     ["text-" + align]: align,
-    ["border border-" + color]: color,
-    ["border-" + border]: border,
-    ["bg-" + bg]: bg,
-    ["avatar-" + size]: size,
-    circle: circle,
   });
 
   const styles = {
-    width: width + "px",
-    height: width + "px",
+    width: size + "px",
+    height: size + "px",
     borderRadius: rounded + "px",
     ...style,
   };
@@ -58,22 +41,11 @@ const Avatar: FC<IAvatarProps> = ({
     <Image
       src={"/avatar.png"}
       alt={alt! || "avatar"}
-      width={width}
-      height={width}
+      width={size}
+      height={size}
       {...rest}
     />
   );
-  if (src) {
-    imageEl = (
-      <Image
-        src={src}
-        alt={alt! || "avatar"}
-        width={width}
-        height={width}
-        {...rest}
-      />
-    );
-  }
 
   return (
     <Box className={classes} style={{ ...styles }}>

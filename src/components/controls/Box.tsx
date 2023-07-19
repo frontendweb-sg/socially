@@ -1,3 +1,4 @@
+import { Align, Display, alignItems, justifyContent } from "@/utils/types";
 import classNames from "classnames";
 import { forwardRef } from "react";
 
@@ -6,10 +7,19 @@ import { forwardRef } from "react";
  * @param param0
  * @returns
  */
-export type BoxProps = React.HtmlHTMLAttributes<HTMLDivElement> & {};
+export type BoxProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
+  align?: Align;
+  display?: Display;
+  alignItmes?: alignItems;
+  justifyContent?: justifyContent;
+};
+
 export type boxRef = HTMLDivElement;
 const Box = forwardRef<boxRef, BoxProps>(
-  ({ className, children, ...rest }, ref) => {
+  (
+    { className, children, display, alignItmes, justifyContent, ...rest },
+    ref
+  ) => {
     const classes = classNames(className);
     return (
       <div className={classes} ref={ref} {...rest}>

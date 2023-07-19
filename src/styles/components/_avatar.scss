@@ -1,17 +1,37 @@
 .avatar {
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
 
-  &.text-auto{
-    margin:auto
+  &-auto {
+    @extend .auto;
   }
-  &.circle{
+
+  &.circle {
     border-radius: 50%;
   }
 
-  &.border {
-    border: 2px dashed $white;
+  &-border {
     padding: 3px;
+    &:before {
+      position: absolute;
+      content: "";
+      border-radius: inherit;
+      display: inline-block;
+      width: inherit;
+      height: inherit;
+      border: 2px dashed $gray-400;
+      box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &.rotate {
+    &:before {
+      animation: avatar-rotate 200ms linear infinite;
+    }
   }
 
   .child {
@@ -21,12 +41,18 @@
     width: 100%;
     height: 100%;
   }
+}
 
-  @each $k,  $v in $avatar-size {
-    &-#{$k} {
-      width: $v;
-      height: $v;
-      
-    }
+@keyframes avatar-rotate {
+  0% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(180deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 1;
   }
 }

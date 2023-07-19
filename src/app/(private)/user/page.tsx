@@ -1,5 +1,8 @@
+import Col from "@/components/controls/Col";
+import Row from "@/components/controls/Row";
 import AddPost from "@/components/post/AddPost";
 import PostList from "@/components/post/PostList";
+import Birthday from "@/components/user/Birthday";
 import { getPosts } from "@/lib/post";
 import { IPostDoc } from "@/models/post";
 import { cookies } from "next/headers";
@@ -9,10 +12,15 @@ const Page = async () => {
   const posts = (await getPosts()) as IPostDoc[];
 
   return (
-    <>
-      <AddPost cookie={cookie} />
-      <PostList posts={posts} />
-    </>
+    <Row>
+      <Col md={8}>
+        <AddPost cookie={cookie} />
+        <PostList posts={posts} />
+      </Col>
+      <Col md={4}>
+        <Birthday />
+      </Col>
+    </Row>
   );
 };
 

@@ -11,7 +11,7 @@ const Comment = ({ comment }: CommentProps) => {
     <Box className="post-comment">
       <Avatar
         rounded={50}
-        width={30}
+        size={30}
         className="mr-2"
         src="/avatar.png"
         alt="avatar"

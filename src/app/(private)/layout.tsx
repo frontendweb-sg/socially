@@ -8,9 +8,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <main className="container mt-4 mb-4">
         <div className="row">
           <Sidebar />
-
-          <div className="col-md-6">{children}</div>
-          <div className="col-md-3"></div>
+          <div className="col-md-9">{children}</div>
         </div>
       </main>
     </>

@@ -62,12 +62,7 @@ const AddComment = ({ postId }: AddCommentProps) => {
 
   return (
     <Form className="comment-add" onSubmit={handleSubmit}>
-      <Avatar
-        src={session?.user.image!}
-        size="sm"
-        width={30}
-        alt={session?.user.name!}
-      />
+      <Avatar src={session?.user.image!} size={30} alt={session?.user.name!} />
 
       <Input
         name="message"

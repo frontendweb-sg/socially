@@ -1,0 +1,48 @@
+.skeleton {
+  text-align: center;
+
+  &-border {
+    border-radius: 50%;
+    padding: 3px;
+    &:before {
+      position: absolute;
+      content: "";
+      border-radius: inherit;
+      display: inline-block;
+      width: inherit;
+      height: inherit;
+      border: 2px dashed $gray-400;
+      box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &.rotate {
+    &:before {
+      animation: avatar-rotate 200ms linear infinite;
+    }
+  }
+  &.auto {
+    @extend .auto;
+  }
+  .ht {
+    height: 12px;
+    display: block;
+    animation: fade 500ms infinite;
+    border-radius: 3px;
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+@keyframes fade {
+  0% {
+    background-color: $gray-100;
+  }
+  50% {
+    background-color: $gray-400;
+  }
+  100% {
+    background-color: $gray-100;
+  }
+}

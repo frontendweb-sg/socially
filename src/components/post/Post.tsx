@@ -5,14 +5,14 @@ import PostImage from "./PostImage";
 import NavItem from "../layout/NavItem";
 import Box from "../controls/Box";
 import Button from "../controls/Button";
+import AddComment from "./comments/AddComment";
+import Comments from "./comments/Comments";
 import { useContext } from "react";
 import { ICommentDoc, IPostDoc } from "@/models/post";
 import { AppContent } from "@/utils/content";
 import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
 import { deletePost } from "@/lib/post";
-import AddComment from "./comments/AddComment";
-import Comments from "./comments/Comments";
 
 export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   post?: IPostDoc;

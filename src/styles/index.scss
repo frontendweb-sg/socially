@@ -1,36 +1,36 @@
-@import './settings/variables';
-@import 'bootstrap/scss/bootstrap';
+@import "./settings/variables";
+@import "bootstrap/scss/bootstrap";
 
 // base
-@import './base/color';
-@import './base/init';
-@import './base/container';
-@import './base/types';
-@import './base/utlity';
-@import './base/list';
+@import "./base/color";
+@import "./base/init";
+@import "./base/container";
+@import "./base/types";
+@import "./base/utlity";
+@import "./base/list";
 
 //form
-@import './form/input';
-@import './form/button';
+@import "./form/input";
+@import "./form/button";
 
 // components
-@import './components/breadcrumb';
-@import './components/hero';
-@import './components/avatar';
-@import './components/section';
-@import './components/post';
-@import './components/panel';
-@import './components/time';
+@import "./components/breadcrumb";
+@import "./components/hero";
+@import "./components/avatar";
+@import "./components/section";
+@import "./components/post";
+@import "./components/panel";
+@import "./components/time";
 @import "./components//card";
 @import "./components/dropdown";
 @import "./components/comment";
-
+@import "./components/skeleton";
 // layout
-@import './layout/wrapper';
-@import './layout/navbar';
-@import './layout/footer';
-@import './layout/logo';
-@import './layout/sidebar';
+@import "./layout/wrapper";
+@import "./layout/navbar";
+@import "./layout/footer";
+@import "./layout/logo";
+@import "./layout/sidebar";
 
 // pages
-@import './pages/auth';
+@import "./pages/auth";

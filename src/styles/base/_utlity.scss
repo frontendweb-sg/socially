@@ -25,3 +25,14 @@
     }
   }
 }
+
+.width {
+  @each $k, $v in (xs: 20%, sm: 40%, md: 50%, lg: 75%, xl: 100%) {
+    &-#{$k} {
+      width: $v;
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

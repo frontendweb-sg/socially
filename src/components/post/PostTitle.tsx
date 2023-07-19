@@ -24,13 +24,7 @@ const PostTitle = ({
       {...rest}
     >
       <Box className="d-flex align-items-center">
-        <Avatar
-          size="sm"
-          width={40}
-          alt={name!}
-          src={image!}
-          className="me-3"
-        />
+        <Avatar size={40} alt={name!} src={image!} className="me-3" />
         <Typography variant="subtitle1">{name}</Typography>
       </Box>
       {children}
