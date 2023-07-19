@@ -1,3 +1,4 @@
+"use";
 import { Color, Size } from "@/utils/types";
 import Box from "./Box";
 import classNames from "classnames";
@@ -12,7 +13,7 @@ type ModalProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   bodyProps?: React.HtmlHTMLAttributes<HTMLDivElement>;
   titleProps?: React.HtmlHTMLAttributes<HTMLDivElement>;
 };
-type modalRef = {
+export type modalRef = {
   open: boolean;
   openHandler: () => void;
   closeHandler: () => void;
@@ -20,7 +21,7 @@ type modalRef = {
 
 const Modal = forwardRef<modalRef, ModalProps>(
   ({ label, onClose, children, className, ...rest }, ref) => {
-    const classes = classNames("modal");
+    const classes = classNames("modal fade show", className);
     const modalRef = useRef<HTMLDivElement>(null);
 
     const { isOpen, openHandler, closeHandler } = useToggle();
@@ -32,28 +33,39 @@ const Modal = forwardRef<modalRef, ModalProps>(
       closeHandler,
     }));
 
-    return (
-      <Box className={classes} ref={modalRef} {...rest}>
-        <Box className="modal-dialog">
-          <Box className="modal-content">
-            <Box className="modal-header">
-              <h5 className="modal-title">{label}</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={() => {
-                  onClose?.();
-                  closeHandler();
-                }}
-              ></button>
+    return isOpen ? (
+      <>
+        <Box
+          style={{
+            display: "block",
+            paddingRight: "17px",
+          }}
+          className={classes}
+          ref={modalRef}
+          {...rest}
+        >
+          <Box className="modal-dialog modal-dialog-centered">
+            <Box className="modal-content">
+              <Box className="modal-header">
+                <h5 className="modal-title">{label}</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => {
+                    onClose?.();
+                    closeHandler();
+                  }}
+                ></button>
+              </Box>
+              <Box className="modal-body">{children}</Box>
             </Box>
-            <Box className="modal-body">{children}</Box>
           </Box>
         </Box>
-      </Box>
-    );
+        <Box className={"modal-backdrop fade show"}></Box>
+      </>
+    ) : null;
   }
 );
 

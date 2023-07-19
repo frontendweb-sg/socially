@@ -13,11 +13,8 @@ import { NotFoundError } from "../../errors/not-found-error";
 export async function GET(req: NextRequest) {
   try {
     await connectDb();
-
     const token = await auth(req);
-
     const user = (await User.findById(token.id)) as IUserDoc;
-
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     return errorHandler(error as CustomError);
@@ -29,21 +26,18 @@ export async function GET(req: NextRequest) {
  * @param req
  * @returns
  */
-export async function POST(req: NextRequest) {
+export async function PUT(req: NextRequest) {
   try {
     await connectDb();
     const token = await auth(req);
-
     const { name, mobile } = (await req.json()) as IUser;
     const user = (await User.findById(token.id)) as IUserDoc;
     if (!user) throw new NotFoundError("User not found!");
-    console.log(name, mobile, user);
     const result = await User.findByIdAndUpdate(
       user.id,
       { $set: { name, mobile } },
       { new: true }
     );
-
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     return errorHandler(error as CustomError);

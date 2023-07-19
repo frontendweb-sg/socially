@@ -27,4 +27,5 @@ export const AppContent = {
   Photos: "Photos",
   setting: "Settings",
   notFound: "not found!",
+  addSkill: "Add skill",
 };

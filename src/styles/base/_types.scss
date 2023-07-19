@@ -1,14 +1,26 @@
 %line-common {
-  content: '';
+  content: "";
   width: 40px;
   height: 2px;
 }
 
-h1,h2,h3,h4,h5,h6{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-lato);
   font-weight: 900;
 
+  .small {
+    font-weight: 400;
+    color: $gray-500;
+    font-family: var(--fort-roboto);
+    display: block;
+  }
 }
+
 h1 {
   &.h1 {
     font-size: $font-size-base * 3.5;
@@ -18,8 +30,8 @@ h1 {
 .text {
   @each $k, $v in $text-size {
     &-#{$k} {
-      font-size: map-get($text-size, $k, 'size');
-      line-height: map-get($text-size, $k, 'line-height');
+      font-size: map-get($text-size, $k, "size");
+      line-height: map-get($text-size, $k, "line-height");
       @debug $v;
     }
   }
