@@ -1,33 +1,28 @@
 "use client";
-import { useFormik } from "formik";
 import Form from "../controls/Form";
 import FormGroup from "../controls/FormGroup";
 import Input from "../controls/Input";
 import Textarea from "../controls/Textarea";
 import Button from "../controls/Button";
 import Panel from "../controls/Panel";
-import {
-  ProviderProps,
-  ServerContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import Box from "../controls/Box";
+import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppContent } from "@/utils/content";
-import { AppContext, useAppState } from "../providers/AppProvider";
-import Box from "../controls/Box";
+import { useAppState } from "../providers/AppProvider";
 
 type AddPostProps = {
   cookie: any;
 };
+
 const AddPost = ({ cookie }: AddPostProps) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { state, dispatch, resetEditing, editHandler } = useAppState();
+  const { state, resetEditing } = useAppState();
   const { editData } = state;
 
   const {

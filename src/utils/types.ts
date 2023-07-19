@@ -10,7 +10,15 @@ export type Width = "25" | "50" | "75" | "100" | "auto";
 export type Align = "left" | "right" | "center" | "justify" | "auto";
 export type Theme = "light" | "dark";
 export type Size = "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | "block";
-export type Status = "new" | "edit" | "update" | "delete" | "default";
+export type Status =
+  | "new"
+  | "edit"
+  | "update"
+  | "delete"
+  | "default"
+  | "approved"
+  | "rejected"
+  | "pending";
 export type alignItems =
   | "start"
   | "end"
