@@ -4,26 +4,36 @@ import NoData from "./NoData";
 import Dropdown from "../Dropdown";
 import { ReactElement, useMemo } from "react";
 import { keys, upperFirst } from "lodash";
-import { FaCircle } from "react-icons/fa";
+import { FaCircle, FaEyeSlash, FaPencilAlt, FaTrash } from "react-icons/fa";
 import { Status } from "@/utils/types";
 import { AppContent } from "@/utils/content";
+import TableActionItems from "./TableActionItems";
 
 type Common<T> = {
   [porp in keyof T]: T[porp];
 };
+type ColumnDefinitionType<T, K extends keyof T> = {
+  key: K;
+  header: string;
+  width?: number;
+};
 
-type DataTableProps<T> = React.TableHTMLAttributes<HTMLTableElement> & {
+type DataTableProps<
+  T,
+  K extends keyof T
+> = React.TableHTMLAttributes<HTMLTableElement> & {
   data: T[];
+  columns?: Array<ColumnDefinitionType<T, K>>;
   hideCols?: string[];
   renderAction?: (data: T) => ReactElement;
   onHandler?: (status: Status, data: T) => void;
 };
-const DataTable = <T extends Common<T>>({
+const DataTable = <T extends Common<T>, K extends keyof T>({
   data,
   hideCols,
   renderAction,
   onHandler,
-}: DataTableProps<T>) => {
+}: DataTableProps<T, K>) => {
   const transformData = useMemo(() => {
     const updated = data.map(
       (row: T) => {
@@ -54,6 +64,7 @@ const DataTable = <T extends Common<T>>({
             {heading.map((key: string) => (
               <th key={key}>{upperFirst(key)}</th>
             ))}
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -76,31 +87,7 @@ const DataTable = <T extends Common<T>>({
                     {renderAction ? (
                       renderAction(row)
                     ) : (
-                      <>
-                        <NavItem
-                          href="#"
-                          scroll={false}
-                          onClick={() => onHandler("edit", row)}
-                        >
-                          {AppContent.edit}
-                        </NavItem>
-                        <NavItem
-                          href="#"
-                          scroll={false}
-                          onClick={() =>
-                            onHandler(row.active ? "inactive" : "active", row)
-                          }
-                        >
-                          {AppContent.inactive}
-                        </NavItem>
-                        <NavItem
-                          href="#"
-                          scroll={false}
-                          onClick={() => onHandler("delete", row)}
-                        >
-                          {AppContent.delete}
-                        </NavItem>
-                      </>
+                      <TableActionItems row={row} handler={onHandler!} />
                     )}
                   </Dropdown>
                 </td>

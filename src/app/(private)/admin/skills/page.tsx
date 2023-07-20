@@ -35,7 +35,7 @@ const Page = () => {
           {AppContent.addSkill}
         </Button>
       </Title>
-      <DataTable<ISkillDoc>
+      <DataTable
         data={skills}
         hideCols={["id", "_id"]}
         onHandler={console.log}
