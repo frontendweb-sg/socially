@@ -46,7 +46,6 @@ const handler = NextAuth({
       await connectDb();
 
       const email = user.email;
-      console.log("HI", { user, account, profile, credentials, email });
 
       // get the user if the exist
       const userExists = (await User.findOne({ email })) as IUserDoc;

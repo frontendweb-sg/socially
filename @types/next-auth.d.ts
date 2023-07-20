@@ -7,6 +7,7 @@ declare module "next-auth" {
       mobile: string;
       active: boolean;
       resetToken: string;
+      accessToken?: string;
     } & DefaultSession["user"];
   }
 }

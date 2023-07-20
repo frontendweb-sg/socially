@@ -13,6 +13,7 @@ export interface IUser {
   resetToken: string;
   provider_id?: string;
   active: boolean;
+  accessToken?: string;
 }
 
 export interface IUserDoc extends Document<IUser>, IUser {}

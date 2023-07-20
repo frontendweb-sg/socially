@@ -2,6 +2,7 @@ import { Status } from "@/utils/types";
 import { combineReducer } from "./combine-reducer";
 import { IAlert, alertReducer, alertState } from "./reducers/alert";
 import { IConfirm } from "@/hooks/useConfirmation";
+import type { SkillState } from "./reducers/skill";
 
 type Global<T> = {
   [Properties in keyof T]: T[keyof T];
@@ -9,6 +10,7 @@ type Global<T> = {
 
 type StoreProps = {
   alertState: IAlert;
+  skillState: SkillState;
 };
 
 export type Action<T, K> = {
@@ -19,6 +21,7 @@ export type Action<T, K> = {
 export type AppState = {
   state: {
     alertState: IAlert;
+    skillState: SkillState;
     editData: any;
     confirm: IConfirm;
   };
@@ -31,7 +34,8 @@ export type AppState = {
 };
 
 export const AppState = {
-  alertState: { message: "" },
+  alertState: {},
+  skillState: {},
 };
 export const reducer = combineReducer({ alertState: alertReducer });
 export type AppDispatch = typeof reducer;

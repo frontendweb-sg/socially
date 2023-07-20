@@ -18,7 +18,9 @@ export type Status =
   | "default"
   | "approved"
   | "rejected"
-  | "pending";
+  | "pending"
+  | "active"
+  | "inactive";
 export type alignItems =
   | "start"
   | "end"
