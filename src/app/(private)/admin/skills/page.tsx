@@ -14,12 +14,11 @@ import DataTable from "@/components/controls/DataTable";
  * @returns
  */
 const Page = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [skills, setSkills] = useState<ISkillDoc[]>([]);
   const modalRef = useRef<modalRef>(null);
 
   useEffect(() => {
-    setLoading(true);
     async function LoadData() {
       const response = await skillService.getAll();
       setSkills(response.data);
@@ -36,8 +35,9 @@ const Page = () => {
         </Button>
       </Title>
       <DataTable
+        loading={loading}
         data={skills}
-        hideCols={["id", "_id"]}
+        hideCols={["id", "slug", "_id"]}
         onHandler={console.log}
       />
       <Modal ref={modalRef} label="Add skill">

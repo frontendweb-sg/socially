@@ -1,17 +1,20 @@
-import Box from "../Box";
-import NavItem from "@/components/layout/NavItem";
 import NoData from "./NoData";
 import Dropdown from "../Dropdown";
-import { ReactElement, useMemo } from "react";
-import { keys, upperFirst } from "lodash";
-import { FaCircle, FaEyeSlash, FaPencilAlt, FaTrash } from "react-icons/fa";
-import { Status } from "@/utils/types";
-import { AppContent } from "@/utils/content";
 import TableActionItems from "./TableActionItems";
+import TableCell from "./TableCell";
+import Skeleton from "../Skeleton";
+import Panel from "../Panel";
+import { ChangeEvent, ReactElement, useMemo, useState } from "react";
+import { keys, upperFirst } from "lodash";
+import { FaCircle } from "react-icons/fa";
+import { Status } from "@/utils/types";
+import Box from "../Box";
+import TableSearch from "./TableSearch";
 
 type Common<T> = {
-  [porp in keyof T]: T[porp];
+  [prop in keyof T]: T[prop];
 };
+
 type ColumnDefinitionType<T, K extends keyof T> = {
   key: K;
   header: string;
@@ -22,42 +25,53 @@ type DataTableProps<
   T,
   K extends keyof T
 > = React.TableHTMLAttributes<HTMLTableElement> & {
+  loading: boolean;
   data: T[];
   columns?: Array<ColumnDefinitionType<T, K>>;
   hideCols?: string[];
   renderAction?: (data: T) => ReactElement;
   onHandler?: (status: Status, data: T) => void;
 };
+
 const DataTable = <T extends Common<T>, K extends keyof T>({
+  loading = false,
   data,
-  hideCols,
+  columns,
+  hideCols = ["slug"],
   renderAction,
   onHandler,
 }: DataTableProps<T, K>) => {
-  const transformData = useMemo(() => {
-    const updated = data.map(
-      (row: T) => {
-        const keys = Object.keys(row).filter((key) => !hideCols?.includes(key));
-        const obj = keys
-          .map((key: string) => ({ [key]: row[key as keyof T] }))
-          .reduce((acc, next) => {
-            return Object.assign(acc, next);
-          }, {});
-        return obj;
-      },
-      [data, hideCols]
-    );
-    return updated;
-  }, [data, hideCols]);
+  const [searchKey, setSearchKey] = useState("");
 
-  const heading = Object.keys((data && data[0]) ?? []).filter(
+  const onSearchHandler = (ev: ChangeEvent<HTMLInputElement>) => {
+    setSearchKey(ev.target.value);
+  };
+
+  const filteredData = useMemo(() => {
+    return searchKey
+      ? data.filter((row: any) =>
+          row["title"].toLowerCase().includes(searchKey.toLowerCase())
+        )
+      : data;
+  }, [searchKey, data]);
+
+  const heading = Object.keys((filteredData && filteredData[0]) ?? []).filter(
     (key: string) => !hideCols?.includes(key)
   );
 
-  if (data && data.length === 0) return <NoData />;
+  if (loading) return <Skeleton />;
+
+  if (data.length === 0) return <NoData />;
 
   return (
-    <Box>
+    <Panel className="table-responsive p-3">
+      <Box className="d-flex justify-content-between">
+        <TableSearch
+          placeholder="Search by title..."
+          value={searchKey}
+          onChange={onSearchHandler}
+        />
+      </Box>
       <table className="table table-border">
         <thead>
           <tr>
@@ -68,35 +82,35 @@ const DataTable = <T extends Common<T>, K extends keyof T>({
           </tr>
         </thead>
         <tbody>
-          {data.map((row: any) => (
+          {filteredData.map((row: any) => (
             <tr key={row.id}>
               {heading.map((key: string) =>
                 key === "active" ? (
-                  <td key={key}>
+                  <TableCell key={key}>
                     <FaCircle
                       className={row[key] ? "text-success" : "text-danger"}
                     />
-                  </td>
+                  </TableCell>
                 ) : (
-                  <td key={key}>{row[key]}</td>
+                  <TableCell key={key}>{row[key]}</TableCell>
                 )
               )}
               {keys.length !== 0 && (
-                <td>
+                <TableCell key="action">
                   <Dropdown>
                     {renderAction ? (
-                      renderAction(row)
+                      renderAction(row as T)
                     ) : (
                       <TableActionItems row={row} handler={onHandler!} />
                     )}
                   </Dropdown>
-                </td>
+                </TableCell>
               )}
             </tr>
           ))}
         </tbody>
       </table>
-    </Box>
+    </Panel>
   );
 };
 export default DataTable;
