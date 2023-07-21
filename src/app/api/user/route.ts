@@ -3,6 +3,7 @@ import { CustomError } from "../errors/custom-error";
 import { errorHandler } from "../middleware/error-handler";
 import { IUserDoc, User } from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
+import { admin } from "../middleware/admin";
 
 /**
  * User handler
@@ -12,7 +13,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     await connectDb();
-    //await admin(req);
+    await admin(req);
+
     const users = (await User.find()) as IUserDoc[];
     return NextResponse.json(users, { status: 200 });
   } catch (error) {

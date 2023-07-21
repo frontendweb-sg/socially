@@ -10,12 +10,9 @@ import Typography from "../../../components/controls/Typography";
 import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
-import { MouseEventHandler, useContext, useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import { FaKey } from "react-icons/fa";
-import {
-  AppContext,
-  useAppState,
-} from "../../../components/providers/AppProvider";
+import { useAppState } from "../../../components/providers/AppProvider";
 import { alertAction } from "../../../components/store/reducers/alert";
 import * as yup from "yup";
 
@@ -23,13 +20,12 @@ const validation = yup.object().shape({
   email: yup.string().email("Invalid email id").required("Email is requried"),
   password: yup.string().required("Password is required!"),
 });
+
 /**
  * Sign-in component
  * @returns
  */
-interface SigninProps {
-  onChange?: MouseEventHandler<HTMLAnchorElement>;
-}
+
 const SigninForm = () => {
   const [loading, setLoading] = useState(false);
 
@@ -64,59 +60,57 @@ const SigninForm = () => {
     });
 
   return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Alert alert={alertState} />
-        <Alert
-          alert={{
-            visible: loading,
-            message: AppContent.signInWait,
-            color: "info",
-          }}
-        />
-        <Box className="mb-4">
-          <Typography className="mb-2" variant="h3">
+    <Form onSubmit={handleSubmit}>
+      <Alert alert={alertState} />
+      <Alert
+        alert={{
+          visible: loading,
+          message: AppContent.signInWait,
+          color: "info",
+        }}
+      />
+      <Box className="mb-4">
+        <Typography className="mb-2" variant="h3">
+          {AppContent.signIn}
+        </Typography>
+        <Typography variant="body2" className="mb-4">
+          {AppContent.dontHaveAccount}
+          <Link className="text-secondary" href="/signup">
             {AppContent.signUp}
-          </Typography>
-          <Typography variant="body2" className="mb-4">
-            {AppContent.dontHaveAccount}
-            <Link className="text-secondary" href="/signup">
-              {AppContent.signUp}
-            </Link>
-          </Typography>
-        </Box>
-        <FormGroup>
-          <Input
-            name="email"
-            type="email"
-            placeholder="Email id"
-            errors={errors}
-            touched={touched}
-            value={values.email}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            placeholder="***********"
-            name="password"
-            type="password"
-            errors={errors}
-            touched={touched}
-            value={values.password}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Link href="/reset-password">
-            <FaKey className="me-2" /> {AppContent.forgotPassword}
           </Link>
-        </FormGroup>
-        <Button>{AppContent.signIn}</Button>
-      </Form>
-    </>
+        </Typography>
+      </Box>
+      <FormGroup>
+        <Input
+          name="email"
+          type="email"
+          placeholder="Email id"
+          errors={errors}
+          touched={touched}
+          value={values.email}
+          onBlur={handleBlur}
+          onChange={handleChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Input
+          placeholder="***********"
+          name="password"
+          type="password"
+          errors={errors}
+          touched={touched}
+          value={values.password}
+          onBlur={handleBlur}
+          onChange={handleChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Link href="/reset-password">
+          <FaKey className="me-2" /> {AppContent.forgotPassword}
+        </Link>
+      </FormGroup>
+      <Button>{AppContent.signIn}</Button>
+    </Form>
   );
 };
 

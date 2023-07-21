@@ -1,7 +1,21 @@
-import { User } from "@/models/user";
-import { getCsrfToken } from "next-auth/react";
+"use server";
+
 import { cookies } from "next/headers";
 
+const url = process.env.NEXT_PUBLIC_API_URL + "/user";
+
+export async function getUsers() {
+  const cookieStore = cookies();
+  const response = await fetch(url, {
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: `${cookieStore}`,
+    },
+  });
+  if (response.statusText !== "OK") return null;
+  return await response.json();
+}
 export async function getUser() {
   const cookieStore = cookies();
   const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/user/me", {
