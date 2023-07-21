@@ -1,10 +1,10 @@
 import { getDesignations } from "@/lib/designation";
 import Designation from "./Designation";
 
+export const revalidate = 0;
 const Page = async () => {
   const designaions = await getDesignations();
-  console.log("designaions", designaions);
-  return <Designation data={designaions} />;
+  return <Designation data={designaions!} />;
 };
 
 export default Page;

@@ -8,11 +8,11 @@ import type { AxiosResponse } from "axios";
 class DesignationService {
   getIntialData() {
     return {
-      id: 0,
+      id: "",
       title: "",
       slug: "",
       active: true,
-    } as IDesignation;
+    };
   }
   getAll(): Promise<AxiosResponse<IDesignationDoc[]>> {
     return Api.get("/designation");

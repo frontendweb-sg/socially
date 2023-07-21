@@ -4,6 +4,7 @@ import { skillService } from "@/services/skill.service";
 import { revalidatePath } from "next/cache";
 
 const addSkill = () => {};
+
 const updateSkill = () => {};
 const getSkills = () => {
   try {

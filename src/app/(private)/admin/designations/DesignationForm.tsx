@@ -3,14 +3,15 @@ import Form from "@/components/controls/Form";
 import FormGroup from "@/components/controls/FormGroup";
 import Input from "@/components/controls/Input";
 import axios from "axios";
+import Box from "@/components/controls/Box";
+import * as yup from "yup";
 import { IDesignationDoc } from "@/models/designation";
 import { designationService } from "@/services/designaion.service";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { AppContent } from "@/utils/content";
-import * as yup from "yup";
-import Box from "@/components/controls/Box";
+import { addDesignation, updateDesignation } from "@/lib/designation";
 
 const validation = yup.object().shape({
   title: yup.string().required("Skill name is required!"),
@@ -36,11 +37,35 @@ const DesignationForm = ({
     handleChange,
     handleSubmit,
     isSubmitting,
-    isValid,
   } = useFormik({
-    initialValues: designationService.getIntialData(),
+    initialValues: designation ?? designationService.getIntialData(),
     validationSchema: validation,
-    async onSubmit(values, formikHelpers) {},
+    async onSubmit(values, { resetForm }) {
+      try {
+        let response = null;
+        if (values.id) {
+          response = await designationService.update(values as IDesignationDoc);
+        } else {
+          response = await designationService.add(values);
+        }
+
+        const message =
+          response.status === 200
+            ? "Designation updated!"
+            : "Designation added!";
+
+        toast.success(message);
+        resetForm();
+        if (response.statusText === "OK") {
+          router.refresh();
+          onClose?.();
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data.errors.message);
+        }
+      }
+    },
   });
 
   return (
