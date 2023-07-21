@@ -22,9 +22,9 @@ const validation = yup.object().shape({
  */
 type SkillFormProps = {
   skill?: ISkillDoc;
-  onClose?: React.MouseEventHandler<HTMLButtonElement>;
+  onClose?: () => void;
 };
-const SkillForm = ({ skill, onClose, ...rest }: SkillFormProps) => {
+const SkillForm = ({ skill, onClose }: SkillFormProps) => {
   const {
     values,
     errors,
@@ -33,21 +33,27 @@ const SkillForm = ({ skill, onClose, ...rest }: SkillFormProps) => {
     handleChange,
     handleSubmit,
     isSubmitting,
-    setValues,
   } = useFormik({
-    initialValues: {
+    initialValues: skill ?? {
+      id: 0,
       title: "",
       slug: "",
       active: true,
-    } as ISkill,
+    },
     validationSchema: validation,
-    async onSubmit(values: ISkill, { resetForm, setSubmitting }) {
+    async onSubmit(values, { resetForm, setSubmitting }) {
+      let response = null;
       try {
-        const response = await skillService.add(values);
-        if (response.status === 201) {
+        if (values.id) {
+          response = await skillService.update(values as ISkillDoc);
+        } else {
+          response = await skillService.add(values);
+        }
+        if (response.statusText === "OK") {
           toast.success("Skill added successfully!");
         }
         resetForm();
+        onClose?.();
       } catch (error: unknown | AxiosError) {
         if (axios.isAxiosError(error)) {
           toast.error(error.response?.data.errors.message);
@@ -55,6 +61,7 @@ const SkillForm = ({ skill, onClose, ...rest }: SkillFormProps) => {
       }
       setSubmitting(false);
     },
+    onReset(state) {},
   });
 
   return (

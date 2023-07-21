@@ -1,4 +1,3 @@
-"use";
 import { Color, Size } from "@/utils/types";
 import Box from "./Box";
 import classNames from "classnames";

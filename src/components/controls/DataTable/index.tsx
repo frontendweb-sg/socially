@@ -1,15 +1,16 @@
+"use client";
 import NoData from "./NoData";
 import Dropdown from "../Dropdown";
 import TableActionItems from "./TableActionItems";
 import TableCell from "./TableCell";
 import Skeleton from "../Skeleton";
 import Panel from "../Panel";
+import Box from "../Box";
+import TableSearch from "./TableSearch";
 import { ChangeEvent, ReactElement, useMemo, useState } from "react";
 import { keys, upperFirst } from "lodash";
 import { FaCircle } from "react-icons/fa";
 import { Status } from "@/utils/types";
-import Box from "../Box";
-import TableSearch from "./TableSearch";
 
 type Common<T> = {
   [prop in keyof T]: T[prop];
@@ -25,7 +26,7 @@ type DataTableProps<
   T,
   K extends keyof T
 > = React.TableHTMLAttributes<HTMLTableElement> & {
-  loading: boolean;
+  loading?: boolean;
   data: T[];
   columns?: Array<ColumnDefinitionType<T, K>>;
   hideCols?: string[];

@@ -13,9 +13,16 @@ class SkillService {
       active: true,
     } as ISkill;
   }
-  getAll(): Promise<AxiosResponse<ISkillDoc[]>> {
-    return Api.get("/skill");
+
+  async getAll(): Promise<ISkillDoc[] | undefined> {
+    try {
+      const response = await Api.get("/skill");
+      return response.data;
+    } catch (error) {
+      return undefined;
+    }
   }
+
   add(body: ISkill): Promise<AxiosResponse<ISkill | { errors: IError }>> {
     return Api.post("/skill", body);
   }
