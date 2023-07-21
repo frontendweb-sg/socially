@@ -28,6 +28,7 @@ export const AppContent = {
   setting: "Settings",
   notFound: "not found!",
   addSkill: "Add skill",
+  addDesignation: "Add designation",
   active: "Active",
   inactive: "Inactive",
 };

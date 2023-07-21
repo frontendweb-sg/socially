@@ -56,7 +56,7 @@ const DataTable = <T extends Common<T>, K extends keyof T>({
       : data;
   }, [searchKey, data]);
 
-  const heading = Object.keys((filteredData && filteredData[0]) ?? []).filter(
+  const heading = Object.keys((data && data[0]) ?? []).filter(
     (key: string) => !hideCols?.includes(key)
   );
 
@@ -65,7 +65,7 @@ const DataTable = <T extends Common<T>, K extends keyof T>({
   if (data.length === 0) return <NoData />;
 
   return (
-    <Panel className="table-responsive p-3">
+    <Panel className="p-3">
       <Box className="d-flex justify-content-between">
         <TableSearch
           placeholder="Search by title..."
@@ -83,32 +83,42 @@ const DataTable = <T extends Common<T>, K extends keyof T>({
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((row: any) => (
-            <tr key={row.id}>
-              {heading.map((key: string) =>
-                key === "active" ? (
-                  <TableCell key={key}>
-                    <FaCircle
-                      className={row[key] ? "text-success" : "text-danger"}
-                    />
+          {filteredData.length === 0 ? (
+            <>
+              <tr>
+                <td align="center" colSpan={heading.length + 1}>
+                  <NoData />
+                </td>
+              </tr>
+            </>
+          ) : (
+            filteredData.map((row: any) => (
+              <tr key={row.id}>
+                {heading.map((key: string) =>
+                  key === "active" ? (
+                    <TableCell key={key}>
+                      <FaCircle
+                        className={row[key] ? "text-success" : "text-danger"}
+                      />
+                    </TableCell>
+                  ) : (
+                    <TableCell key={key}>{row[key]}</TableCell>
+                  )
+                )}
+                {keys.length !== 0 && (
+                  <TableCell key="action">
+                    <Dropdown>
+                      {renderAction ? (
+                        renderAction(row as T)
+                      ) : (
+                        <TableActionItems row={row} handler={onHandler!} />
+                      )}
+                    </Dropdown>
                   </TableCell>
-                ) : (
-                  <TableCell key={key}>{row[key]}</TableCell>
-                )
-              )}
-              {keys.length !== 0 && (
-                <TableCell key="action">
-                  <Dropdown>
-                    {renderAction ? (
-                      renderAction(row as T)
-                    ) : (
-                      <TableActionItems row={row} handler={onHandler!} />
-                    )}
-                  </Dropdown>
-                </TableCell>
-              )}
-            </tr>
-          ))}
+                )}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </Panel>

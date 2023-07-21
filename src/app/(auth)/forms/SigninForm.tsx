@@ -1,19 +1,22 @@
 "use client";
 import Link from "next/link";
-import Form from "../controls/Form";
-import Input from "../controls/Input";
-import Button from "../controls/Button";
-import FormGroup from "../controls/FormGroup";
-import Alert from "../controls/Alert";
-import Box from "../controls/Box";
-import Typography from "../controls/Typography";
+import Form from "../../../components/controls/Form";
+import Input from "../../../components/controls/Input";
+import Button from "../../../components/controls/Button";
+import FormGroup from "../../../components/controls/FormGroup";
+import Alert from "../../../components/controls/Alert";
+import Box from "../../../components/controls/Box";
+import Typography from "../../../components/controls/Typography";
 import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import { MouseEventHandler, useContext, useState } from "react";
 import { FaKey } from "react-icons/fa";
-import { AppContext, useAppState } from "../providers/AppProvider";
-import { alertAction } from "../store/reducers/alert";
+import {
+  AppContext,
+  useAppState,
+} from "../../../components/providers/AppProvider";
+import { alertAction } from "../../../components/store/reducers/alert";
 import * as yup from "yup";
 
 const validation = yup.object().shape({

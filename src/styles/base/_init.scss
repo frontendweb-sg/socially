@@ -34,9 +34,24 @@ a {
 
 .no-data {
   width: 100%;
-  height: 450px;
+  height: 250px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.spinner {
+  animation: spin infinite 5s linear;
+
+  /*You can increase or decrease the timer (5s) to 
+   increase or decrease the speed of the spinner*/
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

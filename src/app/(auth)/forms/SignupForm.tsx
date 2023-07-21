@@ -5,19 +5,19 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler, useContext, useState } from "react";
 import Link from "next/link";
-import Form from "../controls/Form";
-import Button from "../controls/Button";
-import Input from "../controls/Input";
-import FormGroup from "../controls/FormGroup";
-import Row from "../controls/Row";
-import Col from "../controls/Col";
-import Box from "../controls/Box";
+import Form from "../../../components/controls/Form";
+import Button from "../../../components/controls/Button";
+import Input from "../../../components/controls/Input";
+import FormGroup from "../../../components/controls/FormGroup";
+import Row from "../../../components/controls/Row";
+import Col from "../../../components/controls/Col";
+import Box from "../../../components/controls/Box";
 import * as yup from "yup";
-import Typography from "../controls/Typography";
-import { AppContext } from "../providers/AppProvider";
-import { alertAction } from "../store/reducers/alert";
-import Alert from "../controls/Alert";
-import { Action, AppDispatch } from "../store";
+import Typography from "../../../components/controls/Typography";
+import { AppContext } from "../../../components/providers/AppProvider";
+import { alertAction } from "../../../components/store/reducers/alert";
+import Alert from "../../../components/controls/Alert";
+import { Action, AppDispatch } from "../../../components/store";
 
 const validation = yup.object().shape({
   name: yup.string().required("Name is required!"),

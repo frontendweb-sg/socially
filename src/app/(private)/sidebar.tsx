@@ -1,5 +1,5 @@
 "use client";
-import Signout from "@/components/auth/Signout";
+import Signout from "@/app/(auth)/forms/Signout";
 import Box from "@/components/controls/Box";
 import Typography from "@/components/controls/Typography";
 import NavItem from "@/components/layout/NavItem";

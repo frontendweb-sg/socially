@@ -19,8 +19,12 @@ export type modalRef = {
 };
 
 const Modal = forwardRef<modalRef, ModalProps>(
-  ({ label, onClose, children, className, ...rest }, ref) => {
-    const classes = classNames("modal fade show", className);
+  ({ label, size, onClose, children, className, ...rest }, ref) => {
+    const classes = classNames(
+      "modal fade show",
+      size && "modal-" + size,
+      className
+    );
     const modalRef = useRef<HTMLDivElement>(null);
 
     const { isOpen, openHandler, closeHandler } = useToggle();

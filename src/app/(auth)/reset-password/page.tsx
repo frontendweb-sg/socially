@@ -1,9 +1,9 @@
-import SigninForm from "@/components/auth/SigninForm";
+import SigninForm from "@/app/(auth)/forms/SigninForm";
 import Logo from "@/components/layout/Logo";
 import Container from "@/components/controls/Container";
 import Col from "@/components/controls/Col";
 import Typography from "@/components/controls/Typography";
-import ResetPassword from "@/components/auth/ResetPassword";
+import ResetPassword from "@/app/(auth)/forms/ResetPassword";
 
 const Page = () => {
   return (

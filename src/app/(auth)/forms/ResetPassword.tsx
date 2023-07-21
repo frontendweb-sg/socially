@@ -1,12 +1,11 @@
 "use client";
-
 import { useFormik } from "formik";
-import Form from "../controls/Form";
-import Input from "../controls/Input";
-import Button from "../controls/Button";
+import Form from "../../../components/controls/Form";
+import Input from "../../../components/controls/Input";
+import Button from "../../../components/controls/Button";
 import Link from "next/link";
-import FormGroup from "../controls/FormGroup";
-import Box from "../controls/Box";
+import FormGroup from "../../../components/controls/FormGroup";
+import Box from "../../../components/controls/Box";
 
 const ResetPassword = () => {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =

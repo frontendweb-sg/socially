@@ -1,4 +1,4 @@
-import SignupForm from "@/components/auth/SignupForm";
+import SignupForm from "@/app/(auth)/forms/SignupForm";
 import Logo from "@/components/layout/Logo";
 import Container from "@/components/controls/Container";
 import Col from "@/components/controls/Col";

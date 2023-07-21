@@ -2,14 +2,14 @@ import Button from "@/components/controls/Button";
 import Form from "@/components/controls/Form";
 import FormGroup from "@/components/controls/FormGroup";
 import Input from "@/components/controls/Input";
-import { ISkill, ISkillDoc } from "@/models/skill";
+import axios from "axios";
+import type { AxiosError } from "axios";
+import { ISkillDoc } from "@/models/skill";
 import { skillService } from "@/services/skill.service";
 import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
-import type { AxiosError } from "axios";
-import axios from "axios";
 
 const validation = yup.object().shape({
   title: yup.string().required("Skill name is required!"),

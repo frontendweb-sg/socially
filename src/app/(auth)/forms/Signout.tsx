@@ -1,6 +1,6 @@
 "use client";
 import { signOut } from "next-auth/react";
-import Button from "../controls/Button";
+import Button from "../../../components/controls/Button";
 import { AppContent } from "@/utils/content";
 import { FaSignOutAlt } from "react-icons/fa";
 

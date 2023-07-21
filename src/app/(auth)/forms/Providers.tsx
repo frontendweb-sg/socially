@@ -1,7 +1,7 @@
 "use client";
 import { signIn, getProviders } from "next-auth/react";
 import { useEffect, useState } from "react";
-import Button from "../controls/Button";
+import Button from "../../../components/controls/Button";
 
 interface Provider {
   id: string;

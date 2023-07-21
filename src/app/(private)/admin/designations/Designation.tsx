@@ -2,24 +2,22 @@
 import Button from "@/components/controls/Button";
 import Modal, { modalRef } from "@/components/controls/Modal";
 import Title from "@/components/controls/Title";
-import SkillForm from "./SkillForm";
+import DesignationForm from "./DesignationForm";
 import Skeleton from "@/components/controls/Skeleton";
 import DataTable from "@/components/controls/DataTable";
 import NoData from "@/components/controls/DataTable/NoData";
+import { useAppState } from "@/components/providers/AppProvider";
+import { IDesignationDoc } from "@/models/designation";
 import { AppContent } from "@/utils/content";
 import { Suspense, useRef } from "react";
-import { ISkillDoc } from "@/models/skill";
 import { Status } from "@/utils/types";
-import { useAppState } from "@/components/providers/AppProvider";
-import { deleteSkill } from "@/lib/skill";
 
-/**
- * Skill component
- * @param param0
- * @returns
- */
-export const Skill = ({ data }: { data: ISkillDoc[] | undefined }) => {
+type DesignationProps = {
+  data: IDesignationDoc[];
+};
+const Designation = ({ data }: DesignationProps) => {
   const modalRef = useRef<modalRef>(null);
+
   const { state, editHandler, resetEditing, onConfirm, onCancelConfirm } =
     useAppState();
   const { editData } = state;
@@ -29,7 +27,7 @@ export const Skill = ({ data }: { data: ISkillDoc[] | undefined }) => {
    * @param status
    * @param data
    */
-  const handler = (status: Status, data: ISkillDoc) => {
+  const handler = (status: Status, data: IDesignationDoc) => {
     switch (status) {
       case "edit":
         modalRef.current?.openHandler();
@@ -43,7 +41,6 @@ export const Skill = ({ data }: { data: ISkillDoc[] | undefined }) => {
         onConfirm({
           open: true,
           async onSubmit() {
-            await deleteSkill(data.id);
             onCancelConfirm();
           },
         });
@@ -55,9 +52,9 @@ export const Skill = ({ data }: { data: ISkillDoc[] | undefined }) => {
 
   return (
     <>
-      <Title label="Skill" sublabel="Welcome to skill page">
+      <Title label="Designation" sublabel="Welcome to designation page">
         <Button onClick={() => modalRef.current?.openHandler()}>
-          {AppContent.addSkill}
+          {AppContent.addDesignation}
         </Button>
       </Title>
       <Suspense fallback={<Skeleton />}>
@@ -72,8 +69,8 @@ export const Skill = ({ data }: { data: ISkillDoc[] | undefined }) => {
         )}
       </Suspense>
       <Modal ref={modalRef} label="Add skill">
-        <SkillForm
-          skill={editData}
+        <DesignationForm
+          designation={editData}
           onClose={() => {
             modalRef.current?.closeHandler();
             resetEditing();
@@ -83,3 +80,5 @@ export const Skill = ({ data }: { data: ISkillDoc[] | undefined }) => {
     </>
   );
 };
+
+export default Designation;

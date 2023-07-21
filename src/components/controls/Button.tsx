@@ -85,7 +85,7 @@ const Button = forwardRef<buttonRef, ButtonProps>(
         disabled={disabled || loading}
         {...rest}
       >
-        {loading && !loading ? <FaSpinner className="me-2" /> : null}
+        {loading ? <FaSpinner className="me-2 spinner" /> : null}
         {children}
       </button>
     );
