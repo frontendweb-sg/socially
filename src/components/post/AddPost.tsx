@@ -11,9 +11,16 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppContent } from "@/utils/content";
 import { useAppState } from "../providers/AppProvider";
+import TagCreator from "../controls/TagCreator";
 
 type AddPostProps = {
   cookie: any;
+};
+
+type Option = {
+  id: string;
+  label: string;
+  title: string;
 };
 
 const AddPost = ({ cookie }: AddPostProps) => {
@@ -123,6 +130,17 @@ const AddPost = ({ cookie }: AddPostProps) => {
             touched={touched}
             onBlur={handleBlur}
             onChange={handleChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <TagCreator
+            options={[
+              { id: "1", a: "Jhon", title: "Doe" },
+              { id: "2", a: "Jona", title: "Doe" },
+              { id: "3", a: "Jhonney", title: "Doe" },
+            ]}
+            values={[{ id: "1", a: "Jhon", title: "Doe" }]}
+            getOptionLabel={(option) => option.title}
           />
         </FormGroup>
         <Box className="d-flex align-items-center justify-content-end">
