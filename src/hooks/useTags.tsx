@@ -9,18 +9,19 @@ import {
 import useToggle from "./useToggle";
 import { useClickOutside } from "./useClickOutside";
 import { devEnv } from "@/lib/devEnv";
+import { getKeyByValue } from "@/utils";
 
 export default function useTags<T extends unknown>({
   options,
   defaultValues,
   getOptionLabel,
   keyExtractor,
+  setValues,
 }: SelectProps<T>) {
   const tagRef = useRef<HTMLDivElement>(null);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [inputValue, setInputValue] = useState<string>("");
-  const [selectedItems, setSelectedItems] = useState<T[]>(defaultValues!);
 
   const { closeHandler, isOpen, openHandler } = useToggle();
 
@@ -32,12 +33,13 @@ export default function useTags<T extends unknown>({
   };
 
   const filteredOptions = useMemo(() => {
-    setCurrentIndex(0);
+    if (inputValue.length) setCurrentIndex(0);
     return inputValue
-      ? options.filter((value: T) => {
-          let filter = getOptionLabel?.(value);
-          if (keyExtractor?.(value)) {
-            filter = value[keyExtractor?.(value) as keyof T];
+      ? options.filter((item: T) => {
+          let filter = getOptionLabel?.(item);
+          const key = getKeyByValue(item, keyExtractor?.(item)!);
+          if (key) {
+            filter = item[key as keyof T];
           }
           return filter?.toLowerCase().includes(inputValue.toLowerCase());
         })
@@ -46,35 +48,45 @@ export default function useTags<T extends unknown>({
 
   const onRemoveItem = useCallback(
     (item: T) => {
-      const items = [...selectedItems];
+      const items = [...defaultValues!];
       const filterItems = items.filter(
         (row: T) => getOptionLabel?.(row) !== getOptionLabel?.(item)
       );
-      setSelectedItems(filterItems);
+      setValues?.("tags", filterItems);
     },
-    [selectedItems, getOptionLabel]
+    [setValues, defaultValues, getOptionLabel]
   );
 
   const addItem = useCallback(
     (value?: T) => {
-      const itemExist = selectedItems?.find(
+      const itemExist = defaultValues?.find(
         (item: T) => getOptionLabel?.(item) === getOptionLabel?.(value!)
       );
       if (itemExist) {
         onRemoveItem(itemExist);
       } else {
         if (value) {
-          setSelectedItems((prev: T[]) => [...prev, value]);
+          setValues?.("tags", [...defaultValues!, value]);
         } else {
           const newItem = {
             id: Math.floor(Math.random() * 100 + 1),
-            title: inputValue,
+            [getKeyByValue(options[0], getOptionLabel?.(value!)!) ?? "label"]:
+              inputValue,
           } as unknown as T;
-          setSelectedItems((prev: T[]) => [...prev, newItem]);
+
+          console.log("HI");
+          setValues?.("tags", [...defaultValues!, newItem]);
         }
       }
     },
-    [inputValue, getOptionLabel, onRemoveItem, selectedItems]
+    [
+      inputValue,
+      getOptionLabel,
+      options,
+      onRemoveItem,
+      setValues,
+      defaultValues,
+    ]
   );
 
   const handlerDown = useCallback(
@@ -142,7 +154,6 @@ export default function useTags<T extends unknown>({
     isOpen,
     currentIndex,
     inputValue,
-    selectedItems,
     filteredOptions,
     openHandler,
     handleChange,

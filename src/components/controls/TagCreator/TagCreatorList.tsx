@@ -7,6 +7,7 @@ type Props<T> = SelectProps<T> &
   React.HtmlHTMLAttributes<HTMLDivElement> & {
     currentIndex: number;
     selectedItems: T[];
+    addItem: (option: T) => void;
   };
 
 const TagCreatorList = <T extends unknown>({
@@ -16,6 +17,7 @@ const TagCreatorList = <T extends unknown>({
   children,
   className,
   selectedItems,
+  addItem,
   ...rest
 }: Props<T>) => {
   const classes = classNames("tags-menu", className);
@@ -24,7 +26,11 @@ const TagCreatorList = <T extends unknown>({
       <ul className="tags-list">
         {options.length ? (
           options.map((row: T, index: number) => (
-            <li key={index} className={currentIndex === index ? "active" : ""}>
+            <li
+              onClick={() => addItem(row)}
+              key={index}
+              className={currentIndex === index ? "active" : ""}
+            >
               {selectedItems.find(
                 (item) => getOptionLabel?.(item) === getOptionLabel?.(row)
               ) ? (

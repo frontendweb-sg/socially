@@ -1,35 +1,31 @@
 "use client";
-import Form from "../controls/Form";
-import FormGroup from "../controls/FormGroup";
-import Input from "../controls/Input";
-import Textarea from "../controls/Textarea";
-import Button from "../controls/Button";
-import Panel from "../controls/Panel";
-import Box from "../controls/Box";
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import Form from "../controls/Form";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { postService } from "@/services/post.service";
+import Panel from "../controls/Panel";
 import { AppContent } from "@/utils/content";
-import { useAppState } from "../providers/AppProvider";
+import FormGroup from "../controls/FormGroup";
+import Textarea from "../controls/Textarea";
 import TagCreator from "../controls/TagCreator";
+import Box from "../controls/Box";
+import Button from "../controls/Button";
+import { useAppState } from "../providers/AppProvider";
 
-type AddPostProps = {
+/**
+ * Add post
+ * @returns
+ */
+
+type Props = {
   cookie: any;
 };
-
-type Option = {
-  id: string;
-  label: string;
-  title: string;
-};
-
-const AddPost = ({ cookie }: AddPostProps) => {
+const AddPost = ({ cookie }: Props) => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const { state, resetEditing } = useAppState();
+  const { state, resetEditing, dispatch } = useAppState();
   const { editData } = state;
 
   const {
@@ -40,44 +36,29 @@ const AddPost = ({ cookie }: AddPostProps) => {
     handleChange,
     handleSubmit,
     setValues,
+    setFieldValue,
   } = useFormik({
-    initialValues: {
-      id: "",
-      title: "",
-      slug: "",
-      description: "",
-      image: "",
-      active: true,
-      isFeature: false,
-      isRecent: false,
-      comments: [],
-    },
-    async onSubmit(values, { resetForm }) {
-      setLoading(true);
-      setError("");
+    initialValues: editData ?? postService.getIntialData(),
+    async onSubmit(values, { resetForm, setSubmitting }) {
+      console.log(values);
 
-      const url = values.id ? "/post/" + values.id : "/post";
+      // setLoading(true);
 
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
-        method: values.id ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `${cookie}`,
-        },
-        body: JSON.stringify(values),
-      });
-      const data = await response.json();
+      // let response = null;
+      // if (values.id) {
+      //   response = await postService.update(values as any);
+      // } else {
+      //   response = await postService.add(values);
+      // }
 
-      if (data?.errors) {
-        setError(data.errors.message);
-      }
+      // const data = response.data;
 
-      if (response.statusText === "OK") {
-        resetForm();
-        router.refresh();
-      }
+      // if (response.statusText === "OK") {
+      //   resetForm();
+      //   router.refresh();
+      // }
 
-      setLoading(false);
+      // setLoading(false);
     },
   });
 
@@ -85,64 +66,38 @@ const AddPost = ({ cookie }: AddPostProps) => {
     resetEditing();
   };
 
-  useEffect(() => {
-    if (editData) {
-      setValues((prev) => ({ ...prev, ...editData }));
-    }
-  }, [editData, setValues]);
-
   return (
     <Panel className="card-post mb-3">
       <Panel.Title>{AppContent.addPost}</Panel.Title>
+      {loading && (
+        <p>Please wait post {values.id ? "updating..." : "saving..."}</p>
+      )}
       <Form onSubmit={handleSubmit}>
-        {error && <p>{error}</p>}
-        {loading && (
-          <p>Please wait post {values.id ? "updating..." : "saving..."}</p>
-        )}
-        <FormGroup>
-          <Input
-            name="title"
-            value={values.title}
-            placeholder="Title"
-            errors={errors}
-            touched={touched}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />{" "}
-        </FormGroup>
         <FormGroup>
           <Textarea
-            name="description"
-            value={values.description}
-            placeholder="Description"
+            name="content"
+            value={values.content}
+            placeholder="Status"
             errors={errors}
             touched={touched}
             onBlur={handleBlur}
             onChange={handleChange}
           />
         </FormGroup>
-        <FormGroup>
-          <Input
-            name="image"
-            value={values.image}
-            placeholder="Image url"
-            errors={errors}
-            touched={touched}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />
-        </FormGroup>
+
         <FormGroup>
           <TagCreator
             options={[
-              { id: "1", label: "Html", title: "Html" },
-              { id: "2", label: "Css", title: "Css" },
-              { id: "3", label: "Js", title: "Js" },
+              { id: "1", label: "Html" },
+              { id: "2", label: "Css" },
+              { id: "3", label: "Js" },
             ]}
-            defaultValues={[{ id: "1", label: "Html", title: "Html" }]}
-            getOptionLabel={(option) => option?.title}
+            defaultValues={values.tags}
+            getOptionLabel={(option) => option?.label}
+            setValues={setFieldValue}
           />
         </FormGroup>
+
         <Box className="d-flex align-items-center justify-content-end">
           <Button className="me-3" color="secondary" onClick={cancelHandler}>
             {AppContent.cancel}
