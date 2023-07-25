@@ -7,3 +7,10 @@ declare module NodeJS {
     GITHUB_CLIENT_SECRET: string;
   }
 }
+
+interface SelectProps<T> {
+  options: T[];
+  defaultValues?: T[];
+  keyExtractor?: (option: T) => string;
+  getOptionLabel?: (option: T) => string;
+}

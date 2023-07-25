@@ -139,7 +139,7 @@ const AddPost = ({ cookie }: AddPostProps) => {
               { id: "2", label: "Css", title: "Css" },
               { id: "3", label: "Js", title: "Js" },
             ]}
-            values={[{ id: "1", label: "Html", title: "Html" }]}
+            defaultValues={[{ id: "1", label: "Html", title: "Html" }]}
             getOptionLabel={(option) => option?.title}
           />
         </FormGroup>

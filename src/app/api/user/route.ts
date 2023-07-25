@@ -10,6 +10,8 @@ import { admin } from "../middleware/admin";
  * @param req
  * @returns
  */
+
+export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   try {
     await connectDb();
