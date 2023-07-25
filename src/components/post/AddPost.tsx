@@ -135,12 +135,12 @@ const AddPost = ({ cookie }: AddPostProps) => {
         <FormGroup>
           <TagCreator
             options={[
-              { id: "1", a: "Jhon", title: "Doe" },
-              { id: "2", a: "Jona", title: "Doe" },
-              { id: "3", a: "Jhonney", title: "Doe" },
+              { id: "1", label: "Html", title: "Html" },
+              { id: "2", label: "Css", title: "Css" },
+              { id: "3", label: "Js", title: "Js" },
             ]}
-            values={[{ id: "1", a: "Jhon", title: "Doe" }]}
-            getOptionLabel={(option) => option.title}
+            values={[{ id: "1", label: "Html", title: "Html" }]}
+            getOptionLabel={(option) => option?.title}
           />
         </FormGroup>
         <Box className="d-flex align-items-center justify-content-end">

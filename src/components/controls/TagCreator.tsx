@@ -58,24 +58,40 @@ const TagCreator = <T extends Readonly<T>>({
       : options;
   }, [inputValue, getOptionLabel, options]);
 
+  const onRemoveItem = useCallback(
+    (item: T) => {
+      const items = [...tags];
+      const filterItems = items.filter(
+        (row: T) => getOptionLabel?.(row) !== getOptionLabel?.(item)
+      );
+      setTags(filterItems);
+    },
+    [tags, getOptionLabel]
+  );
+
   const addItem = useCallback(
     (value?: T) => {
       const itemExist = tags?.find(
         (item: T) => getOptionLabel?.(item) === getOptionLabel?.(value!)
       );
+      console.log("item", itemExist);
       if (itemExist) {
-        console.log("HI", itemExist);
+        onRemoveItem(itemExist);
       } else {
-        const newItem = {
-          id: Math.floor(Math.random() * 100 + 1),
-          title: inputValue,
-        } as unknown as T;
-        setTags((prev: T[]) => [...prev, newItem]);
+        if (value) {
+          setTags((prev: T[]) => [...prev, value]);
+        } else {
+          const newItem = {
+            id: Math.floor(Math.random() * 100 + 1),
+            title: inputValue,
+          } as unknown as T;
+          setTags((prev: T[]) => [...prev, newItem]);
+        }
       }
     },
-    [inputValue, getOptionLabel, tags]
+    [inputValue, getOptionLabel, onRemoveItem, tags]
   );
-
+  console.log("tags", tags);
   const handlerDown = useCallback(
     (len: number) => {
       openHandler();
@@ -116,7 +132,7 @@ const TagCreator = <T extends Readonly<T>>({
             (_v, index) => index === currentIndex
           );
           if (exist) {
-            console.log(exist);
+            addItem(exist);
           } else {
             addItem();
           }
@@ -138,7 +154,7 @@ const TagCreator = <T extends Readonly<T>>({
       currentIndex,
     ]
   );
-  console.log("HI");
+
   return (
     <Box ref={tagRef} className={classes} onKeyDown={handler}>
       <ul>
@@ -174,22 +190,21 @@ const TagCreatorDropdown = <T extends unknown>({
   currentIndex = 0,
   getOptionLabel,
   children,
+  className,
   ...rest
 }: creatorDropdownProps<T>) => {
+  const classes = classNames("tags-menu", className);
   return (
-    <Box>
-      <ul className="dropdown">
+    <Box className={classes} {...rest}>
+      <ul className="tags-list">
         {options.length ? (
           options.map((row: T, index: number) => (
-            <li
-              style={{ color: currentIndex === index ? "red" : "grey" }}
-              key={index}
-            >
+            <li key={index} className={currentIndex === index ? "active" : ""}>
               {getOptionLabel?.(row)}
             </li>
           ))
         ) : (
-          <li style={{ color: "green" }}>Create new tag</li>
+          <li style={{ color: "green" }}>Create (new tag)</li>
         )}
       </ul>
     </Box>
