@@ -5,6 +5,7 @@ import Box from "./Box";
 import Select from "./Select";
 import Button from "./Button";
 import { FaEye } from "react-icons/fa";
+import FileUpload from "./FileUpload";
 
 type Props = EditorProps & {};
 
@@ -42,9 +43,12 @@ const CodeEditor = ({
           onChange={onChange}
           className="w-25"
         />
-        <Button onClick={changeTheme}>
-          <FaEye />
-        </Button>
+        <Box className="d-flex align-items-center">
+          <FileUpload />
+          <Button className="ms-2" onClick={changeTheme}>
+            <FaEye />
+          </Button>
+        </Box>
       </Box>
       <Editor
         theme={`vs-${theme}`}
