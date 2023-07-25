@@ -10,7 +10,7 @@ declare module NodeJS {
 
 interface SelectProps<T> {
   options: T[];
-  defaultValues?: T[];
+  defaultValues?: string | T | T[];
   keyExtractor?: (option: T) => string;
   getOptionLabel?: (option: T) => string;
   setValues?: (name: string, option: T | T[]) => void;

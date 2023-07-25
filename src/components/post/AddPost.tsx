@@ -2,16 +2,20 @@
 import { useFormik } from "formik";
 import Form from "../controls/Form";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { postService } from "@/services/post.service";
 import Panel from "../controls/Panel";
-import { AppContent } from "@/utils/content";
+import { AppContent, PostPrivacy } from "@/utils/content";
 import FormGroup from "../controls/FormGroup";
 import Textarea from "../controls/Textarea";
 import TagCreator from "../controls/TagCreator";
 import Box from "../controls/Box";
 import Button from "../controls/Button";
 import { useAppState } from "../providers/AppProvider";
+import { FaCode } from "react-icons/fa";
+import Modal, { modalRef } from "../controls/Modal";
+import CodeEditor from "../controls/CodeEditor";
+import Select from "../controls/Select";
 
 /**
  * Add post
@@ -27,6 +31,8 @@ const AddPost = ({ cookie }: Props) => {
 
   const { state, resetEditing, dispatch } = useAppState();
   const { editData } = state;
+
+  const codeModalRef = useRef<modalRef>(null);
 
   const {
     values,
@@ -98,15 +104,36 @@ const AddPost = ({ cookie }: Props) => {
           />
         </FormGroup>
 
-        <Box className="d-flex align-items-center justify-content-end">
-          <Button className="me-3" color="secondary" onClick={cancelHandler}>
-            {AppContent.cancel}
+        <FormGroup>
+          <Button as="icon" onClick={() => codeModalRef.current?.openHandler()}>
+            <FaCode />
           </Button>
-          <Button disabled={loading} type="submit">
-            {loading ? "loading..." : values.id ? "Update" : "Add"}
-          </Button>
+        </FormGroup>
+
+        <Box className="post-footer d-flex align-items-center justify-content-between">
+          <Select
+            name="privacy"
+            defaultValue={values.privacy}
+            setValues={setFieldValue}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className="w-25"
+            options={PostPrivacy}
+          />
+          <Box className="d-flex ms-3">
+            <Button className="me-3" color="secondary" onClick={cancelHandler}>
+              {AppContent.cancel}
+            </Button>
+            <Button disabled={loading} type="submit">
+              {loading ? "loading..." : values.id ? "Update" : "Add"}
+            </Button>
+          </Box>
         </Box>
       </Form>
+
+      <Modal ref={codeModalRef} label="Add code">
+        <CodeEditor />
+      </Modal>
     </Panel>
   );
 };

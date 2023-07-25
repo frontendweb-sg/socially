@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.5.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/lodash": "^4.14.195",
@@ -19,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.0",
     "classnames": "^2.3.2",
+    "date-fns": "^2.30.0",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
     "formik": "^2.4.2",

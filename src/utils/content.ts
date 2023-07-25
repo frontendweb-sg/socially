@@ -32,3 +32,9 @@ export const AppContent = {
   active: "Active",
   inactive: "Inactive",
 };
+
+export const PostPrivacy = [
+  { id: 1, label: "public" },
+  { id: 2, label: "private" },
+  { id: 3, label: "friends" },
+];

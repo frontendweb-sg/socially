@@ -25,6 +25,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 const Button = forwardRef<buttonRef, ButtonProps>(
   (
     {
+      type = "button",
       as = "button",
       variant = "filled",
       children,
@@ -81,6 +82,7 @@ const Button = forwardRef<buttonRef, ButtonProps>(
     return (
       <button
         ref={ref}
+        type={type}
         className={classes}
         disabled={disabled || loading}
         {...rest}
