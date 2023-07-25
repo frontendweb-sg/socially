@@ -1,0 +1,27 @@
+.upload {
+  position: relative;
+  input[type="file"] {
+    position: absolute;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }
+  .preview {
+    display: flex;
+    align-items: center;
+    &-item {
+      width: 60px;
+      height: 60px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid $gray-200;
+      padding: 5px;
+      margin-right: 5px;
+      border-radius: 5px;
+    }
+  }
+  &-icon {
+  }
+  &-card {
+  }
+}

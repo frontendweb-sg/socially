@@ -16,6 +16,7 @@ import { FaCode } from "react-icons/fa";
 import Modal, { modalRef } from "../controls/Modal";
 import CodeEditor from "../controls/CodeEditor";
 import Select from "../controls/Select";
+import FileUpload from "../controls/FileUpload";
 
 /**
  * Add post
@@ -105,6 +106,7 @@ const AddPost = ({ cookie }: Props) => {
         </FormGroup>
 
         <FormGroup>
+          <FileUpload multiple />
           <Button as="icon" onClick={() => codeModalRef.current?.openHandler()}>
             <FaCode />
           </Button>
