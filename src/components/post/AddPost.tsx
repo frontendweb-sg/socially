@@ -19,6 +19,8 @@ import Select from "../controls/Select";
 import FileUpload from "../controls/Uploader/FileUpload";
 import Upload from "../controls/Uploader/Upload";
 import MediaDisplay from "../controls/Uploader/MediaDisplay";
+import Col from "../controls/Col";
+import Row from "../controls/Row";
 
 /**
  * Add post
@@ -49,6 +51,7 @@ const AddPost = ({ cookie }: Props) => {
   } = useFormik({
     initialValues: editData ?? postService.getIntialData(),
     async onSubmit(values, { resetForm, setSubmitting }) {
+      values.tags = values.tags.map((tag) => tag.label);
       console.log(values);
 
       // setLoading(true);
@@ -102,31 +105,47 @@ const AddPost = ({ cookie }: Props) => {
           />
         </FormGroup>
 
-        <FormGroup>
-          <TagCreator
-            options={[
-              { id: "1", label: "Html" },
-              { id: "2", label: "Css" },
-              { id: "3", label: "Js" },
-            ]}
-            defaultValues={values.tags}
-            getOptionLabel={(option) => option?.label}
-            setValues={setFieldValue}
-          />
-        </FormGroup>
+        <Row>
+          <Col>
+            <FormGroup>
+              <Box>
+                <MediaDisplay
+                  name="media"
+                  media={values.media}
+                  setValues={setFieldValue}
+                />
+                <Upload
+                  accept=""
+                  multiple
+                  name="media"
+                  setValues={setFieldValue}
+                />
+              </Box>
+              <Button
+                as="icon"
+                onClick={() => codeModalRef.current?.openHandler()}
+              >
+                <FaCode />
+              </Button>
+            </FormGroup>
+          </Col>
+          <Col>
+            <FormGroup>
+              <TagCreator
+                options={[
+                  { id: "1", label: "Html" },
+                  { id: "2", label: "Css" },
+                  { id: "3", label: "Js" },
+                ]}
+                defaultValues={values.tags}
+                getOptionLabel={(option) => option?.label}
+                setValues={setFieldValue}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
 
-        <FormGroup>
-          <MediaDisplay
-            name="media"
-            media={values.media}
-            setValues={setFieldValue}
-          />
-          <Upload accept="" multiple name="media" setValues={setFieldValue} />
-          <Button as="icon" onClick={() => codeModalRef.current?.openHandler()}>
-            <FaCode />
-          </Button>
-        </FormGroup>
-
+        <hr />
         <Box className="post-footer d-flex align-items-center justify-content-between">
           <Select
             name="privacy"

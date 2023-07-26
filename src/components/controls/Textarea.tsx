@@ -15,7 +15,7 @@ const Textarea: FC<ITextareaProps> = ({
   name,
   value,
   cols,
-  rows = 5,
+  rows = 3,
   errors,
   touched,
   startIcon,
