@@ -2,7 +2,7 @@
 import { useFormik } from "formik";
 import Form from "../controls/Form";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { postService } from "@/services/post.service";
 import Panel from "../controls/Panel";
 import { AppContent, PostPrivacy } from "@/utils/content";
@@ -16,7 +16,9 @@ import { FaCode } from "react-icons/fa";
 import Modal, { modalRef } from "../controls/Modal";
 import CodeEditor from "../controls/CodeEditor";
 import Select from "../controls/Select";
-import FileUpload from "../controls/FileUpload";
+import FileUpload from "../controls/Uploader/FileUpload";
+import Upload from "../controls/Uploader/Upload";
+import MediaDisplay from "../controls/Uploader/MediaDisplay";
 
 /**
  * Add post
@@ -106,7 +108,13 @@ const AddPost = ({ cookie }: Props) => {
         </FormGroup>
 
         <FormGroup>
-          <FileUpload multiple />
+          <MediaDisplay
+            name="media"
+            media={values.media}
+            setValues={setFieldValue}
+          />
+          <Upload accept="" multiple name="media" setValues={setFieldValue} />
+
           <Button as="icon" onClick={() => codeModalRef.current?.openHandler()}>
             <FaCode />
           </Button>
@@ -134,7 +142,7 @@ const AddPost = ({ cookie }: Props) => {
       </Form>
 
       <Modal ref={codeModalRef} label="Add code">
-        <CodeEditor />
+        <CodeEditor value={values.code} name="code" />
       </Modal>
     </Panel>
   );

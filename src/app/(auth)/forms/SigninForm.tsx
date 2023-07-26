@@ -109,7 +109,7 @@ const SigninForm = () => {
           <FaKey className="me-2" /> {AppContent.forgotPassword}
         </Link>
       </FormGroup>
-      <Button>{AppContent.signIn}</Button>
+      <Button type="submit">{AppContent.signIn}</Button>
     </Form>
   );
 };

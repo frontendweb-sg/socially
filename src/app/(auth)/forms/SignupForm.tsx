@@ -1,9 +1,4 @@
 "use client";
-import { signup } from "@/lib/auth";
-import { AppContent } from "@/utils/content";
-import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
-import { MouseEventHandler, useContext, useState } from "react";
 import Link from "next/link";
 import Form from "../../../components/controls/Form";
 import Button from "../../../components/controls/Button";
@@ -12,12 +7,16 @@ import FormGroup from "../../../components/controls/FormGroup";
 import Row from "../../../components/controls/Row";
 import Col from "../../../components/controls/Col";
 import Box from "../../../components/controls/Box";
-import * as yup from "yup";
+import Alert from "../../../components/controls/Alert";
 import Typography from "../../../components/controls/Typography";
+import * as yup from "yup";
+import { signup } from "@/lib/auth";
+import { AppContent } from "@/utils/content";
+import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import { MouseEventHandler, useContext, useState } from "react";
 import { AppContext } from "../../../components/providers/AppProvider";
 import { alertAction } from "../../../components/store/reducers/alert";
-import Alert from "../../../components/controls/Alert";
-import { Action, AppDispatch } from "../../../components/store";
 
 const validation = yup.object().shape({
   name: yup.string().required("Name is required!"),

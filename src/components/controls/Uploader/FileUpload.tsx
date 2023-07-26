@@ -1,5 +1,5 @@
-import Box from "./Box";
-import Button from "./Button";
+import Box from "../Box";
+import Button from "../Button";
 import classNames from "classnames";
 import Image from "next/image";
 import { FaUpload } from "react-icons/fa";
@@ -80,9 +80,9 @@ const FileUpload = forwardRef<fileRef, Props>(
       return (
         <Box className={classes}>
           {error}
-          <Box className="preview">
+          <Box className="upload-media">
             {media.map((file: string) => (
-              <Box className="preview-item" key={file}>
+              <Box className="upload-media-item" key={file}>
                 <Image fill src={file} alt={file} />
               </Box>
             ))}

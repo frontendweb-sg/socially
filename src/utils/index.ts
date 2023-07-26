@@ -1,3 +1,5 @@
+import { SetStateAction } from "react";
+
 export const getKeyByValue = <T extends unknown, K extends string>(
   object: T,
   value: K
@@ -11,9 +13,11 @@ export const toBase64 = (file: Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
 
-    fileReader.onload = () => {
+    fileReader.onload = (e) => {
       resolve(fileReader.result as string);
     };
+
+    fileReader.onprogress = (ev) => {};
 
     fileReader.readAsDataURL(file);
 

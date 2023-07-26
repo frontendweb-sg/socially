@@ -7,7 +7,7 @@ const PostImage = ({ src, alt, className, ...rest }: PostImageProps) => {
   const classes = classNames("post-image", className);
   return (
     <figure className={classes}>
-      <Image src={src} alt={alt} {...rest} />
+      <Image priority={false} src={src} alt={alt} {...rest} />
       <figcaption></figcaption>
     </figure>
   );

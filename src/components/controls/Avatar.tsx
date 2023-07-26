@@ -39,6 +39,7 @@ const Avatar: FC<IAvatarProps> = ({
 
   let imageEl = (
     <Image
+      priority={false}
       src={"/avatar.png"}
       alt={alt! || "avatar"}
       width={size}

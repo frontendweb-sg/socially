@@ -14,7 +14,7 @@ class PostService {
       id: 0,
       user: "",
       content: "",
-      code: "",
+      code: ".css",
       privacy: "friends",
       active: true,
       shares: 0,
