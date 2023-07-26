@@ -15,3 +15,14 @@ interface SelectProps<T> {
   getOptionLabel?: (option: T) => string;
   setValues?: (name: string, option: T | T[]) => void;
 }
+
+type Extention = {
+  html: ".html";
+  javascript: ".js,.jsx";
+  typescript: ".ts,.tsx";
+  css: ".css";
+  scss: ".scss";
+  json: ".json";
+  php: ".php";
+  java: ".java";
+};

@@ -1,94 +1,120 @@
 "use client";
-import Editor, { type EditorProps } from "@monaco-editor/react";
+import Editor, { type EditorProps, type Monaco } from "@monaco-editor/react";
 import Box from "./Box";
 import Select from "./Select";
 import Button from "./Button";
 import Upload from "./Uploader/Upload";
-import { useState } from "react";
+import {
+  forwardRef,
+  memo,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { FaEye } from "react-icons/fa";
+import { type editor } from "monaco-editor";
+import { Extensions, Languages } from "@/utils/content";
 
 type Props = EditorProps & {
   name: string;
+  setFieldValue?: (name: string, data: string, event?: any) => void;
 };
 
-const LANGUAGES = [
-  { id: 1, label: "html" },
-  { id: 2, label: "css" },
-  { id: 3, label: "javascript" },
-  { id: 4, label: "scss" },
-  { id: 5, label: "typescript" },
-  { id: 6, label: "json" },
-];
-
-const ext = {
-  html: ".html",
-  css: ".css",
-  javascript: ".js,.jsx",
-  typescript: ".tsx,.ts",
-  json: ".json",
-  scss: ".scss",
+type editorRefs = {
+  monacoRef: React.Ref<Monaco>;
+  editorRef: React.Ref<editor.IStandaloneCodeEditor>;
 };
 
-const CodeEditor = ({
-  height = "50vh",
-  defaultLanguage = "css",
-  value,
-  name,
-  onChange,
-  ...rest
-}: Props) => {
-  const [content, setContent] = useState<string>(value!);
-  const [language, setLanguage] = useState(defaultLanguage);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+const CodeEditor = forwardRef<editorRefs, Props>(
+  (
+    {
+      height = "50vh",
+      defaultLanguage = "css",
+      value,
+      name,
+      setFieldValue,
+      ...rest
+    },
+    ref
+  ) => {
+    const [content, setContent] = useState<string>(value!);
+    const [editorEvent, setEditorEvent] =
+      useState<editor.IModelContentChangedEvent | null>(null);
+    const [language, setLanguage] = useState(defaultLanguage);
+    const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  // change theme
-  const changeTheme = () =>
-    setTheme((theme) => (theme === "light" ? "dark" : "light"));
+    const monacoRef = useRef<Monaco | null>(null);
+    const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
-  // change language
-  const changeLanguage = (ev: React.ChangeEvent<HTMLSelectElement>) => {
-    setContent("");
-    setLanguage(ev.target.value);
-  };
+    useImperativeHandle(ref, () => ({ editorRef, monacoRef }));
 
-  const loadFile = (name: string, files: File[]) => {
-    const reader = new FileReader();
-    reader.onload = () => setContent(reader.result as string);
-    reader.readAsText(files[0]);
-  };
+    function handleEditorDidMount(
+      editor: editor.IStandaloneCodeEditor,
+      monaco: Monaco
+    ) {
+      editorRef.current = editor;
+    }
+    // change theme
+    const changeTheme = () =>
+      setTheme((theme) => (theme === "light" ? "dark" : "light"));
 
-  const changeHandler = (value: any) => {};
+    // change language
+    const changeLanguage = (ev: React.ChangeEvent<HTMLSelectElement>) => {
+      setContent("");
+      setLanguage(ev.target.value);
+    };
 
-  return (
-    <Box>
-      <Box className="d-flex mb-3 align-items-center justify-content-between">
-        <Select
-          options={LANGUAGES}
-          value={language}
-          onChange={changeLanguage}
-          className="w-25"
-        />
-        <Box className="d-flex align-items-center">
-          <Upload
-            setValues={loadFile}
-            name="code"
-            accept={ext[language as keyof typeof ext]}
+    const loadFile = (name: string, files: File[]) => {
+      const reader = new FileReader();
+      reader.onload = () => setContent(reader.result as string);
+      reader.readAsText(files[0]);
+    };
+
+    const changeHandler = (
+      value: string | undefined,
+      ev: editor.IModelContentChangedEvent
+    ) => {
+      setContent(value!);
+      setEditorEvent(ev);
+    };
+
+    useEffect(() => {
+      setFieldValue?.(name, content, editorEvent);
+    }, [content, name, editorEvent, setFieldValue]);
+
+    return (
+      <Box>
+        <Box className="d-flex mb-3 align-items-center justify-content-between">
+          <Select
+            options={Languages}
+            value={language}
+            onChange={changeLanguage}
+            className="w-25"
           />
-          <Button className="ms-2" onClick={changeTheme}>
-            <FaEye />
-          </Button>
+          <Box className="d-flex align-items-center">
+            <Upload
+              setValues={loadFile}
+              name="code"
+              accept={Extensions[language as keyof typeof Extensions]}
+            />
+            <Button className="ms-2" onClick={changeTheme}>
+              <FaEye />
+            </Button>
+          </Box>
         </Box>
+        <Editor
+          theme={`vs-${theme}`}
+          language={language}
+          height={height}
+          value={content}
+          onChange={changeHandler}
+          onMount={handleEditorDidMount}
+          {...rest}
+        />
       </Box>
-      <Editor
-        theme={`vs-${theme}`}
-        language={language}
-        height={height}
-        value={content}
-        onChange={changeHandler}
-        {...rest}
-      />
-    </Box>
-  );
-};
+    );
+  }
+);
 
-export default CodeEditor;
+export default memo(CodeEditor) as typeof CodeEditor;

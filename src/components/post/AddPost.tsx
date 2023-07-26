@@ -75,6 +75,14 @@ const AddPost = ({ cookie }: Props) => {
     resetEditing();
   };
 
+  const onCodeEditorChange = (value: any) => {
+    setFieldValue("code", value);
+  };
+  function handleEditorChange(value: any, event: any) {
+    console.log("here is the current model value:", event);
+    setFieldValue("code", value);
+  }
+
   return (
     <Panel className="card-post mb-3">
       <Panel.Title>{AppContent.addPost}</Panel.Title>
@@ -114,7 +122,6 @@ const AddPost = ({ cookie }: Props) => {
             setValues={setFieldValue}
           />
           <Upload accept="" multiple name="media" setValues={setFieldValue} />
-
           <Button as="icon" onClick={() => codeModalRef.current?.openHandler()}>
             <FaCode />
           </Button>
@@ -142,7 +149,11 @@ const AddPost = ({ cookie }: Props) => {
       </Form>
 
       <Modal ref={codeModalRef} label="Add code">
-        <CodeEditor value={values.code} name="code" />
+        <CodeEditor
+          setFieldValue={setFieldValue}
+          value={values.code}
+          name="code"
+        />
       </Modal>
     </Panel>
   );

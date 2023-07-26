@@ -8,7 +8,7 @@ let cached = global.mongoose;
 if (!cached) {
   cached = global.mongoose = { conn: null };
 }
-
+console.log(MONGODB_URI);
 const connectDb = async () => {
   if (cached.conn) {
     devEnv("Database old instance");

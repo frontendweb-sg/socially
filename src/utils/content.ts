@@ -38,3 +38,23 @@ export const PostPrivacy = [
   { id: 2, label: "private" },
   { id: 3, label: "friends" },
 ];
+
+export const Languages = [
+  { id: 1, label: "html" },
+  { id: 2, label: "css" },
+  { id: 3, label: "javascript" },
+  { id: 4, label: "scss" },
+  { id: 5, label: "typescript" },
+  { id: 6, label: "json" },
+];
+
+export const Extensions: Extention = {
+  html: ".html",
+  css: ".css",
+  javascript: ".js,.jsx",
+  typescript: ".ts,.tsx",
+  json: ".json",
+  scss: ".scss",
+  java: ".java",
+  php: ".php",
+};
