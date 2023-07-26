@@ -21,6 +21,11 @@ import Upload from "../controls/Uploader/Upload";
 import MediaDisplay from "../controls/Uploader/MediaDisplay";
 import Col from "../controls/Col";
 import Row from "../controls/Row";
+import { Cloudinary } from "@cloudinary/url-gen";
+
+const App = () => {
+  return new Cloudinary({ cloud: { cloudName: "dr84fhpis" } });
+};
 
 /**
  * Add post
@@ -51,9 +56,23 @@ const AddPost = ({ cookie }: Props) => {
   } = useFormik({
     initialValues: editData ?? postService.getIntialData(),
     async onSubmit(values, { resetForm, setSubmitting }) {
-      values.tags = values.tags.map((tag) => tag.label);
+      values.tags = values.tags.map((tag: any) => tag.label);
+
+      const formdata = new FormData();
+      values.media.forEach((file: File) => {
+        formdata.append(file.name, file);
+      });
       console.log(values);
 
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + "/upload",
+        {
+          method: "POST",
+          body: formdata,
+        }
+      );
+      const data = await response.json();
+      console.log("response", response, data);
       // setLoading(true);
 
       // let response = null;

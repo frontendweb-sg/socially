@@ -12,6 +12,7 @@ import Button from "../Button";
 import { FaImage } from "react-icons/fa";
 import Typography from "../Typography";
 import classNames from "classnames";
+import axios from "axios";
 
 type Accept = "video/*" | "image/*";
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -41,7 +42,7 @@ const Upload = forwardRef<uploadRef, Props>(
 
     const classes = classNames("upload", className);
 
-    const onChangeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = async (ev: ChangeEvent<HTMLInputElement>) => {
       if (!ev.target.files) return;
 
       const files = Array.from(ev.target.files) as File[];
@@ -50,6 +51,18 @@ const Upload = forwardRef<uploadRef, Props>(
         setValues(ev.target.name, []);
         return;
       }
+      // const formdata = new FormData();
+      // formdata.append("file", files[0]);
+      // formdata.append(
+      //   "upload_preset",
+      //   process.env.NEXT_PUBLIC_CLOUDINARY_NAME!
+      // );
+
+      // const response = await axios.post(
+      //   process.env.NEXT_PUBLIC_CLOUDINARY_API_URL!,
+      //   formdata
+      // );
+      // console.log(response);
 
       setValues(ev.target.name, files);
     };

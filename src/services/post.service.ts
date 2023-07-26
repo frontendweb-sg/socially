@@ -37,7 +37,7 @@ class PostService {
     }
   }
 
-  add(body: IPost): Promise<AxiosResponse<IPost | { errors: IError }>> {
+  add(body: any): Promise<AxiosResponse<IPost | { errors: IError }>> {
     return Api.post(API_URL_SERVICE, body);
   }
   update(body: IPostDoc): Promise<AxiosResponse<IPost>> {

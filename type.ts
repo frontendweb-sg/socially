@@ -5,6 +5,10 @@ declare module NodeJS {
     NEXT_PUBLIC_API_URL: string;
     GITHUB_ID: string;
     GITHUB_CLIENT_SECRET: string;
+    NEXT_PUBLIC_CLOUDINARY_NAME: string;
+    NEXT_PUBLIC_CLOUDINARY_API_URL: string;
+    NEXT_PUBLIC_CLOUDINARY_API_KEY: string;
+    NEXT_PUBLIC_CLOUDINARY_SECRET_KEY: string;
   }
 }
 

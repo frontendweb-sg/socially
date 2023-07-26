@@ -15,7 +15,6 @@ export async function POST(req: NextRequest) {
   try {
     const token = await auth(req);
     const body = (await req.json()) as IPost;
-
     body.user = token.id as string;
 
     const newPost = new Post(body);
