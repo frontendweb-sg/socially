@@ -16,6 +16,7 @@ import { deletePost } from "@/lib/post";
 import Link from "next/link";
 import Tabs from "../controls/Tabs";
 import TabContent from "../controls/Tabs/TabContent";
+import CodeEditor from "../controls/CodeEditor";
 
 export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   post?: IPostDoc;
@@ -76,11 +77,13 @@ const Post = ({ post }: PostProps) => {
         </Dropdown>
       </PostTitle>
 
-      <PostImage images={post?.images!} />
-
       <Tabs tabs={["Photos", "Code"]}>
-        <TabContent index={0}>Photos</TabContent>
-        <TabContent index={1}>Code</TabContent>
+        <TabContent index={0}>
+          <PostImage images={post?.images!} />
+        </TabContent>
+        <TabContent index={1}>
+          <CodeEditor readonly={true} value={post?.code} />
+        </TabContent>
       </Tabs>
       <Box className="post-body">
         <p>

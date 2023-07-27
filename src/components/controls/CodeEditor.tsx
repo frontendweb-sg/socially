@@ -17,8 +17,9 @@ import { type editor } from "monaco-editor";
 import { Extensions, Languages } from "@/utils/content";
 
 type Props = EditorProps & {
-  name: string;
+  name?: string;
   setFieldValue?: (name: string, data: string, event?: any) => void;
+  readonly?: boolean;
 };
 
 type editorRefs = {
@@ -33,6 +34,7 @@ const CodeEditor = forwardRef<editorRefs, Props>(
       defaultLanguage = "css",
       value,
       name,
+      readonly = false,
       setFieldValue,
       ...rest
     },
@@ -80,24 +82,28 @@ const CodeEditor = forwardRef<editorRefs, Props>(
     };
 
     useEffect(() => {
-      setFieldValue?.(name, content, editorEvent);
+      setFieldValue?.(name!, content, editorEvent);
     }, [content, name, editorEvent, setFieldValue]);
 
     return (
       <Box>
         <Box className="d-flex mb-3 align-items-center justify-content-between">
-          <Select
-            options={Languages}
-            value={language}
-            onChange={changeLanguage}
-            className="w-25"
-          />
-          <Box className="d-flex align-items-center">
-            <Upload
-              setValues={loadFile}
-              name="code"
-              accept={Extensions[language as keyof typeof Extensions]}
+          {!readonly && (
+            <Select
+              options={Languages}
+              value={language}
+              onChange={changeLanguage}
+              className="w-25"
             />
+          )}
+          <Box className="d-flex align-items-center">
+            {!readonly && (
+              <Upload
+                setValues={loadFile}
+                name="code"
+                accept={Extensions[language as keyof typeof Extensions]}
+              />
+            )}
             <Button className="ms-2" onClick={changeTheme}>
               <FaEye />
             </Button>
@@ -110,6 +116,9 @@ const CodeEditor = forwardRef<editorRefs, Props>(
           value={content}
           onChange={changeHandler}
           onMount={handleEditorDidMount}
+          options={{
+            readOnly: readonly,
+          }}
           {...rest}
         />
       </Box>
