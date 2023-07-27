@@ -3,16 +3,47 @@
   &-item {
     display: flex;
     align-items: center;
+    position: relative;
+    border-bottom: 2px solid transparent;
+    &:after {
+      content: "";
+      width: 100%;
+      height: 2px;
+      background-color: $gray-200;
+      position: absolute;
+      bottom: 0;
+    }
   }
   &-tab {
-    &.active {
+    border-radius: 4px 4px 0 0;
+    margin-right: 10px;
+    transition: all 200ms linear;
+    &:after {
+      z-index: 10;
+      left: 0;
+      content: "";
+      width: 100%;
+      height: 2px;
       background-color: $secondary;
+      position: absolute;
+      bottom: 0px;
+      opacity: 0;
+      transition: all 200ms linear;
+    }
+    &.active {
+      &:after {
+        opacity: 1;
+      }
+    }
+    &:hover {
+      background-color: $secondary;
+      border-color: $secondary;
+      color: $white;
     }
   }
-  &-content {
-    display: none;
-    &.active {
-      display: block;
-    }
+  &-container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
   }
 }

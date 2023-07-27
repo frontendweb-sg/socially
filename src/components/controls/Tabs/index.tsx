@@ -50,7 +50,8 @@ const Tabs = forwardRef<tabsRef, Props>(
             {tabs.map((tab: string, index: number) => {
               return (
                 <Tab
-                  color={active === index ? "secondary" : "primary"}
+                  color={active === index ? "secondary" : "light"}
+                  className={active === index ? "active" : ""}
                   onClick={() => onChangeTab(index)}
                   key={tab}
                 >
