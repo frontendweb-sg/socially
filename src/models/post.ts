@@ -26,6 +26,16 @@ export interface IComment {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface Media {
+  public_id: string;
+  secure_url: string;
+  resource_type?: string;
+  access_mode?: string;
+  folder?: string;
+  type?: string;
+  version_id?: string;
+}
 export interface IPost {
   user?: string | undefined;
   content: string;
@@ -34,7 +44,7 @@ export interface IPost {
   active: boolean;
   shares: number;
   tags: string[];
-  media: string[];
+  media: Media[];
   attachments: string[];
   comments: ICommentDoc[];
   likes: ILike[];
@@ -52,7 +62,17 @@ const schema = new Schema(
     active: { type: Boolean, default: true },
     shares: { type: Number, default: 0 },
     tags: { type: [String], default: [] },
-    media: { type: [String], default: [] },
+    media: [
+      {
+        public_id: { type: String, required: true },
+        secure_url: { type: String, required: true },
+        resource_type: { type: String, default: "" },
+        access_mode: { type: String, default: "" },
+        folder: { type: String, default: "" },
+        type: { type: String, default: "" },
+        version_id: { type: String, default: "" },
+      },
+    ],
     attachments: { type: [String], default: [] },
     comments: [
       {

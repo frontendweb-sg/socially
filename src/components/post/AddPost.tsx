@@ -24,6 +24,8 @@ import Row from "../controls/Row";
 import { Cloudinary } from "@cloudinary/url-gen";
 import Stack from "../controls/Stack";
 import IconButton from "../controls/IconButton";
+import { Media } from "@/models/post";
+import { toast } from "react-toastify";
 
 const App = () => {
   return new Cloudinary({ cloud: { cloudName: "dr84fhpis" } });
@@ -64,34 +66,53 @@ const AddPost = ({ cookie }: Props) => {
       values.media.forEach((file: File) => {
         formdata.append(file.name, file);
       });
-      console.log(values);
-
-      const response = await fetch(
+      const mediaResponse = await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/upload",
         {
           method: "POST",
           body: formdata,
         }
       );
-      const data = await response.json();
-      console.log("response", response, data);
-      // setLoading(true);
 
-      // let response = null;
-      // if (values.id) {
-      //   response = await postService.update(values as any);
-      // } else {
-      //   response = await postService.add(values);
-      // }
+      const medias: Media[] = await mediaResponse.json();
+      if (!medias) return;
 
-      // const data = response.data;
+      values.media = medias.map(
+        ({
+          public_id,
+          secure_url,
+          access_mode,
+          folder,
+          resource_type,
+          type,
+          version_id,
+        }: Media) => ({
+          public_id,
+          secure_url,
+          access_mode,
+          folder,
+          resource_type,
+          type,
+          version_id,
+        })
+      );
 
-      // if (response.statusText === "OK") {
-      //   resetForm();
-      //   router.refresh();
-      // }
+      setLoading(true);
 
-      // setLoading(false);
+      let response = null;
+      if (values.id) {
+        response = await postService.update(values as any);
+      } else {
+        response = await postService.add(values);
+      }
+
+      if (response.statusText === "OK") {
+        resetForm();
+        toast.success("Post added success!");
+        router.refresh();
+      }
+
+      setLoading(false);
     },
   });
 

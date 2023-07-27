@@ -13,6 +13,7 @@ type iconButtonRef = HTMLButtonElement;
 const IconButton = forwardRef<iconButtonRef, iconButtonProps>(
   (
     {
+      type = "button",
       children,
       color = "primary",
       icon = <FaImage />,
@@ -57,7 +58,7 @@ const IconButton = forwardRef<iconButtonRef, iconButtonProps>(
     }
 
     return (
-      <button className={classes} ref={ref} {...rest}>
+      <button type="button" className={classes} ref={ref} {...rest}>
         {children ? children : icon}
       </button>
     );

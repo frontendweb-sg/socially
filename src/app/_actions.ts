@@ -9,13 +9,14 @@ const cloudinaryConfig = cloudinary.config({
   secure: true,
 });
 
-export async function getSignature() {
+export async function getSignature(folder: string = "posts") {
   const timestamp = Math.round(new Date().getTime() / 1000);
 
   const signature = cloudinary.utils.api_sign_request(
-    { timestamp, folder: "next" },
+    { timestamp, folder: folder },
     cloudinaryConfig.api_secret!
   );
 
+  console.log("s", signature);
   return { timestamp, signature };
 }
