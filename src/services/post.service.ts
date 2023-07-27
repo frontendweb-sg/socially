@@ -19,7 +19,7 @@ class PostService {
       active: true,
       shares: 0,
       tags: [],
-      media: [],
+      images: [],
       attachments: [],
       comments: [],
       likes: [],

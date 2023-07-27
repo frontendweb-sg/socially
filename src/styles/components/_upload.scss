@@ -42,10 +42,10 @@
         .btn {
           opacity: 1;
         }
-        // &::before {
-        //   opacity: 1;
-        //   transform: scale(1);
-        // }
+        &::before {
+          opacity: 1;
+          transform: scale(1);
+        }
       }
     }
     video {

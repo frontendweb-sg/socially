@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
-
+  flex-shrink: 0;
   &-auto {
     @extend .auto;
   }

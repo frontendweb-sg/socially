@@ -8,7 +8,7 @@ import Button from "../controls/Button";
 import AddComment from "./comments/AddComment";
 import Comments from "./comments/Comments";
 import { useContext } from "react";
-import { ICommentDoc, IPostDoc } from "@/models/post";
+import { ICommentDoc, IPostDoc, Media } from "@/models/post";
 import { AppContent } from "@/utils/content";
 import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
@@ -37,7 +37,11 @@ const Post = ({ post }: PostProps) => {
 
   return (
     <Box className="card p-4 mb-3">
-      <PostTitle name="Pradeep Kumar" image="/avatar.png">
+      <PostTitle
+        insertAt={post?.createdAt!}
+        name="Pradeep Kumar"
+        image="/avatar.png"
+      >
         <Dropdown buttonProps={{ variant: "text" }}>
           <NavItem
             custom
@@ -68,12 +72,9 @@ const Post = ({ post }: PostProps) => {
           </NavItem>
         </Dropdown>
       </PostTitle>
-      {post?.media.map((image) => (
-        <PostImage fill src={image!} alt={image} key={image} />
-      ))}
-      <Box className="card-body">
+      <PostImage images={post?.images!} />
+      <Box className="post-body">
         <p>{post?.content}</p>
-        <Button onClick={() => editHandler(post)}>{AppContent.edit}</Button>
       </Box>
       <Comments comments={post?.comments as ICommentDoc[]} />
       <AddComment postId={post?.id} />

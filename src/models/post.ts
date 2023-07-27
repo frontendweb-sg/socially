@@ -44,7 +44,7 @@ export interface IPost {
   active: boolean;
   shares: number;
   tags: string[];
-  media: Media[];
+  images: Media[];
   attachments: string[];
   comments: ICommentDoc[];
   likes: ILike[];
@@ -52,7 +52,10 @@ export interface IPost {
   isRecent: boolean;
 }
 export interface ICommentDoc extends Document<IComment>, IComment {}
-export interface IPostDoc extends Document<IPost>, IPost {}
+export interface IPostDoc extends Document<IPost>, IPost {
+  createdAt?: string;
+  updatedAt?: string;
+}
 const schema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: USER_TABLE, required: true },
@@ -62,7 +65,7 @@ const schema = new Schema(
     active: { type: Boolean, default: true },
     shares: { type: Number, default: 0 },
     tags: { type: [String], default: [] },
-    media: [
+    images: [
       {
         public_id: { type: String, required: true },
         secure_url: { type: String, required: true },

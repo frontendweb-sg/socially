@@ -1,35 +1,28 @@
 "use client";
-import { useFormik } from "formik";
-import Form from "../controls/Form";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { postService } from "@/services/post.service";
 import Panel from "../controls/Panel";
-import { AppContent, PostPrivacy } from "@/utils/content";
 import FormGroup from "../controls/FormGroup";
 import Textarea from "../controls/Textarea";
 import TagCreator from "../controls/TagCreator";
 import Box from "../controls/Box";
 import Button from "../controls/Button";
-import { useAppState } from "../providers/AppProvider";
-import { FaCode } from "react-icons/fa";
-import Modal, { modalRef } from "../controls/Modal";
+import Form from "../controls/Form";
 import CodeEditor from "../controls/CodeEditor";
 import Select from "../controls/Select";
-import FileUpload from "../controls/Uploader/FileUpload";
 import Upload from "../controls/Uploader/Upload";
 import MediaDisplay from "../controls/Uploader/MediaDisplay";
-import Col from "../controls/Col";
-import Row from "../controls/Row";
-import { Cloudinary } from "@cloudinary/url-gen";
 import Stack from "../controls/Stack";
 import IconButton from "../controls/IconButton";
+import Modal, { modalRef } from "../controls/Modal";
+import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { AppContent, PostPrivacy } from "@/utils/content";
+import { postService } from "@/services/post.service";
+import { useAppState } from "../providers/AppProvider";
+import { FaCode } from "react-icons/fa";
+import { Cloudinary } from "@cloudinary/url-gen";
 import { Media } from "@/models/post";
 import { toast } from "react-toastify";
-
-const App = () => {
-  return new Cloudinary({ cloud: { cloudName: "dr84fhpis" } });
-};
 
 /**
  * Add post
@@ -43,7 +36,7 @@ const AddPost = ({ cookie }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const { state, resetEditing, dispatch } = useAppState();
+  const { state, resetEditing } = useAppState();
   const { editData } = state;
 
   const codeModalRef = useRef<modalRef>(null);
@@ -63,7 +56,7 @@ const AddPost = ({ cookie }: Props) => {
       values.tags = values.tags.map((tag: any) => tag.label);
 
       const formdata = new FormData();
-      values.media.forEach((file: File) => {
+      values.images.forEach((file: File) => {
         formdata.append(file.name, file);
       });
       const mediaResponse = await fetch(
@@ -77,7 +70,7 @@ const AddPost = ({ cookie }: Props) => {
       const medias: Media[] = await mediaResponse.json();
       if (!medias) return;
 
-      values.media = medias.map(
+      values.images = medias.map(
         ({
           public_id,
           secure_url,
@@ -160,13 +153,20 @@ const AddPost = ({ cookie }: Props) => {
         </FormGroup>
 
         <FormGroup>
-          <MediaDisplay
-            name="media"
-            data={values.media}
-            setValues={setFieldValue}
-          />
+          {values.images.length > 0 && (
+            <MediaDisplay
+              name="media"
+              data={values.images}
+              setValues={setFieldValue}
+            />
+          )}
           <Stack>
-            <Upload accept="" multiple name="media" setValues={setFieldValue} />
+            <Upload
+              accept=""
+              multiple
+              name="images"
+              setValues={setFieldValue}
+            />
             <IconButton
               className="ms-2"
               icon={<FaCode />}
