@@ -25,10 +25,12 @@ const PostTitle = ({
       )}
       {...rest}
     >
-      <Box className="d-flex align-items-center">
+      <Box className="post-title-name">
         <Avatar size={40} alt={name!} src={image!} className="me-3" />
-        <Typography variant="subtitle1">{name}</Typography>
-        <DateTime date={insertAt!} />
+        <Typography className="mb-0" variant="subtitle1">
+          {name}
+          <DateTime date={insertAt!} />
+        </Typography>
       </Box>
       {children}
     </Box>

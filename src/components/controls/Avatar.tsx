@@ -42,8 +42,7 @@ const Avatar: FC<IAvatarProps> = ({
       priority={false}
       src={"/avatar.png"}
       alt={alt! || "avatar"}
-      width={size - 3}
-      height={size - 3}
+      fill
       {...rest}
     />
   );

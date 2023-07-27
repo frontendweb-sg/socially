@@ -8,6 +8,7 @@ import { forwardRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import DropdownBody from "./DropdownBody";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import IconButton, { type iconButtonProps } from "../IconButton";
 
 type As = "div" | "li";
 export type DropdownProps = React.HtmlHTMLAttributes<
@@ -15,7 +16,7 @@ export type DropdownProps = React.HtmlHTMLAttributes<
 > & {
   as?: As;
   title?: ReactElement | string;
-  buttonProps?: ButtonProps;
+  buttonProps?: iconButtonProps;
 };
 
 export type dropdownRef = HTMLDivElement | HTMLLIElement;
@@ -40,15 +41,13 @@ const Dropdown = forwardRef<dropdownRef, DropdownProps>(
 
     return (
       <Component as={as} className={classes} ref={refs} {...rest}>
-        <Button
-          as="icon"
+        <IconButton
+          icon={<FaEllipsisV />}
           size="xs"
           className={btnClass}
           onClick={toggleHandler}
           {...buttonProps}
-        >
-          {title}
-        </Button>
+        />
         <DropdownBody isOpen={isOpen}>{children}</DropdownBody>
       </Component>
     );

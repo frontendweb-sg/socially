@@ -132,7 +132,7 @@ const AddPost = ({ cookie }: Props) => {
           <Textarea
             name="content"
             value={values.content}
-            placeholder="Status"
+            placeholder="What's on your mind?"
             errors={errors}
             touched={touched}
             onBlur={handleBlur}

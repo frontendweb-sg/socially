@@ -3,7 +3,7 @@ import { forwardRef, memo, type ReactElement } from "react";
 import { Color, Size } from "@/utils/types";
 import { FaImage } from "react-icons/fa";
 
-type iconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type iconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: Color;
   size?: Size;
   icon?: ReactElement;

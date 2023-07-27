@@ -59,3 +59,10 @@ hr {
   margin: 1rem 0;
   border-top: 1px solid $gray-400;
 }
+
+.link {
+  color: $secondary;
+  &:hover {
+    color: $primary;
+  }
+}

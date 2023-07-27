@@ -13,6 +13,9 @@ import { AppContent } from "@/utils/content";
 import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
 import { deletePost } from "@/lib/post";
+import Link from "next/link";
+import Tabs from "../controls/Tabs";
+import TabContent from "../controls/Tabs/TabContent";
 
 export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   post?: IPostDoc;
@@ -72,9 +75,20 @@ const Post = ({ post }: PostProps) => {
           </NavItem>
         </Dropdown>
       </PostTitle>
+
       <PostImage images={post?.images!} />
+
+      <Tabs tabs={["Photos", "Code"]}>
+        <TabContent index={0}>Photos</TabContent>
+        <TabContent index={1}>Code</TabContent>
+      </Tabs>
       <Box className="post-body">
-        <p>{post?.content}</p>
+        <p>
+          {post?.content.substring(0, 200)}...
+          <Link className="link" href="#" scroll={false}>
+            Read more
+          </Link>
+        </p>
       </Box>
       <Comments comments={post?.comments as ICommentDoc[]} />
       <AddComment postId={post?.id} />

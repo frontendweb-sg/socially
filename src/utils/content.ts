@@ -20,7 +20,7 @@ export const AppContent = {
   dontHaveAccount: "If you don't have an account, please click on ",
   forgotPassword: "Forgot Password",
   signout: "Sign out",
-  addPost: "Add Post",
+  addPost: "Create post",
   dashboard: "Dashboard",
   profile: "Profile",
   posts: "Posts",
