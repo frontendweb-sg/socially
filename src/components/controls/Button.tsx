@@ -4,7 +4,6 @@ import { Color, Size } from "@/utils/types";
 import { FaSpinner } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
-export type ButtonVariant = "text" | "filled" | "outline";
 export type buttonRef = HTMLButtonElement;
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;

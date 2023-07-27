@@ -13,6 +13,7 @@ import { FaImage } from "react-icons/fa";
 import Typography from "../Typography";
 import classNames from "classnames";
 import axios from "axios";
+import IconButton from "../IconButton";
 
 type Accept = "video/*" | "image/*";
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -100,9 +101,7 @@ const Upload = forwardRef<uploadRef, Props>(
           accept={accept}
           {...rest}
         />
-        <Button variant="text" as="icon" onClick={onClick}>
-          {icon}
-        </Button>
+        <IconButton onClick={onClick} icon={icon} />
       </Box>
     );
   }

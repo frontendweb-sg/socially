@@ -22,6 +22,8 @@ import MediaDisplay from "../controls/Uploader/MediaDisplay";
 import Col from "../controls/Col";
 import Row from "../controls/Row";
 import { Cloudinary } from "@cloudinary/url-gen";
+import Stack from "../controls/Stack";
+import IconButton from "../controls/IconButton";
 
 const App = () => {
   return new Cloudinary({ cloud: { cloudName: "dr84fhpis" } });
@@ -123,45 +125,34 @@ const AddPost = ({ cookie }: Props) => {
             onChange={handleChange}
           />
         </FormGroup>
-        <Row>
-          <Col>
-            <FormGroup>
-              <Box>
-                <MediaDisplay
-                  name="media"
-                  data={values.media}
-                  setValues={setFieldValue}
-                />
-                <Upload
-                  accept=""
-                  multiple
-                  name="media"
-                  setValues={setFieldValue}
-                />
-              </Box>
-              <Button
-                as="icon"
-                onClick={() => codeModalRef.current?.openHandler()}
-              >
-                <FaCode />
-              </Button>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <TagCreator
-                options={[
-                  { id: "1", label: "Html" },
-                  { id: "2", label: "Css" },
-                  { id: "3", label: "Js" },
-                ]}
-                defaultValues={values.tags}
-                getOptionLabel={(option) => option?.label}
-                setValues={setFieldValue}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
+        <FormGroup>
+          <TagCreator
+            options={[
+              { id: "1", label: "Html" },
+              { id: "2", label: "Css" },
+              { id: "3", label: "Js" },
+            ]}
+            defaultValues={values.tags}
+            getOptionLabel={(option) => option?.label}
+            setValues={setFieldValue}
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <MediaDisplay
+            name="media"
+            data={values.media}
+            setValues={setFieldValue}
+          />
+          <Stack>
+            <Upload accept="" multiple name="media" setValues={setFieldValue} />
+            <IconButton
+              className="ms-2"
+              icon={<FaCode />}
+              onClick={() => codeModalRef.current?.openHandler()}
+            />
+          </Stack>
+        </FormGroup>
 
         <hr />
         <Box className="post-footer d-flex align-items-center justify-content-between">
