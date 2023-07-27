@@ -30,3 +30,7 @@ type Extention = {
   php: ".php";
   java: ".java";
 };
+
+interface IFile extends File {
+  preview?: string;
+}

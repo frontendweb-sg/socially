@@ -123,14 +123,13 @@ const AddPost = ({ cookie }: Props) => {
             onChange={handleChange}
           />
         </FormGroup>
-
         <Row>
           <Col>
             <FormGroup>
               <Box>
                 <MediaDisplay
                   name="media"
-                  media={values.media}
+                  data={values.media}
                   setValues={setFieldValue}
                 />
                 <Upload

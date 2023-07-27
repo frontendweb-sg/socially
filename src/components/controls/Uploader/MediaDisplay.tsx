@@ -1,55 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Box from "../Box";
 import classNames from "classnames";
 import Image from "next/image";
-import { toBase64 } from "@/utils";
-import Skeleton from "../Skeleton";
-import Row from "../Row";
 import Button from "../Button";
 import { FaTimes } from "react-icons/fa";
 
 type Props = React.HtmlHTMLAttributes<HTMLDivElement> & {
-  media: File[];
+  data: File[];
   name: string;
   setValues: (name: string, files: File[]) => void;
 };
-const MediaDisplay = ({
-  name,
-  media,
-  setValues,
-  className,
-  ...rest
-}: Props) => {
-  const [loading, setLoading] = useState(true);
-  const [images, setImages] = useState<string[]>([]);
+const MediaDisplay = ({ name, data, setValues, className, ...rest }: Props) => {
   const classes = classNames("media", className);
 
   const onRemove = (index: number) => {
-    const existingMedia = [...media!];
+    const existingMedia = [...data!];
     existingMedia.splice(index, 1);
     setValues(name!, existingMedia);
   };
 
-  useEffect(() => {
-    const load = async () => {
-      const imgs = await Promise.all(
-        media?.map(async (item) => await toBase64(item))
-      );
-      setLoading(false);
-      setImages(imgs);
-    };
-    load();
-  }, [media]);
-
   return (
     <Box className={classes} {...rest}>
       <Box className="media-row">
-        {images.map((media: string, index: number) => {
+        {data.map((file: IFile, index: number) => {
           return (
             <Box
-              style={{ width: `${100 / images.length}%` }}
+              style={{ width: `${100 / data.length}%` }}
               className="media-item"
-              key={media + "-" + index}
+              key={file + "-" + index}
             >
               <Box className="media-item-child">
                 <Button
@@ -59,16 +37,20 @@ const MediaDisplay = ({
                 >
                   <FaTimes />
                 </Button>
-                {loading ? (
-                  <Skeleton size={25} as="avatar" animate />
-                ) : media.startsWith("data:video") ? (
-                  <div>
-                    {/* <video poster={media} controls width="100%">
-                <source src={media} type={type}></source>
-              </video> */}
-                  </div>
+                {file.type === "video/mp4" ? (
+                  <video poster={file.preview!} controls width="100%">
+                    <source src={file.preview!} type={file.type}></source>
+                  </video>
                 ) : (
-                  <Image priority={false} fill src={media!} alt="media" />
+                  <Image
+                    priority={false}
+                    fill
+                    src={file.preview!}
+                    alt="media"
+                    onLoad={() => {
+                      URL.revokeObjectURL(file.preview!);
+                    }}
+                  />
                 )}
               </Box>
             </Box>

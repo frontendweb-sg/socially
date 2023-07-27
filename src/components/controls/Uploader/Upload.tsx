@@ -51,6 +51,11 @@ const Upload = forwardRef<uploadRef, Props>(
         setValues(ev.target.name, []);
         return;
       }
+
+      files.forEach((file: File) =>
+        Object.assign(file, { preview: URL.createObjectURL(file) })
+      );
+
       // const formdata = new FormData();
       // formdata.append("file", files[0]);
       // formdata.append(
