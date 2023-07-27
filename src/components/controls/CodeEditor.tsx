@@ -40,7 +40,13 @@ const CodeEditor = forwardRef<editorRefs, Props>(
     },
     ref
   ) => {
-    const [content, setContent] = useState<string>(value!);
+    const [content, setContent] = useState<{
+      language: string;
+      language_code: string;
+    }>({
+      language: "",
+      language_code: value!,
+    });
     const [editorEvent, setEditorEvent] =
       useState<editor.IModelContentChangedEvent | null>(null);
     const [language, setLanguage] = useState(defaultLanguage);
@@ -63,13 +69,17 @@ const CodeEditor = forwardRef<editorRefs, Props>(
 
     // change language
     const changeLanguage = (ev: React.ChangeEvent<HTMLSelectElement>) => {
-      setContent("");
+      setContent({
+        language: "",
+        language_code: "",
+      });
       setLanguage(ev.target.value);
     };
 
     const loadFile = (name: string, files: File[]) => {
       const reader = new FileReader();
-      reader.onload = () => setContent(reader.result as string);
+      reader.onload = () =>
+        setContent({ language, language_code: reader.result as string });
       reader.readAsText(files[0]);
     };
 
@@ -77,12 +87,12 @@ const CodeEditor = forwardRef<editorRefs, Props>(
       value: string | undefined,
       ev: editor.IModelContentChangedEvent
     ) => {
-      setContent(value!);
+      setContent({ language, language_code: value! });
       setEditorEvent(ev);
     };
 
     useEffect(() => {
-      setFieldValue?.(name!, content, editorEvent);
+      setFieldValue?.(name!, JSON.stringify(content), editorEvent);
     }, [content, name, editorEvent, setFieldValue]);
 
     return (
@@ -113,7 +123,7 @@ const CodeEditor = forwardRef<editorRefs, Props>(
           theme={`vs-${theme}`}
           language={language}
           height={height}
-          value={content}
+          value={content.language_code}
           onChange={changeHandler}
           onMount={handleEditorDidMount}
           options={{

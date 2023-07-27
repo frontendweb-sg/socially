@@ -38,7 +38,7 @@ const Post = ({ post }: PostProps) => {
       },
     });
   };
-
+  console.log(post);
   return (
     <Box className="card p-4 mb-3">
       <PostTitle
@@ -82,7 +82,11 @@ const Post = ({ post }: PostProps) => {
           <PostImage images={post?.images!} />
         </TabContent>
         <TabContent index={1}>
-          <CodeEditor readonly={true} value={post?.code} />
+          <CodeEditor
+            readonly={true}
+            defaultLanguage={post?.code.language}
+            value={post?.code.language_code}
+          />
         </TabContent>
       </Tabs>
       <Box className="post-body">

@@ -7,6 +7,10 @@ export enum EStatus {
   "rejected" = "Rejected",
   "approved" = "Approved",
 }
+export type Code = {
+  language: string;
+  language_code: string;
+};
 export enum Privacy {
   public = "public",
   friends = "friends",
@@ -21,7 +25,7 @@ export interface IComment {
   avatar: string;
   status: EStatus;
   active?: boolean;
-  code?: string;
+  code?: Code;
   media?: string[];
   createdAt?: Date;
   updatedAt?: Date;
@@ -39,7 +43,7 @@ export interface Media {
 export interface IPost {
   user?: string | undefined;
   content: string;
-  code: string;
+  code: Code;
   privacy: Privacy;
   active: boolean;
   shares: number;
@@ -60,7 +64,10 @@ const schema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: USER_TABLE, required: true },
     content: { type: String, default: "" },
-    code: { type: String, default: "" },
+    code: {
+      language: { type: String, default: "" },
+      language_code: { type: String, default: "" },
+    },
     privacy: { type: String, default: Privacy.private, enum: Privacy },
     active: { type: Boolean, default: true },
     shares: { type: Number, default: 0 },
