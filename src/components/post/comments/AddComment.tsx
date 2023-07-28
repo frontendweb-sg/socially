@@ -1,7 +1,4 @@
 import Avatar from "@/components/controls/Avatar";
-import Box from "@/components/controls/Box";
-
-import Button from "@/components/controls/Button";
 import CodeEditor from "@/components/controls/CodeEditor";
 import EmojiPicker, {
   EmojiClickData,
@@ -9,19 +6,17 @@ import EmojiPicker, {
 } from "@/components/controls/EmojiPicker";
 import Form from "@/components/controls/Form";
 import IconButton from "@/components/controls/IconButton";
-import Input from "@/components/controls/Input";
 import Modal, { modalRef } from "@/components/controls/Modal";
 import Stack from "@/components/controls/Stack";
 import Textarea, { textareaRef } from "@/components/controls/Textarea";
 import Upload from "@/components/controls/Uploader/Upload";
-import { AppContext } from "@/components/providers/AppProvider";
-import { alertAction } from "@/components/store/reducers/alert";
 import { commentService } from "@/services/comment.service";
 import { useFormik } from "formik";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FaCheck, FaCode, FaSmile } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 /**
  * Add comment
@@ -50,8 +45,6 @@ const AddComment = ({ postId }: AddCommentProps) => {
   } = useFormik({
     initialValues: commentService.getIntialObject(),
     async onSubmit(values, { resetForm }) {
-      console.log("v", values);
-      if (values.message === "") return;
       setLoading(true);
 
       const response = await fetch(
@@ -68,10 +61,7 @@ const AddComment = ({ postId }: AddCommentProps) => {
       const data = await response.json();
 
       if (data.errors) {
-        // alertAction.alertShow(dispatch, {
-        //   message: data.errors.message,
-        //   color: "danger",
-        // });
+        toast.error(data.errors.message);
       }
 
       router.refresh();
@@ -81,8 +71,7 @@ const AddComment = ({ postId }: AddCommentProps) => {
   });
 
   const onSetEmoji = (emojiData: EmojiClickData, event: MouseEvent) => {
-    const { selectionEnd, selectionStart, selectionDirection } =
-      textareaRef.current!;
+    const { selectionStart } = textareaRef.current!;
     let textBeforeCursorPosition = values.message.substring(0, selectionStart);
     let textAfterCursorPosition = values.message.substring(
       selectionStart,
@@ -137,19 +126,17 @@ const AddComment = ({ postId }: AddCommentProps) => {
         <CodeEditor name="code" setFieldValue={setFieldValue} />
       </Modal>
       <Modal
-          label="Add emoji"
+        label="Add emoji"
+        ref={emojiModalRef}
         onClose={() => {
           textareaRef.current?.focus();
         }}
-        ref={emojiModalRef}
       >
-        <EmojiPicker setValue={onSetEmoji} />
-        {/* <EmojiPicker
-          autoFocusSearch={true}
-          onEmojiClick={onSetEmoji}
+        <EmojiPicker
           width="100%"
           emojiStyle={EmojiStyle.FACEBOOK}
-        /> */}
+          onEmojiClick={onSetEmoji}
+        />
       </Modal>
     </>
   );

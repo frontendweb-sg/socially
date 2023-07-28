@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { FC, forwardRef } from "react";
 import type { IconType } from "react-icons";
+import { forwardRef } from "react";
 import { getError } from "@/utils/get-error";
 
 type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {

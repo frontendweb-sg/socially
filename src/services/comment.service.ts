@@ -1,12 +1,12 @@
 import { Api } from "@/axios-instance";
-import { IComment } from "@/models/post";
+import { EStatus, IComment } from "@/models/post";
 const API_URL_SERVICE = "/post";
 class CommentService {
   getIntialObject() {
     return {
       message: "",
       avatar: "",
-      status: "",
+      status: "Pending",
       active: true,
       code: {
         language: "",

@@ -4,19 +4,18 @@ import Dropdown from "../controls/Dropdown";
 import PostImage from "./PostImage";
 import NavItem from "../layout/NavItem";
 import Box from "../controls/Box";
-import Button from "../controls/Button";
 import AddComment from "./comments/AddComment";
 import Comments from "./comments/Comments";
+import Link from "next/link";
+import Tabs from "../controls/Tabs";
+import TabContent from "../controls/Tabs/TabContent";
+import CodeEditor from "../controls/CodeEditor";
 import { useContext } from "react";
 import { ICommentDoc, IPostDoc, Media } from "@/models/post";
 import { AppContent } from "@/utils/content";
 import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
 import { deletePost } from "@/lib/post";
-import Link from "next/link";
-import Tabs from "../controls/Tabs";
-import TabContent from "../controls/Tabs/TabContent";
-import CodeEditor from "../controls/CodeEditor";
 
 export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   post?: IPostDoc;
@@ -38,7 +37,7 @@ const Post = ({ post }: PostProps) => {
       },
     });
   };
-  console.log(post);
+
   return (
     <Box className="card p-4 mb-3">
       <PostTitle

@@ -91,10 +91,11 @@ const schema = new Schema(
         avatar: { type: String },
         status: { type: String, default: EStatus.pending, enum: EStatus },
         active: { type: Boolean, default: true },
-        code: { type: String, default: "" },
+        code: {
+          language: { type: String, default: "" },
+          language_code: { type: String, default: "" },
+        },
         media: { type: [String], default: [] },
-        createdAt: { type: Date, default: Date.now() },
-        updatedAt: { type: Date, default: Date.now() },
       },
     ],
     likes: [

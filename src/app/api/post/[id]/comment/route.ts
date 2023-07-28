@@ -36,6 +36,7 @@ export async function POST(
     const { id } = params;
 
     const body = await req.json();
+    console.log("b", body, id);
     const post = (await Post.findById(id)) as IPostDoc;
 
     post.comments.push(body);
