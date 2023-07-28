@@ -34,41 +34,34 @@ const AddComment = ({ postId }: AddCommentProps) => {
   const emojiModalRef = useRef<modalRef>(null);
   const textareaRef = useRef<textareaRef>(null);
 
-  const {
-    values,
-    touched,
-    errors,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    setFieldValue,
-  } = useFormik({
-    initialValues: commentService.getIntialObject(),
-    async onSubmit(values, { resetForm }) {
-      setLoading(true);
+  const { values, handleBlur, handleChange, handleSubmit, setFieldValue } =
+    useFormik({
+      initialValues: commentService.getIntialObject(),
+      async onSubmit(values, { resetForm }) {
+        setLoading(true);
 
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/post/" + postId + "/comment",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_API_URL + "/post/" + postId + "/comment",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.errors) {
+          toast.error(data.errors.message);
         }
-      );
 
-      const data = await response.json();
-
-      if (data.errors) {
-        toast.error(data.errors.message);
-      }
-
-      router.refresh();
-      resetForm();
-      setLoading(false);
-    },
-  });
+        router.refresh();
+        resetForm();
+        setLoading(false);
+      },
+    });
 
   const onSetEmoji = (emojiData: EmojiClickData, event: MouseEvent) => {
     const { selectionStart } = textareaRef.current!;
@@ -105,20 +98,33 @@ const AddComment = ({ postId }: AddCommentProps) => {
             onChange={handleChange}
           />
 
-          <Upload title="Add image" name="image" setValues={setFieldValue} />
+          <Upload
+            color="secondary"
+            title="Add image"
+            name="image"
+            setValues={setFieldValue}
+          />
           <IconButton
             onClick={() => modalRef.current?.openHandler()}
             title="Add code"
+            color="secondary"
             icon={<FaCode />}
           />
           <IconButton
             onClick={() => emojiModalRef.current?.openHandler()}
             title="Add emoji"
+            color="secondary"
             icon={<FaSmile />}
           />
         </Stack>
 
-        <IconButton title="Save comment" color="primary" type="submit">
+        <IconButton
+          disabled={values.message.length == 0}
+          title="Save comment"
+          color="primary"
+          type="submit"
+          variant="filled"
+        >
           <FaCheck />
         </IconButton>
       </Form>

@@ -25,6 +25,7 @@ const IconButton = forwardRef<iconButtonRef, iconButtonProps>(
     ref
   ) => {
     const common = {
+      btn: true,
       icon: true,
       ["icon-" + size]: size,
     };
@@ -33,6 +34,7 @@ const IconButton = forwardRef<iconButtonRef, iconButtonProps>(
       common,
       {
         "btn-text": !(variant === "filled" || variant === "outline"),
+        ["text-" + color]: variant === "text" && color,
       },
       className
     );

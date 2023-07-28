@@ -1,13 +1,18 @@
-.icon {
-  border-radius: 3px;
-  padding: 3px;
-  border-color: transparent;
-  background-color: var(--fw-btn-bg);
-  outline: none;
-  line-height: 1;
-}
-
 .btn {
+  &.icon {
+    border-radius: 50px;
+    padding: 3px;
+    outline: none;
+    line-height: 1;
+
+    @each $k, $v in $btn-icon-size {
+      &-#{$k} {
+        width: $v;
+        height: $v;
+      }
+    }
+  }
+
   &-text {
     &:hover {
       background-color: $gray-200;

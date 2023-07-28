@@ -16,6 +16,7 @@ import { AppContent } from "@/utils/content";
 import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
 import { deletePost } from "@/lib/post";
+import Likes from "./Likes";
 
 export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   post?: IPostDoc;
@@ -88,6 +89,7 @@ const Post = ({ post }: PostProps) => {
           />
         </TabContent>
       </Tabs>
+      <Likes />
       <Box className="post-body">
         <p>
           {post?.content.substring(0, 200)}...
@@ -96,6 +98,7 @@ const Post = ({ post }: PostProps) => {
           </Link>
         </p>
       </Box>
+
       <Comments comments={post?.comments as ICommentDoc[]} />
       <AddComment postId={post?.id} />
     </Box>
