@@ -1,47 +1,65 @@
-.post{
-  &-comment{
+.post {
+  &-comment {
     display: flex;
     align-items: flex-start;
-    justify-content:flex-start;
+    justify-content: flex-start;
     margin-bottom: 10px;
-    .avatar{
+    .avatar {
       flex-shrink: 0;
     }
-    &-content{
-      padding:10px;
- 
+    &-content {
+      padding: 10px;
+
       margin-left: 15px;
       background-color: $gray-100;
       position: relative;
-      &:before{
-        content:"";
-        border-right:10px solid $gray-100;
-        border-top:10px solid transparent;
-        border-bottom:10px solid transparent;
+      &:before {
+        content: "";
+        border-right: 10px solid $gray-100;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
         position: absolute;
-        left:-10px
+        left: -10px;
       }
     }
   }
 }
 .comment {
-  &-add {
+  &-stack {
+    flex: 1;
+    background-color: $white;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-right: 10px;
+  }
+  &-form {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
     padding: 10px;
     border-radius: 5px;
     background-color: $gray-100;
     .btn {
       border-radius: 50px;
     }
-    .form-control {
+    .form-group {
       border: 0;
-      margin-left: 15px;
       margin-right: 15px;
+
       flex: 1;
-      &:focus{
-        background-color: $gray-300;
+      .form-control {
+        border-color: transparent;
+        &:focus {
+          background-color: transparent;
+        }
+      }
+      .fw-textarea {
+        border-color: transparent;
+        min-height: 35px;
+        max-height: 150px;
+        &:focus {
+          background-color: transparent;
+        }
       }
     }
   }

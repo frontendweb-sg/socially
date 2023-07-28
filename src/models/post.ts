@@ -27,8 +27,6 @@ export interface IComment {
   active?: boolean;
   code?: Code;
   media?: string[];
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
 export interface Media {
@@ -55,7 +53,10 @@ export interface IPost {
   isFeature: boolean;
   isRecent: boolean;
 }
-export interface ICommentDoc extends Document<IComment>, IComment {}
+export interface ICommentDoc extends Document<IComment>, IComment {
+  createdAt?: string;
+  updatedAt?: string;
+}
 export interface IPostDoc extends Document<IPost>, IPost {
   createdAt?: string;
   updatedAt?: string;

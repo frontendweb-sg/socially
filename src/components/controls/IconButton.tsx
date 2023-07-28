@@ -58,7 +58,7 @@ const IconButton = forwardRef<iconButtonRef, iconButtonProps>(
     }
 
     return (
-      <button type="button" className={classes} ref={ref} {...rest}>
+      <button type={type} className={classes} ref={ref} {...rest}>
         {children ? children : icon}
       </button>
     );

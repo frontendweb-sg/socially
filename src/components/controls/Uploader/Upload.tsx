@@ -8,19 +8,17 @@ import {
   useImperativeHandle,
 } from "react";
 import Box from "../Box";
-import Button from "../Button";
-import { FaImage } from "react-icons/fa";
 import Typography from "../Typography";
 import classNames from "classnames";
-import axios from "axios";
 import IconButton from "../IconButton";
+import { FaImage } from "react-icons/fa";
 
 type Accept = "video/*" | "image/*";
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
   icon?: ReactElement;
   size?: number;
   setValues: (name: string, files: File[]) => void;
-  accept: string | Accept;
+  accept?: string | Accept;
 };
 export type uploadRef = {
   onClear: () => void;
@@ -33,6 +31,7 @@ const Upload = forwardRef<uploadRef, Props>(
       multiple = false,
       setValues,
       className,
+      title,
       accept = ".jpeg,.jpg,.png,.eps",
       ...rest
     },
@@ -101,7 +100,7 @@ const Upload = forwardRef<uploadRef, Props>(
           accept={accept}
           {...rest}
         />
-        <IconButton onClick={onClick} icon={icon} />
+        <IconButton title={title} onClick={onClick} icon={icon} />
       </Box>
     );
   }
