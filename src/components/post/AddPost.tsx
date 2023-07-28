@@ -51,7 +51,7 @@ const AddPost = ({ cookie }: Props) => {
     setValues,
     setFieldValue,
   } = useFormik({
-    initialValues: editData ?? postService.getIntialData(),
+    initialValues: editData! ?? postService.getIntialData(),
     async onSubmit(values, { resetForm, setSubmitting }) {
       values.tags = values.tags.map((tag: any) => tag.label);
 

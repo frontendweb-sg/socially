@@ -89,7 +89,7 @@ const Post = ({ post }: PostProps) => {
           />
         </TabContent>
       </Tabs>
-      <Likes />
+      <Likes likes={post?.likes} postId={post?.id} />
       <Box className="post-body">
         <p>
           {post?.content.substring(0, 200)}...

@@ -61,6 +61,7 @@ export interface IPostDoc extends Document<IPost>, IPost {
   createdAt?: string;
   updatedAt?: string;
 }
+export interface ILikeDoc extends Document<ILike>, ILike {}
 const schema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: USER_TABLE, required: true },
