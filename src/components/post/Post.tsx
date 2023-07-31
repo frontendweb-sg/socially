@@ -11,7 +11,7 @@ import Tabs from "../controls/Tabs";
 import TabContent from "../controls/Tabs/TabContent";
 import CodeEditor from "../controls/CodeEditor";
 import { useContext } from "react";
-import { ICommentDoc, IPostDoc, Media } from "@/models/post";
+import { ICommentDoc, ILikeDoc, IPostDoc, Media } from "@/models/post";
 import { AppContent } from "@/utils/content";
 import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
@@ -89,7 +89,7 @@ const Post = ({ post }: PostProps) => {
           />
         </TabContent>
       </Tabs>
-      <Likes likes={post?.likes} postId={post?.id} />
+      <Likes likes={post?.likes! as ILikeDoc[]} postId={post?.id} />
       <Box className="post-body">
         <p>
           {post?.content.substring(0, 200)}...

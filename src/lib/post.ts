@@ -94,6 +94,5 @@ export async function getComments(id: string) {
       },
     }
   );
-  console.log("r", response);
   return await response.json();
 }
