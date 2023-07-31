@@ -11,6 +11,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { AppContent } from "@/utils/content";
+import useFocus from "@/hooks/useFocus";
 
 const validation = yup.object().shape({
   title: yup.string().required("Skill name is required!"),
@@ -28,6 +29,7 @@ const DesignationForm = ({
   ...rest
 }: DesignationProps) => {
   const router = useRouter();
+  const inpRef = useFocus();
   const {
     values,
     errors,
@@ -55,9 +57,9 @@ const DesignationForm = ({
 
         if (response.status === 200 || response.status === 201) {
           toast.success(message);
-          router.refresh();
           onClose?.();
           resetForm();
+          router.refresh();
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -72,6 +74,7 @@ const DesignationForm = ({
       <FormGroup>
         <Input
           name="title"
+          ref={inpRef}
           value={values.title}
           errors={errors}
           touched={touched}
@@ -89,7 +92,7 @@ const DesignationForm = ({
           disabled={values.title.length === 0 || isSubmitting}
           type="submit"
         >
-          {AppContent.save}
+          {values.id ? AppContent.update : AppContent.save}
         </Button>
       </Box>
     </Form>

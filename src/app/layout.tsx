@@ -4,6 +4,8 @@ import { inter, lato, roboto } from "../utils/font";
 import "@/styles/index.scss";
 import ConfirmModal from "@/components/controls/ConfirmModal";
 import Toastify from "@/components/controls/Toastify";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "Socially",
@@ -21,7 +23,7 @@ export default function RootLayout({
         <AuthSessionProvider>
           <ConfirmModal />
           <Toastify />
-          {children}
+          <Suspense fallback={<Loading />}>{children}</Suspense>
         </AuthSessionProvider>
       </body>
     </html>

@@ -4,6 +4,7 @@ import Footer from "@/components/layout/Footer";
 import Loading from "./loading";
 import { Suspense } from "react";
 import { getCurrentUser } from "../action/getCurrentUser";
+import Title from "@/components/controls/Title";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getCurrentUser();
@@ -15,6 +16,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         <div className="row row-mod">
           <Sidebar />
           <div className="col-lg-9">
+            <Title />
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>
         </div>

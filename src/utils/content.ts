@@ -8,6 +8,7 @@ export const AppContent = {
   save: "Save",
   edit: "Edit",
   update: "Update",
+  add: "Add",
   delete: "Delete",
   cancel: "Cancel",
   ok: "Ok",

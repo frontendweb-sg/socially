@@ -46,3 +46,13 @@
     background-color: $gray-100;
   }
 }
+
+.page-loader {
+  background-color: rgba($white, 0.9);
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}

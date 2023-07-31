@@ -1,12 +1,23 @@
+"use client";
 import classNames from "classnames";
 import Box from "./Box";
 import Typography from "./Typography";
+import {
+  usePathname,
+  useSelectedLayoutSegment,
+  useSelectedLayoutSegments,
+} from "next/navigation";
+import Breadcrumbs from "./Breadcrumbs";
+import { upperFirst } from "lodash";
 
 export type TitleProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   label?: string;
   sublabel?: string;
 };
 const Title = ({ children, label, sublabel, ...rest }: TitleProps) => {
+  const pathname = usePathname()
+    ?.split("/")
+    ?.filter((route) => route !== "");
   return (
     <Box
       className={classNames(
@@ -14,14 +25,17 @@ const Title = ({ children, label, sublabel, ...rest }: TitleProps) => {
       )}
       {...rest}
     >
-      <Typography variant="h5">
-        {label}
-        {sublabel && (
+      <Box>
+        <Typography variant="h5">
+          {label ? label : upperFirst(pathname[pathname.length - 1])}
           <Typography className="small" variant="span">
-            {sublabel}
+            {sublabel
+              ? sublabel
+              : " welcome to the " + pathname[pathname.length - 1] + " page"}
           </Typography>
-        )}
-      </Typography>
+        </Typography>
+        <Breadcrumbs />
+      </Box>
       <Box>{children}</Box>
     </Box>
   );

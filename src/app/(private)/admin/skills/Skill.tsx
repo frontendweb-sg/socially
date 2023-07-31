@@ -55,11 +55,14 @@ export const Skill = ({ data }: { data: ISkillDoc[] | undefined }) => {
 
   return (
     <>
-      <Title label="Skill" sublabel="Welcome to skill page">
-        <Button onClick={() => modalRef.current?.openHandler()}>
-          {AppContent.addSkill}
-        </Button>
-      </Title>
+      <Button
+        className="mb-3"
+        onClick={() => {
+          modalRef.current?.openHandler();
+        }}
+      >
+        {AppContent.addSkill}
+      </Button>
       <Suspense fallback={<Skeleton />}>
         {data ? (
           <DataTable
@@ -71,7 +74,10 @@ export const Skill = ({ data }: { data: ISkillDoc[] | undefined }) => {
           <NoData />
         )}
       </Suspense>
-      <Modal ref={modalRef} label="Add skill">
+      <Modal
+        ref={modalRef}
+        label={(editData ? AppContent.update : AppContent.add) + " skill"}
+      >
         <SkillForm
           skill={editData}
           onClose={() => {

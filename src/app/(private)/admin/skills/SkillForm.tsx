@@ -2,14 +2,16 @@ import Button from "@/components/controls/Button";
 import Form from "@/components/controls/Form";
 import FormGroup from "@/components/controls/FormGroup";
 import Input from "@/components/controls/Input";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ISkillDoc } from "@/models/skill";
 import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
+import Box from "@/components/controls/Box";
 import { toast } from "react-toastify";
+import { skillService } from "@/services/skill.service";
+import { useRouter } from "next/navigation";
 import * as yup from "yup";
-import { useEffect, useTransition } from "react";
-import { addSkill, skillUpdate } from "@/lib/skill";
+import useFocus from "@/hooks/useFocus";
 
 const validation = yup.object().shape({
   title: yup.string().required("Skill name is required!"),
@@ -25,7 +27,8 @@ type SkillFormProps = {
   onClose?: () => void;
 };
 const SkillForm = ({ skill, onClose }: SkillFormProps) => {
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const inpRef = useFocus();
 
   const {
     values,
@@ -44,43 +47,41 @@ const SkillForm = ({ skill, onClose }: SkillFormProps) => {
     },
     validationSchema: validation,
     async onSubmit(values, { resetForm, setSubmitting }) {
-      startTransition(async () => {
-        console.log(values);
-        const response = values.id
-          ? await skillUpdate(values as ISkillDoc)
-          : await addSkill(values);
-        if (response?.errors) toast.error(response.errors.message);
-        else {
+      try {
+        let response = null;
+        if (values.id) {
+          response = await skillService.update(values as ISkillDoc);
+        } else {
+          response = await skillService.add(values);
+        }
+
+        const message =
+          values.title +
+          (response.status === 200 ? " skill updated!" : " skill added!");
+
+        if (response.status === 200 || response.status === 201) {
+          toast.success(message);
           resetForm();
           onClose?.();
-          setSubmitting(false);
+          router.refresh();
         }
-      });
-
-      //   if (values.id) {
-      //     response = await skillService.update(values as ISkillDoc);
-      //   } else {
-      //     response = await skillService.add(values);
-      //   }
-      //   if (response.statusText === "OK") {
-      //     toast.success("Skill added successfully!");
-      //   }
-      //   resetForm();
-      //   onClose?.();
-      // } catch (error: unknown | AxiosError) {
-      //   if (axios.isAxiosError(error)) {
-      //     toast.error(error.response?.data.errors.message);
-      //   }
-      // }
-      // setSubmitting(false);
+      } catch (error: unknown | AxiosError) {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data.errors.message);
+        }
+      }
+      setSubmitting(false);
     },
     onReset(state) {},
   });
+
+  console.log("Hi");
 
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
         <Input
+          ref={inpRef}
           name="title"
           value={values.title}
           errors={errors}
@@ -89,12 +90,14 @@ const SkillForm = ({ skill, onClose }: SkillFormProps) => {
           onChange={handleChange}
         />
       </FormGroup>
-      <Button type="button" onClick={onClose}>
-        {AppContent.cancel}
-      </Button>
-      <Button loading={isSubmitting} disabled={isSubmitting} type="submit">
-        {AppContent.save}
-      </Button>
+      <Box className="d-flex justify-content-end">
+        <Button className="me-3" type="button" onClick={onClose}>
+          {AppContent.cancel}
+        </Button>
+        <Button loading={isSubmitting} disabled={isSubmitting} type="submit">
+          {values.id ? AppContent.update : AppContent.save}
+        </Button>
+      </Box>
     </Form>
   );
 };
