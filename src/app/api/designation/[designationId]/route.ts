@@ -8,6 +8,7 @@ import {
   IDesignationDoc,
 } from "@/models/designation";
 import { connectDb } from "@/lib/db";
+import { admin } from "../../middleware/admin";
 
 /**
  * Get designation
@@ -43,6 +44,7 @@ export async function PUT(
 ) {
   await connectDb();
   try {
+    await admin(req);
     const status = req.nextUrl.searchParams.get("status");
 
     const body = (await req.json()) as IDesignation;

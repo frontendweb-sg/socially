@@ -4,6 +4,7 @@ import { CustomError } from "../../errors/custom-error";
 import { NotFoundError } from "../../errors/not-found-error";
 import { ISkillDoc, ISkill, Skill } from "@/models/skill";
 import { connectDb } from "@/lib/db";
+import { admin } from "../../middleware/admin";
 
 /**
  * Get designation
@@ -37,13 +38,18 @@ export async function PUT(
 ) {
   await connectDb();
   try {
+    await admin(req);
+    const body = (await req.json()) as ISkillDoc;
+    body.slug = body.title.replace(/\s+/g, "-");
     const status = req.nextUrl.searchParams.get("status");
 
-    const body = (await req.json()) as ISkill;
-    body.slug = body.title.replace(/\s+/g, "-");
+    const skill = (await Skill.findById(params.skillId)) as ISkillDoc;
+    if (!skill) throw new NotFoundError("Skill not found!");
 
-    const designation = (await Skill.findById(params.skillId)) as ISkillDoc;
-    if (!designation) throw new NotFoundError("Skill not found");
+    const hasSlug = (await Skill.findOne({
+      $and: [{ _id: { $ne: body.id } }, { slug: body.slug }],
+    })) as ISkillDoc;
+    if (hasSlug) throw new NotFoundError("Skill already existd");
 
     let update: any = body;
     if (status) {

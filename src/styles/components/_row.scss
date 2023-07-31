@@ -1,0 +1,13 @@
+.row-mod {
+  @media (min-width: 768px) {
+    > div[class^="col-lg-"],
+    > aside[class^="col-lg-"] {
+      &:first-child {
+        width: 21%;
+      }
+      &:last-child {
+        width: 79%;
+      }
+    }
+  }
+}

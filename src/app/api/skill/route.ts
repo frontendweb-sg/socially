@@ -4,6 +4,7 @@ import { CustomError } from "../errors/custom-error";
 import { ISkillDoc, ISkill, Skill } from "@/models/skill";
 import { BadRequestError } from "../errors/bad-request-error";
 import { connectDb } from "@/lib/db";
+import { admin } from "../middleware/admin";
 
 /**
  * Get all skill
@@ -28,6 +29,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   await connectDb();
   try {
+    await admin(req);
     const body = (await req.json()) as ISkill;
     body.slug = body.title.replace(/\s+/g, "-");
 

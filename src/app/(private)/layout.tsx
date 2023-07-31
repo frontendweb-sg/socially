@@ -12,9 +12,9 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
     <>
       <Header />
       <main className="container mt-4 mb-4">
-        <div className="row">
+        <div className="row row-mod">
           <Sidebar />
-          <div className="col-md-9">
+          <div className="col-lg-9">
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>
         </div>

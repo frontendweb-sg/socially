@@ -15,10 +15,9 @@ import { useSession } from "next-auth/react";
  */
 const Sidebar = () => {
   const { data: session, status } = useSession();
-
   let Menu = session?.user.role === "admin" ? AdminMenu : USER_MENU;
   return (
-    <aside className="col-md-3">
+    <aside className="col-lg-3 d-none d-md-block">
       <Box className="sidebar">
         <UserControl />
         <hr className="sidebar-divider" />

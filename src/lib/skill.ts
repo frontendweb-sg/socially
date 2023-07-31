@@ -1,22 +1,45 @@
 "use server";
 
-import { skillService } from "@/services/skill.service";
+import axios from "axios";
+import { Api } from "@/axios-instance";
+import { ISkill, ISkillDoc } from "@/models/skill";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
-const addSkill = () => {};
+const url = process.env.NEXT_PUBLIC_API_URL + "/skill";
+const addSkill = async (body: ISkill) => {
+  const cookie = cookies();
+  await axios.post(url, body, {
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: `${cookie}`,
+    },
+  });
+  revalidatePath("/admin/skill");
+};
 
-const updateSkill = () => {};
+const skillUpdate = async (body: ISkillDoc) => {
+  try {
+    const cookie = cookies();
+    const response = await axios.put(url + "/" + body.id, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `${cookie}`,
+      },
+    });
+    revalidatePath("/admin/skill");
+  } catch (error) {
+    if (axios.isAxiosError(error)) return error.response?.data;
+  }
+};
 const getSkills = () => {
   try {
   } catch (error) {}
 };
+
 const deleteSkill = async (id: string) => {
-  try {
-    await skillService.delete(id);
-    revalidatePath("/admin/skill");
-  } catch (error) {
-    console.log(error);
-  }
+  await Api.delete(url + "/" + id);
+  revalidatePath("/admin/skills");
 };
 
-export { deleteSkill };
+export { deleteSkill, addSkill, skillUpdate };

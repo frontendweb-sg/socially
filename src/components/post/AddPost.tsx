@@ -200,7 +200,7 @@ const AddPost = ({ cookie }: Props) => {
       <Modal ref={codeModalRef} label="Add code">
         <CodeEditor
           setFieldValue={setFieldValue}
-          value={values.code}
+          value={values.code.language_code}
           name="code"
         />
       </Modal>

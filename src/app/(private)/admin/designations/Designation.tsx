@@ -9,14 +9,17 @@ import NoData from "@/components/controls/DataTable/NoData";
 import { useAppState } from "@/components/providers/AppProvider";
 import { IDesignationDoc } from "@/models/designation";
 import { AppContent } from "@/utils/content";
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useTransition } from "react";
 import { Status } from "@/utils/types";
+import { deleteDesignation } from "@/lib/designation";
+import { toast } from "react-toastify";
 
 type DesignationProps = {
   data: IDesignationDoc[];
 };
 const Designation = ({ data }: DesignationProps) => {
   const modalRef = useRef<modalRef>(null);
+  const [isPending, startTransition] = useTransition();
 
   const { state, editHandler, resetEditing, onConfirm, onCancelConfirm } =
     useAppState();
@@ -41,6 +44,8 @@ const Designation = ({ data }: DesignationProps) => {
         onConfirm({
           open: true,
           async onSubmit() {
+            startTransition(async () => await deleteDesignation(data.id));
+            toast.success("Designation deleted successfully!");
             onCancelConfirm();
           },
         });

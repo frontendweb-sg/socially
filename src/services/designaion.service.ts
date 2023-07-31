@@ -25,7 +25,10 @@ class DesignationService {
   update(body: IDesignationDoc): Promise<AxiosResponse<IDesignationDoc>> {
     return Api.put("/designation/" + body.id, body);
   }
-  delete(id: string): Promise<AxiosResponse<IDesignationDoc>> {
+
+  delete(
+    id: string
+  ): Promise<AxiosResponse<IDesignation | { errors: IError }>> {
     return Api.delete("/designation/" + id);
   }
 }

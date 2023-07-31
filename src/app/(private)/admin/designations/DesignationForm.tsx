@@ -11,7 +11,6 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { AppContent } from "@/utils/content";
-import { addDesignation, updateDesignation } from "@/lib/designation";
 
 const validation = yup.object().shape({
   title: yup.string().required("Skill name is required!"),
@@ -54,11 +53,11 @@ const DesignationForm = ({
             ? "Designation updated!"
             : "Designation added!";
 
-        toast.success(message);
-        resetForm();
-        if (response.statusText === "OK") {
+        if (response.status === 200 || response.status === 201) {
+          toast.success(message);
           router.refresh();
           onClose?.();
+          resetForm();
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {
