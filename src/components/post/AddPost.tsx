@@ -18,11 +18,14 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { AppContent, PostPrivacy } from "@/utils/content";
 import { postService } from "@/services/post.service";
-import { FaCode } from "react-icons/fa";
+import { FaCode, FaEdit, FaUser } from "react-icons/fa";
 import { Media } from "@/models/post";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import LoggedInUserAvatar from "../user/LoggedInUserAvatar";
+import Typography from "../controls/Typography";
+import Dropdown from "../controls/Dropdown";
+import NavItem from "../layout/NavItem";
 
 const validation = yup.object().shape({
   content: yup.string().required("Content is required!"),
@@ -110,91 +113,116 @@ const AddPost = ({ cookie }: Props) => {
 
   return (
     <Panel className="card-create-post mb-3">
-      <Panel.Title>
-        <LoggedInUserAvatar />
-        {AppContent.addPost}
-      </Panel.Title>
       {loading && <p>Please wait post saving</p>}
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Textarea
-            name="content"
-            value={values.content}
-            placeholder="What's on your mind?"
-            errors={errors}
-            touched={touched}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <TagCreator
-            options={[
-              { id: "1", label: "Html" },
-              { id: "2", label: "Css" },
-              { id: "3", label: "Js" },
-            ]}
-            defaultValues={values.tags}
-            getOptionLabel={(option) => option?.label}
-            setValues={setFieldValue}
-          />
-          {errors["tags"] && touched["tags"] && (
-            <p className="text-danger mt-2">Tags are required!</p>
-          )}
-        </FormGroup>
-
-        <FormGroup>
-          {values.images.length > 0 && (
-            <MediaDisplay
-              name="images"
-              data={values.images as unknown as File[]}
-              setValues={setFieldValue}
-            />
-          )}
-          <Stack>
-            <Upload
-              accept=""
-              multiple
-              name="images"
-              setValues={setFieldValue}
-            />
-            <IconButton
-              className="ms-2"
-              icon={<FaCode />}
-              onClick={() => codeModalRef.current?.openHandler()}
-            />
-          </Stack>
-        </FormGroup>
-        <hr />
-        <Box className="post-footer d-flex align-items-center justify-content-between">
-          <Select
-            name="privacy"
-            defaultValue={values.privacy}
-            setValues={setFieldValue}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="w-25"
-            options={PostPrivacy}
-          />
-          <Box className="d-flex ms-3">
-            <Button
-              className="me-3"
-              color="secondary"
-              onClick={() => resetForm({ values: postService.getIntialData() })}
-            >
-              {AppContent.cancel}
-            </Button>
-            <Button
-              loading={loading || isSubmitting}
-              disabled={loading || isSubmitting}
-              type="submit"
-            >
-              {AppContent.save}
-            </Button>
-          </Box>
+      <Panel.Title>
+        <Box className="post-loggedin-user">
+          <LoggedInUserAvatar />
+          <Typography className="ms-2" variant="h5">
+            {AppContent.addPost}
+          </Typography>
         </Box>
-      </Form>
+        <Dropdown>
+          <NavItem
+            custom
+            className="dropdown-item"
+            scroll={false}
+            href="/user/profile"
+          >
+            <FaEdit className="me-2" /> {AppContent.editProfile}
+          </NavItem>
+          <NavItem
+            custom
+            className="dropdown-item"
+            scroll={false}
+            href="/user/profile"
+          >
+            <FaUser className="me-2" /> {AppContent.viewProfile}
+          </NavItem>
+        </Dropdown>
+      </Panel.Title>
+      <Panel.Body className="ps-3">
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <Textarea
+              name="content"
+              value={values.content}
+              placeholder="What's on your mind?"
+              errors={errors}
+              touched={touched}
+              onBlur={handleBlur}
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <TagCreator
+              options={[
+                { id: "1", label: "Html" },
+                { id: "2", label: "Css" },
+                { id: "3", label: "Js" },
+              ]}
+              defaultValues={values.tags}
+              getOptionLabel={(option) => option?.label}
+              setValues={setFieldValue}
+            />
+            {errors["tags"] && touched["tags"] && (
+              <p className="text-danger mt-2">Tags are required!</p>
+            )}
+          </FormGroup>
 
+          <FormGroup>
+            {values.images.length > 0 && (
+              <MediaDisplay
+                name="images"
+                data={values.images as unknown as File[]}
+                setValues={setFieldValue}
+              />
+            )}
+            <Stack>
+              <Upload
+                accept=""
+                multiple
+                name="images"
+                setValues={setFieldValue}
+              />
+              <IconButton
+                className="ms-2"
+                icon={<FaCode />}
+                onClick={() => codeModalRef.current?.openHandler()}
+              />
+            </Stack>
+          </FormGroup>
+          <hr />
+          <Box className="post-footer d-flex align-items-center justify-content-between">
+            <Select
+              name="privacy"
+              defaultValue={values.privacy}
+              setValues={setFieldValue}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="w-25"
+              options={PostPrivacy}
+            />
+            <Box className="d-flex ms-3">
+              <Button
+                className="me-3"
+                color="secondary"
+                onClick={() =>
+                  resetForm({ values: postService.getIntialData() })
+                }
+              >
+                {AppContent.cancel}
+              </Button>
+              <Button
+                loading={loading || isSubmitting}
+                disabled={loading || isSubmitting}
+                type="submit"
+              >
+                {AppContent.save}
+              </Button>
+            </Box>
+          </Box>
+        </Form>
+      </Panel.Body>
       <Modal ref={codeModalRef} label="Add code">
         <CodeEditor
           name="code"

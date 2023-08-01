@@ -26,7 +26,7 @@ const PanelTitle = forwardRef<panelRef, PanelProps & { variant?: Variant }>(
     const classes = classNames("card-title pb-2", className);
     return (
       <Box ref={ref} className={classes} {...rest}>
-        <Typography variant={variant!}>{children}</Typography>
+        {children}
       </Box>
     );
   }
@@ -34,7 +34,7 @@ const PanelTitle = forwardRef<panelRef, PanelProps & { variant?: Variant }>(
 
 const PanelBody = forwardRef<panelRef, PanelProps>(
   ({ className, children, ...rest }, ref) => {
-    const classes = classNames("card-body", className);
+    const classes = classNames(className);
     return (
       <Box ref={ref} className={classes} {...rest}>
         {children}

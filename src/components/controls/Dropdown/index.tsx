@@ -5,7 +5,7 @@ import Button, { ButtonProps } from "../Button";
 import useToggle from "@/hooks/useToggle";
 import { ReactElement, createContext, useContext, useRef } from "react";
 import { forwardRef } from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import { FaEllipsisH, FaEllipsisV } from "react-icons/fa";
 import DropdownBody from "./DropdownBody";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import IconButton, { type iconButtonProps } from "../IconButton";
@@ -42,8 +42,9 @@ const Dropdown = forwardRef<dropdownRef, DropdownProps>(
     return (
       <Component as={as} className={classes} ref={refs} {...rest}>
         <IconButton
-          icon={<FaEllipsisV />}
+          icon={<FaEllipsisH size={16} />}
           size="xs"
+          variant="text"
           className={btnClass}
           onClick={toggleHandler}
           {...buttonProps}

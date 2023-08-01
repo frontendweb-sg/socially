@@ -4,7 +4,10 @@
     padding: 3px;
     outline: none;
     line-height: 1;
-
+    &:focus {
+      outline: none;
+      border-color: transparent;
+    }
     @each $k, $v in $btn-icon-size {
       &-#{$k} {
         width: $v;

@@ -1,8 +1,19 @@
-.card{
-    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
-    border-color: $gray-200;
-    &-post{
-        padding:20px;
+.card {
+  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+  border-color: $gray-200;
+  border-color: $gray-100;
 
-    }
+  &-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-post {
+    padding: 20px;
+  }
+
+  &-create-post {
+    padding: 30px;
+  }
 }
