@@ -1,18 +1,18 @@
-import { FaHeart, FaHeartBroken } from "react-icons/fa";
 import Box from "../controls/Box";
 import IconButton from "../controls/IconButton";
 import classNames from "classnames";
 import Typography from "../controls/Typography";
-import { useTransition } from "react";
-import { addLike } from "@/lib/like";
+import { FaHeart, FaHeartBroken } from "react-icons/fa";
 import { Api } from "@/axios-instance";
 import { ILikeDoc } from "@/models/post";
+import { useRouter } from "next/navigation";
 
 type LikesProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   postId: string;
   likes: ILikeDoc[];
 };
 const Likes = ({ likes, postId, className, ...rest }: LikesProps) => {
+  const router = useRouter();
   const classes = classNames(
     "post-likes d-flex align-items-center mb-3",
     className
@@ -22,19 +22,13 @@ const Likes = ({ likes, postId, className, ...rest }: LikesProps) => {
   const dislikesCount = likes.filter((like: ILikeDoc) => !like.active).length;
 
   const addLikeHandler = async () => {
-    const response = await Api.post(
-      "/post/" + postId + "/like?status=active",
-      {}
-    );
-    console.log(response.data, "data");
+    await Api.post("/post/" + postId + "/like?status=active", null);
+    router.refresh();
   };
 
   const dislikeHandler = async () => {
-    const response = await Api.post(
-      "/post/" + postId + "/like?status=inactive",
-      {}
-    );
-    console.log(response.data, "data");
+    await Api.post("/post/" + postId + "/like?status=inactive", null);
+    router.refresh();
   };
 
   return (

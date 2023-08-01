@@ -7,6 +7,7 @@ import { getPosts } from "@/lib/post";
 import { IPostDoc } from "@/models/post";
 import { cookies } from "next/headers";
 
+export const revalidate = 0;
 const Page = async () => {
   const cookie = cookies();
   const posts = (await getPosts()) as IPostDoc[];

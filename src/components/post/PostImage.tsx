@@ -21,6 +21,10 @@ const PostImage = ({ className, images, imgProps, ...rest }: Props) => {
           <figure>
             <Image
               fill
+              sizes="100vw"
+              style={{
+                objectFit: "cover", // cover, contain, none
+              }}
               {...imgProps}
               priority={false}
               src={image.secure_url}

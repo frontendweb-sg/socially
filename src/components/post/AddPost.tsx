@@ -18,12 +18,15 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { AppContent, PostPrivacy } from "@/utils/content";
 import { postService } from "@/services/post.service";
-import { useAppState } from "../providers/AppProvider";
 import { FaCode } from "react-icons/fa";
-import { Cloudinary } from "@cloudinary/url-gen";
 import { Media } from "@/models/post";
 import { toast } from "react-toastify";
+import * as yup from "yup";
 
+const validation = yup.object().shape({
+  content: yup.string().required("Content is required!"),
+  tags: yup.array().min(1).required("Tags required"),
+});
 /**
  * Add post
  * @returns
@@ -36,97 +39,78 @@ const AddPost = ({ cookie }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const { state, resetEditing } = useAppState();
-  const { editData } = state;
-
   const codeModalRef = useRef<modalRef>(null);
 
   const {
     values,
     errors,
     touched,
+    isSubmitting,
     handleBlur,
     handleChange,
     handleSubmit,
-    setValues,
     setFieldValue,
+    resetForm,
   } = useFormik({
-    initialValues: editData! ?? postService.getIntialData(),
+    initialValues: postService.getIntialData(),
+    validationSchema: validation,
     async onSubmit(values, { resetForm, setSubmitting }) {
-      values.tags = values.tags.map((tag: any) => tag.label);
-
-      const formdata = new FormData();
-      values.images.forEach((file: File) => {
-        formdata.append(file.name, file);
-      });
-      const mediaResponse = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/upload",
-        {
-          method: "POST",
-          body: formdata,
-        }
-      );
-
-      const medias: Media[] = await mediaResponse.json();
-      if (!medias) return;
-
-      values.images = medias.map(
-        ({
-          public_id,
-          secure_url,
-          access_mode,
-          folder,
-          resource_type,
-          type,
-          version_id,
-        }: Media) => ({
-          public_id,
-          secure_url,
-          access_mode,
-          folder,
-          resource_type,
-          type,
-          version_id,
-        })
-      );
-
       setLoading(true);
+      const tags = values.tags.map((tag: any) => tag.label) as string[];
+      values.tags = tags as string[];
+      values.code = JSON.parse(values?.code as unknown as string);
+      if (values.images.length > 0) {
+        const formdata = new FormData();
+        values.images.forEach((file: any) => {
+          formdata.append(file.name, file);
+        });
 
-      let response = null;
-      if (values.id) {
-        response = await postService.update(values as any);
-      } else {
-        response = await postService.add(values);
+        const mediaResponse = await fetch(
+          process.env.NEXT_PUBLIC_API_URL + "/upload",
+          {
+            method: "POST",
+            body: formdata,
+          }
+        );
+
+        const medias: Media[] = await mediaResponse.json();
+        if (medias.length > 0) {
+          values.images = medias.map(
+            ({
+              public_id,
+              secure_url,
+              access_mode,
+              folder,
+              resource_type,
+              type,
+              version_id,
+            }: Media) => ({
+              public_id,
+              secure_url,
+              access_mode,
+              folder,
+              resource_type,
+              type,
+              version_id,
+            })
+          );
+        }
       }
-
-      if (response.statusText === "OK") {
+      let response = await postService.add(values);
+      if (response.status === 201) {
         resetForm();
-        toast.success("Post added success!");
+        toast.success("Post added successfully!");
         router.refresh();
       }
-
       setLoading(false);
+      setSubmitting(false);
     },
   });
-
-  const cancelHandler = () => {
-    resetEditing();
-  };
-
-  const onCodeEditorChange = (value: any) => {
-    setFieldValue("code", value);
-  };
-  function handleEditorChange(value: any, event: any) {
-    console.log("here is the current model value:", event);
-    setFieldValue("code", value);
-  }
 
   return (
     <Panel className="card-post mb-3">
       <Panel.Title>{AppContent.addPost}</Panel.Title>
-      {loading && (
-        <p>Please wait post {values.id ? "updating..." : "saving..."}</p>
-      )}
+      {loading && <p>Please wait post saving</p>}
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <Textarea
@@ -150,13 +134,16 @@ const AddPost = ({ cookie }: Props) => {
             getOptionLabel={(option) => option?.label}
             setValues={setFieldValue}
           />
+          {errors["tags"] && touched["tags"] && (
+            <p className="text-danger mt-2">Tags are required!</p>
+          )}
         </FormGroup>
 
         <FormGroup>
           {values.images.length > 0 && (
             <MediaDisplay
-              name="media"
-              data={values.images}
+              name="images"
+              data={values.images as unknown as File[]}
               setValues={setFieldValue}
             />
           )}
@@ -174,7 +161,6 @@ const AddPost = ({ cookie }: Props) => {
             />
           </Stack>
         </FormGroup>
-
         <hr />
         <Box className="post-footer d-flex align-items-center justify-content-between">
           <Select
@@ -187,11 +173,19 @@ const AddPost = ({ cookie }: Props) => {
             options={PostPrivacy}
           />
           <Box className="d-flex ms-3">
-            <Button className="me-3" color="secondary" onClick={cancelHandler}>
+            <Button
+              className="me-3"
+              color="secondary"
+              onClick={() => resetForm({ values: postService.getIntialData() })}
+            >
               {AppContent.cancel}
             </Button>
-            <Button disabled={loading} type="submit">
-              {loading ? "loading..." : values.id ? "Update" : "Add"}
+            <Button
+              loading={loading || isSubmitting}
+              disabled={loading || isSubmitting}
+              type="submit"
+            >
+              {AppContent.save}
             </Button>
           </Box>
         </Box>
@@ -199,9 +193,10 @@ const AddPost = ({ cookie }: Props) => {
 
       <Modal ref={codeModalRef} label="Add code">
         <CodeEditor
+          name="code"
           setFieldValue={setFieldValue}
           value={values.code.language_code}
-          name="code"
+          onClose={codeModalRef.current?.closeHandler}
         />
       </Modal>
     </Panel>

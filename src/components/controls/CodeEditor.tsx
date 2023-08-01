@@ -14,12 +14,14 @@ import {
 } from "react";
 import { FaEye } from "react-icons/fa";
 import { type editor } from "monaco-editor";
-import { Extensions, Languages } from "@/utils/content";
+import { AppContent, Extensions, Languages } from "@/utils/content";
+import IconButton from "./IconButton";
 
 type Props = EditorProps & {
   name?: string;
   setFieldValue?: (name: string, data: string, event?: any) => void;
   readonly?: boolean;
+  onClose?: () => void;
 };
 
 type editorRefs = {
@@ -30,12 +32,13 @@ type editorRefs = {
 const CodeEditor = forwardRef<editorRefs, Props>(
   (
     {
-      height = "50vh",
+      height = "45vh",
       defaultLanguage = "css",
       value,
       name,
       readonly = false,
       setFieldValue,
+      onClose,
       ...rest
     },
     ref
@@ -114,9 +117,11 @@ const CodeEditor = forwardRef<editorRefs, Props>(
                 accept={Extensions[language as keyof typeof Extensions]}
               />
             )}
-            <Button className="ms-2" onClick={changeTheme}>
-              <FaEye />
-            </Button>
+            <IconButton
+              icon={<FaEye />}
+              className="ms-2"
+              onClick={changeTheme}
+            />
           </Box>
         </Box>
         <Editor
@@ -131,6 +136,10 @@ const CodeEditor = forwardRef<editorRefs, Props>(
           }}
           {...rest}
         />
+        <hr />
+        <Box className="d-flex justify-content-end">
+          <Button onClick={onClose}>{AppContent.save}</Button>
+        </Box>
       </Box>
     );
   }

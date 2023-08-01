@@ -28,7 +28,7 @@ class PostService {
       likes: [],
       isFeature: false,
       isRecent: false,
-    };
+    } as IPost;
   }
 
   async getAll(): Promise<IPostDoc[] | undefined> {

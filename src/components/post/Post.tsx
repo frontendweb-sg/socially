@@ -10,13 +10,13 @@ import Link from "next/link";
 import Tabs from "../controls/Tabs";
 import TabContent from "../controls/Tabs/TabContent";
 import CodeEditor from "../controls/CodeEditor";
+import Likes from "./Likes";
 import { useContext } from "react";
 import { ICommentDoc, ILikeDoc, IPostDoc, Media } from "@/models/post";
 import { AppContent } from "@/utils/content";
 import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
 import { deletePost } from "@/lib/post";
-import Likes from "./Likes";
 
 export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   post?: IPostDoc;
@@ -76,7 +76,6 @@ const Post = ({ post }: PostProps) => {
           </NavItem>
         </Dropdown>
       </PostTitle>
-
       <Tabs tabs={["Photos", "Code"]}>
         <TabContent index={0}>
           <PostImage images={post?.images!} />
@@ -90,14 +89,16 @@ const Post = ({ post }: PostProps) => {
         </TabContent>
       </Tabs>
       <Likes likes={post?.likes! as ILikeDoc[]} postId={post?.id} />
-      <Box className="post-body">
-        <p>
-          {post?.content.substring(0, 200)}...
-          <Link className="link" href="#" scroll={false}>
-            Read more
-          </Link>
-        </p>
-      </Box>
+      {post?.content && (
+        <Box className="post-body">
+          <p>
+            {post?.content.substring(0, 200)}...
+            <Link className="link" href="#" scroll={false}>
+              Read more
+            </Link>
+          </p>
+        </Box>
+      )}
 
       <Comments comments={post?.comments as ICommentDoc[]} />
       <AddComment postId={post?.id} />

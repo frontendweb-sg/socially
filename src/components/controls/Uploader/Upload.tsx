@@ -56,19 +56,6 @@ const Upload = forwardRef<uploadRef, Props>(
         Object.assign(file, { preview: URL.createObjectURL(file) })
       );
 
-      // const formdata = new FormData();
-      // formdata.append("file", files[0]);
-      // formdata.append(
-      //   "upload_preset",
-      //   process.env.NEXT_PUBLIC_CLOUDINARY_NAME!
-      // );
-
-      // const response = await axios.post(
-      //   process.env.NEXT_PUBLIC_CLOUDINARY_API_URL!,
-      //   formdata
-      // );
-      // console.log(response);
-
       setValues(ev.target.name, files);
     };
 

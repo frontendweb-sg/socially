@@ -78,6 +78,15 @@ const AddComment = ({ postId }: AddCommentProps) => {
       textAfterCursorPosition;
     setFieldValue("message", content);
   };
+
+  // const onKeyHandler = (e: KeyboardEvent) => {
+  //   const { code } = e;
+
+  //   if (code === "Enter") {
+  //     handleSubmit();
+  //   }
+  // };
+
   return (
     <>
       <Form className="comment-form mt-2" onSubmit={handleSubmit}>
@@ -104,12 +113,14 @@ const AddComment = ({ postId }: AddCommentProps) => {
             name="image"
             setValues={setFieldValue}
           />
+
           <IconButton
             onClick={() => modalRef.current?.openHandler()}
             title="Add code"
             color="secondary"
             icon={<FaCode />}
           />
+
           <IconButton
             onClick={() => emojiModalRef.current?.openHandler()}
             title="Add emoji"

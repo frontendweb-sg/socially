@@ -15,13 +15,12 @@ export async function POST(req: NextRequest) {
   try {
     const token = await auth(req);
     const body = (await req.json()) as IPost;
+    console.log("body", body);
     body.user = token.id as string;
     const newPost = new Post(body);
     const result = (await newPost.save()) as IPostDoc;
     return NextResponse.json(result, {
       status: 201,
-      url: process.env.NEXTAUTH_URL + "/api/post",
-      statusText: "ok",
     });
   } catch (error) {
     return errorHandler(error as CustomError);
@@ -32,8 +31,7 @@ export async function GET(req: NextRequest) {
   await connectDb();
   try {
     const token = await auth(req);
-
-    const posts = (await Post.find()) as IPostDoc[];
+    const posts = (await Post.find().sort({ createdAt: -1 })) as IPostDoc[];
     return NextResponse.json(posts, { status: 200 });
   } catch (error) {
     return errorHandler(error as CustomError);
