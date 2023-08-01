@@ -22,6 +22,7 @@ import { FaCode } from "react-icons/fa";
 import { Media } from "@/models/post";
 import { toast } from "react-toastify";
 import * as yup from "yup";
+import LoggedInUserAvatar from "../user/LoggedInUserAvatar";
 
 const validation = yup.object().shape({
   content: yup.string().required("Content is required!"),
@@ -108,8 +109,11 @@ const AddPost = ({ cookie }: Props) => {
   });
 
   return (
-    <Panel className="card-post mb-3">
-      <Panel.Title>{AppContent.addPost}</Panel.Title>
+    <Panel className="card-create-post mb-3">
+      <Panel.Title>
+        <LoggedInUserAvatar />
+        {AppContent.addPost}
+      </Panel.Title>
       {loading && <p>Please wait post saving</p>}
       <Form onSubmit={handleSubmit}>
         <FormGroup>
