@@ -13,19 +13,27 @@ import MediaDisplay from "../controls/Uploader/MediaDisplay";
 import Stack from "../controls/Stack";
 import IconButton from "../controls/IconButton";
 import Modal, { modalRef } from "../controls/Modal";
+import LoggedInUserAvatar from "../user/LoggedInUserAvatar";
+import Typography from "../controls/Typography";
+import Dropdown from "../controls/Dropdown";
+import NavItem from "../layout/NavItem";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { AppContent, PostPrivacy } from "@/utils/content";
 import { postService } from "@/services/post.service";
-import { FaCode, FaEdit, FaUser } from "react-icons/fa";
+import {
+  FaCode,
+  FaEdit,
+  FaImage,
+  FaSmile,
+  FaTag,
+  FaTimes,
+  FaUser,
+} from "react-icons/fa";
 import { Media } from "@/models/post";
 import { toast } from "react-toastify";
 import * as yup from "yup";
-import LoggedInUserAvatar from "../user/LoggedInUserAvatar";
-import Typography from "../controls/Typography";
-import Dropdown from "../controls/Dropdown";
-import NavItem from "../layout/NavItem";
 
 const validation = yup.object().shape({
   content: yup.string().required("Content is required!"),
@@ -40,10 +48,10 @@ type Props = {
   cookie: any;
 };
 const AddPost = ({ cookie }: Props) => {
-  const router = useRouter();
+  const [enableTag, setEnableTag] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const codeModalRef = useRef<modalRef>(null);
+  const router = useRouter();
 
   const {
     values,
@@ -140,8 +148,15 @@ const AddPost = ({ cookie }: Props) => {
           </NavItem>
         </Dropdown>
       </Panel.Title>
-      <Panel.Body className="ps-3">
+      <Panel.Body>
         <Form onSubmit={handleSubmit}>
+          <CodeEditor
+            name="code"
+            setFieldValue={setFieldValue}
+            value={values.code.language_code}
+            onClose={codeModalRef.current?.closeHandler}
+            height="300px"
+          />
           <FormGroup>
             <Textarea
               name="content"
@@ -153,21 +168,29 @@ const AddPost = ({ cookie }: Props) => {
               onChange={handleChange}
             />
           </FormGroup>
-          <FormGroup>
-            <TagCreator
-              options={[
-                { id: "1", label: "Html" },
-                { id: "2", label: "Css" },
-                { id: "3", label: "Js" },
-              ]}
-              defaultValues={values.tags}
-              getOptionLabel={(option) => option?.label}
-              setValues={setFieldValue}
-            />
-            {errors["tags"] && touched["tags"] && (
-              <p className="text-danger mt-2">Tags are required!</p>
-            )}
-          </FormGroup>
+          {enableTag && (
+            <FormGroup>
+              <TagCreator
+                options={[
+                  { id: "1", label: "Html" },
+                  { id: "2", label: "Css" },
+                  { id: "3", label: "Js" },
+                ]}
+                defaultValues={values.tags}
+                getOptionLabel={(option) => option?.label}
+                setValues={setFieldValue}
+                startIcon={<FaTag />}
+              >
+                <IconButton
+                  icon={<FaTimes />}
+                  onClick={() => setEnableTag(false)}
+                />
+              </TagCreator>
+              {errors["tags"] && touched["tags"] && (
+                <p className="text-danger mt-2">Tags are required!</p>
+              )}
+            </FormGroup>
+          )}
 
           <FormGroup>
             {values.images.length > 0 && (
@@ -179,16 +202,37 @@ const AddPost = ({ cookie }: Props) => {
             )}
             <Stack>
               <Upload
+                icon={<FaImage className="me-1" />}
                 accept=""
                 multiple
                 name="images"
                 setValues={setFieldValue}
-              />
-              <IconButton
-                className="ms-2"
-                icon={<FaCode />}
-                onClick={() => codeModalRef.current?.openHandler()}
-              />
+                button
+                className="me-2"
+                btnProps={{
+                  color: "light",
+                  variant: "outline",
+                }}
+              >
+                {AppContent.images}
+              </Upload>
+
+              <Button
+                startIcon={<FaSmile className="me-1" />}
+                variant="outline"
+                className="me-2"
+                color="light"
+              >
+                {AppContent.feelingActivity}
+              </Button>
+              <Button
+                color="light"
+                startIcon={<FaTag className="me-1" />}
+                variant="outline"
+                onClick={() => setEnableTag(true)}
+              >
+                {AppContent.tagFriends}
+              </Button>
             </Stack>
           </FormGroup>
           <hr />
@@ -223,14 +267,6 @@ const AddPost = ({ cookie }: Props) => {
           </Box>
         </Form>
       </Panel.Body>
-      <Modal ref={codeModalRef} label="Add code">
-        <CodeEditor
-          name="code"
-          setFieldValue={setFieldValue}
-          value={values.code.language_code}
-          onClose={codeModalRef.current?.closeHandler}
-        />
-      </Modal>
     </Panel>
   );
 };

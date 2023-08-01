@@ -2,16 +2,15 @@
   padding: 0 8px;
   display: flex;
   align-items: center;
+  display: flex;
+  align-items: center;
   .fw-input,
   .fw-textarea {
     flex: 1;
     border: none;
     outline: none;
     padding: 8px;
-    background-color: transparent;
-    &:focus {
-      background-color: transparent;
-    }
+    background-color: $white;
   }
   &:focus-within {
     background-color: $gray-100;

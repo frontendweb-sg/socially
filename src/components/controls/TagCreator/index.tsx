@@ -5,15 +5,21 @@ import Box from "../Box";
 import Input from "../Input";
 import TagCreatorList from "./TagCreatorList";
 import Chip from "./Chip";
-import { memo } from "react";
+import { ReactElement, ReactNode, memo } from "react";
 
+type TagProps<T> = SelectProps<T> & {
+  startIcon?: ReactElement;
+  children?: ReactNode;
+};
 const TagCreator = <T extends Readonly<T>>({
   options,
   defaultValues,
   getOptionLabel,
   keyExtractor,
   setValues,
-}: SelectProps<T>) => {
+  startIcon,
+  children,
+}: TagProps<T>) => {
   const classes = classNames("tags");
 
   const {
@@ -22,6 +28,7 @@ const TagCreator = <T extends Readonly<T>>({
     currentIndex,
     inputValue,
     filteredOptions,
+
     handleChange,
     onRemoveItem,
     addItem,
@@ -50,13 +57,19 @@ const TagCreator = <T extends Readonly<T>>({
       )}
 
       <Box ref={tagRef}>
-        <Input
-          onFocus={openHandler}
-          value={inputValue}
-          name="name"
-          onChange={handleChange}
-          placeholder="Select or generate new tag"
-        />
+        <Box className="form-control-input">
+          <Box className="">
+            {startIcon}
+            <Input
+              onFocus={openHandler}
+              value={inputValue}
+              name="name"
+              onChange={handleChange}
+              placeholder="Select or generate new tag"
+            />
+          </Box>
+          {children}
+        </Box>
         {isOpen && (
           <TagCreatorList
             options={filteredOptions}

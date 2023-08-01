@@ -12,6 +12,7 @@ import Typography from "../Typography";
 import classNames from "classnames";
 import IconButton from "../IconButton";
 import { FaImage } from "react-icons/fa";
+import Button, { ButtonProps } from "../Button";
 
 type Accept = "video/*" | "image/*";
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -19,6 +20,8 @@ type Props = React.InputHTMLAttributes<HTMLInputElement> & {
   size?: number;
   setValues: (name: string, files: File[]) => void;
   accept?: string | Accept;
+  button?: boolean;
+  btnProps?: ButtonProps;
 };
 export type uploadRef = {
   onClear: () => void;
@@ -28,7 +31,10 @@ const Upload = forwardRef<uploadRef, Props>(
     {
       size = 5,
       icon = <FaImage />,
+      button = false,
       multiple = false,
+      children,
+      btnProps,
       setValues,
       className,
       title,
@@ -87,7 +93,13 @@ const Upload = forwardRef<uploadRef, Props>(
           accept={accept}
           {...rest}
         />
-        <IconButton title={title} onClick={onClick} icon={icon} />
+        {button ? (
+          <Button startIcon={icon} onClick={onClick} {...btnProps}>
+            {children}
+          </Button>
+        ) : (
+          <IconButton title={title} onClick={onClick} icon={icon} />
+        )}
       </Box>
     );
   }

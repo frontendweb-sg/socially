@@ -142,14 +142,14 @@ const CodeEditor = forwardRef<editorRefs, Props>(
           }}
           {...rest}
         />
-        {!readonly && (
+        {/* {!readonly && (
           <>
             <hr />
             <Box className="d-flex justify-content-end">
               <Button onClick={onClose}>{AppContent.save}</Button>
             </Box>
           </>
-        )}
+        )} */}
       </Box>
     );
   }

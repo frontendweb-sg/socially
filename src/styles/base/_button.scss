@@ -16,6 +16,12 @@
     }
   }
 
+  &-outline {
+    &-light {
+      border-color: $gray-200;
+      color: $gray-500;
+    }
+  }
   &-text {
     &:hover {
       background-color: $gray-200;

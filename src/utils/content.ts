@@ -34,6 +34,9 @@ export const AppContent = {
   addDesignation: "Add designation",
   active: "Active",
   inactive: "Inactive",
+  images: "Images",
+  feelingActivity: "Feeling and activity",
+  tagFriends: "Tag Friends",
 };
 
 export const PostPrivacy = [

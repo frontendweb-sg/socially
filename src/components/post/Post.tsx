@@ -76,7 +76,6 @@ const Post = ({ post }: PostProps) => {
           </NavItem>
         </Dropdown>
       </PostTitle>
-
       {post?.images?.length! > 0 && (
         <PostImage className="mt-4 mb-3" images={post?.images!} />
       )}

@@ -1,14 +1,12 @@
 import classNames from "classnames";
-import Box from "../Box";
 import Component from "../Component";
-import Button, { ButtonProps } from "../Button";
 import useToggle from "@/hooks/useToggle";
-import { ReactElement, createContext, useContext, useRef } from "react";
+import IconButton, { type iconButtonProps } from "../IconButton";
+import DropdownBody from "./DropdownBody";
+import { ReactElement, useRef } from "react";
 import { forwardRef } from "react";
 import { FaEllipsisH, FaEllipsisV } from "react-icons/fa";
-import DropdownBody from "./DropdownBody";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import IconButton, { type iconButtonProps } from "../IconButton";
 
 type As = "div" | "li";
 export type DropdownProps = React.HtmlHTMLAttributes<

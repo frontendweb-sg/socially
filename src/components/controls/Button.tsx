@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { FC, forwardRef } from "react";
+import { FC, ReactElement, forwardRef } from "react";
 import { Color, Size } from "@/utils/types";
 import { FaSpinner } from "react-icons/fa";
 import type { IconType } from "react-icons";
@@ -10,7 +10,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   custom?: boolean;
   color?: Color;
   size?: Size;
-  startIcon?: IconType;
+  startIcon?: ReactElement;
   endIcon?: IconType;
   loading?: boolean;
   block?: boolean;
@@ -87,7 +87,7 @@ const Button = forwardRef<buttonRef, ButtonProps>(
         {...rest}
       >
         {loading ? <FaSpinner className="me-2 spinner" /> : null}
-        {children}
+        {startIcon} {children}
       </button>
     );
   }
