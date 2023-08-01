@@ -40,7 +40,7 @@ const Post = ({ post }: PostProps) => {
   };
 
   return (
-    <Box className="card p-4 mb-3">
+    <Box className="card p-4 mb-4">
       <PostTitle
         insertAt={post?.createdAt!}
         name="Pradeep Kumar"
@@ -76,18 +76,19 @@ const Post = ({ post }: PostProps) => {
           </NavItem>
         </Dropdown>
       </PostTitle>
-      <Tabs tabs={["Photos", "Code"]}>
-        <TabContent index={0}>
-          <PostImage images={post?.images!} />
-        </TabContent>
-        <TabContent index={1}>
-          <CodeEditor
-            readonly={true}
-            defaultLanguage={post?.code.language}
-            value={post?.code.language_code}
-          />
-        </TabContent>
-      </Tabs>
+
+      {post?.images?.length! > 0 && (
+        <PostImage className="mt-4 mb-3" images={post?.images!} />
+      )}
+      {post?.code.language_code && (
+        <CodeEditor
+          readonly={true}
+          defaultLanguage={post?.code.language}
+          value={post?.code.language_code}
+          height="250px"
+          className="bg-light"
+        />
+      )}
       <Likes likes={post?.likes! as ILikeDoc[]} postId={post?.id} />
       {post?.content && (
         <Box className="post-body">

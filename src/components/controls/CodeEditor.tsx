@@ -16,6 +16,7 @@ import { FaEye } from "react-icons/fa";
 import { type editor } from "monaco-editor";
 import { AppContent, Extensions, Languages } from "@/utils/content";
 import IconButton from "./IconButton";
+import classNames from "classnames";
 
 type Props = EditorProps & {
   name?: string;
@@ -39,6 +40,7 @@ const CodeEditor = forwardRef<editorRefs, Props>(
       readonly = false,
       setFieldValue,
       onClose,
+      className,
       ...rest
     },
     ref
@@ -59,6 +61,8 @@ const CodeEditor = forwardRef<editorRefs, Props>(
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
     useImperativeHandle(ref, () => ({ editorRef, monacoRef }));
+
+    const classes = classNames("code-editor", className);
 
     function handleEditorDidMount(
       editor: editor.IStandaloneCodeEditor,
@@ -99,8 +103,10 @@ const CodeEditor = forwardRef<editorRefs, Props>(
     }, [content, name, editorEvent, setFieldValue]);
 
     return (
-      <Box>
-        <Box className="d-flex mb-3 align-items-center justify-content-between">
+      <Box className={classes}>
+        <Box
+          className={classNames("code-editor-toolbar", readonly && "readonly")}
+        >
           {!readonly && (
             <Select
               options={Languages}
@@ -136,10 +142,14 @@ const CodeEditor = forwardRef<editorRefs, Props>(
           }}
           {...rest}
         />
-        <hr />
-        <Box className="d-flex justify-content-end">
-          <Button onClick={onClose}>{AppContent.save}</Button>
-        </Box>
+        {!readonly && (
+          <>
+            <hr />
+            <Box className="d-flex justify-content-end">
+              <Button onClick={onClose}>{AppContent.save}</Button>
+            </Box>
+          </>
+        )}
       </Box>
     );
   }

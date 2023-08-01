@@ -1,0 +1,19 @@
+.code-editor {
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 10px;
+  position: relative;
+  section {
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  &-toolbar {
+    display: flex;
+    &.readonly {
+      position: absolute;
+      top: 0px;
+      z-index: 9;
+      right: 0px;
+    }
+  }
+}
