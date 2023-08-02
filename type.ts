@@ -14,10 +14,14 @@ declare module NodeJS {
 
 interface SelectProps<T> {
   options: T[];
-  defaultValues?: T[];
+  defaultValue?: null | T | T[];
   keyExtractor?: (option: T) => string;
   getOptionLabel?: (option: T) => string;
-  setValues?: (name: string, option: T | T[]) => void;
+  setValues?: (option: T | T[]) => void;
+  isMulti?: boolean;
+  isSearch?: boolean;
+  isCreatable?: boolean;
+  className?: string;
 }
 
 type Extention = {

@@ -5,11 +5,13 @@ import {
   useMemo,
   useRef,
   useState,
+  useEffect,
 } from "react";
 import useToggle from "./useToggle";
 import { useClickOutside } from "./useClickOutside";
 import { devEnv } from "@/lib/devEnv";
 import { getKeyByValue } from "@/utils";
+import useFocus from "./useFocus";
 
 export default function useTags<T extends unknown>({
   options,
@@ -17,11 +19,13 @@ export default function useTags<T extends unknown>({
   getOptionLabel,
   keyExtractor,
   setValues,
+  isMulti,
 }: SelectProps<T>) {
   const tagRef = useRef<HTMLDivElement>(null);
-
+  const inpRef = useFocus();
+  const [textValue, setTextValue] = useState("");
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [inputValue, setInputValue] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
 
   const { closeHandler, isOpen, openHandler } = useToggle();
 
@@ -29,63 +33,94 @@ export default function useTags<T extends unknown>({
 
   const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
     ev.stopPropagation();
-    setInputValue(ev.target.value);
+    setTextValue("");
+    setSearch(ev.target.value);
   };
 
   const filteredOptions = useMemo(() => {
-    if (inputValue.length) setCurrentIndex(0);
-    return inputValue
+    if (search.length) setCurrentIndex(0);
+    return search
       ? options.filter((item: T) => {
           let filter = getOptionLabel?.(item);
           const key = getKeyByValue(item, keyExtractor?.(item)!);
           if (key) {
             filter = item[key as keyof T];
           }
-          return filter?.toLowerCase().includes(inputValue.toLowerCase());
+          return filter?.toLowerCase().includes(search.toLowerCase());
         })
       : options;
-  }, [inputValue, getOptionLabel, keyExtractor, options]);
+  }, [search, getOptionLabel, keyExtractor, options]);
 
   const onRemoveItem = useCallback(
     (item: T) => {
-      const items = [...defaultValues!];
+      const items = [...(Array.isArray(defaultValues) ? defaultValues! : [])];
       const filterItems = items.filter(
         (row: T) => getOptionLabel?.(row) !== getOptionLabel?.(item)
       );
-      setValues?.("tags", filterItems);
+      setValues?.(filterItems);
+      inpRef.current?.focus();
     },
-    [setValues, defaultValues, getOptionLabel]
+    [setValues, defaultValues, inpRef, getOptionLabel]
+  );
+
+  // find by label
+  const findByLabel = useCallback(
+    (value: T) =>
+      Array.isArray(defaultValues)
+        ? defaultValues?.find(
+            (item: T) => getOptionLabel?.(item) === getOptionLabel?.(value!)
+          )
+        : null,
+    [defaultValues, getOptionLabel]
   );
 
   const addItem = useCallback(
     (value?: T) => {
-      const itemExist = defaultValues?.find(
-        (item: T) => getOptionLabel?.(item) === getOptionLabel?.(value!)
-      );
+      let itemExist = findByLabel(value!);
       if (itemExist) {
         onRemoveItem(itemExist);
       } else {
         if (value) {
-          setValues?.("tags", [...defaultValues!, value]);
+          console.log(value, "v");
+          setValues?.(
+            isMulti
+              ? [...(Array.isArray(defaultValues) ? defaultValues! : []), value]
+              : value
+          );
         } else {
           const newItem = {
             id: Math.floor(Math.random() * 100 + 1),
             [getKeyByValue(options[0], getOptionLabel?.(value!)!) ?? "label"]:
-              inputValue,
+              search,
           } as unknown as T;
 
-          console.log("HI");
-          setValues?.("tags", [...defaultValues!, newItem]);
+          itemExist = findByLabel(newItem!);
+          if (itemExist) {
+            onRemoveItem(itemExist);
+          } else {
+            setValues?.(
+              isMulti
+                ? [
+                    ...(Array.isArray(defaultValues) ? defaultValues! : []),
+                    newItem,
+                  ]
+                : newItem
+            );
+          }
         }
       }
+      inpRef.current?.focus();
     },
     [
-      inputValue,
+      isMulti,
+      inpRef,
+      search,
       getOptionLabel,
       options,
       onRemoveItem,
       setValues,
       defaultValues,
+      findByLabel,
     ]
   );
 
@@ -114,6 +149,7 @@ export default function useTags<T extends unknown>({
   const onKeyHandler = useCallback(
     (event: KeyboardEvent) => {
       const { code } = event;
+      console.log(code, "code");
       const optionsLen = filteredOptions.length - 1;
       switch (code) {
         case "ArrowUp":
@@ -130,6 +166,7 @@ export default function useTags<T extends unknown>({
           );
           if (exist) addItem(exist);
           else addItem();
+          setSearch("");
           break;
         case "Escape":
           closeHandler();
@@ -149,13 +186,28 @@ export default function useTags<T extends unknown>({
     ]
   );
 
+  useEffect(() => {
+    if (typeof defaultValues === "object" && defaultValues && !isMulti) {
+      setTextValue(getOptionLabel?.(defaultValues as T)!);
+    }
+
+    if (typeof defaultValues === "string" && defaultValues && !isMulti) {
+      setTextValue(defaultValues);
+    }
+    return () => {};
+  }, [getOptionLabel, defaultValues, setTextValue, isMulti]);
+
+  console.log("HI", textValue, isOpen);
   return {
+    inpRef,
     tagRef,
     isOpen,
     currentIndex,
-    inputValue,
+    search,
+    textValue,
     filteredOptions,
     openHandler,
+    closeHandler,
     handleChange,
     onRemoveItem,
     addItem,

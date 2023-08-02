@@ -21,7 +21,7 @@ class PostService {
       privacy: "friends",
       active: true,
       shares: 0,
-      tags: [],
+      tags: null,
       images: [],
       attachments: [],
       comments: [],

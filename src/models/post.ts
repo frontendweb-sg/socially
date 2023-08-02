@@ -45,7 +45,7 @@ export interface IPost {
   privacy: Privacy;
   active: boolean;
   shares: number;
-  tags: string[];
+  tags: string[] | null;
   images: Media[];
   attachments: string[];
   comments: ICommentDoc[];

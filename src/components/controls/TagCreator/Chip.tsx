@@ -1,11 +1,10 @@
-import { memo } from "react";
 import Box from "../Box";
-import Button from "../Button";
+import { memo } from "react";
 import { FaTimes } from "react-icons/fa";
 
 type Props<T> = {
   label: string;
-  onRemove: () => void;
+  onRemove: (ev?: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const Chip = <T extends unknown>({ label, onRemove }: Props<T>) => {

@@ -2,7 +2,7 @@ import { memo, forwardRef } from "react";
 import Box from "./Box";
 import classNames from "classnames";
 
-type Props<T> = SelectProps<T> &
+type Props<T> = SffSelectProps<T> &
   React.SelectHTMLAttributes<HTMLSelectElement> & {};
 export type selectRef = HTMLSelectElement;
 const Select = forwardRef(
@@ -35,4 +35,4 @@ const Select = forwardRef(
   }
 );
 
-export default memo(Select) as typeof Select;
+export default memo(SffSelectProps) as typeof Select;

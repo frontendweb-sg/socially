@@ -1,6 +1,10 @@
 .tags {
   position: relative;
 
+  .form-control {
+    background-color: transparent;
+  }
+
   &-menu {
     position: absolute;
     left: 0;

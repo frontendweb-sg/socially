@@ -7,7 +7,6 @@ import Box from "../controls/Box";
 import Button from "../controls/Button";
 import Form from "../controls/Form";
 import CodeEditor from "../controls/CodeEditor";
-import Select from "../controls/Select";
 import Upload from "../controls/Uploader/Upload";
 import MediaDisplay from "../controls/Uploader/MediaDisplay";
 import Stack from "../controls/Stack";
@@ -34,6 +33,7 @@ import {
 import { Media } from "@/models/post";
 import { toast } from "react-toastify";
 import * as yup from "yup";
+import Select from "../controls/Select";
 
 const validation = yup.object().shape({
   content: yup.string().required("Content is required!"),
@@ -68,7 +68,7 @@ const AddPost = ({ cookie }: Props) => {
     validationSchema: validation,
     async onSubmit(values, { resetForm, setSubmitting }) {
       setLoading(true);
-      const tags = values.tags.map((tag: any) => tag.label) as string[];
+      const tags = values.tags?.map((tag: any) => tag.label) as string[];
       values.tags = tags as string[];
       values.code = JSON.parse(values?.code as unknown as string);
       if (values.images.length > 0) {
@@ -149,14 +149,23 @@ const AddPost = ({ cookie }: Props) => {
         </Dropdown>
       </Panel.Title>
       <Panel.Body>
+        <Select
+          startIcon={<FaTag className="me-2" />}
+          options={[
+            { id: "1", label: "Html" },
+            { id: "2", label: "Css" },
+            { id: "3", label: "Js" },
+          ]}
+          getOptionLabel={(option) => option?.label}
+        />
         <Form onSubmit={handleSubmit}>
-          <CodeEditor
+          {/* <CodeEditor
             name="code"
             setFieldValue={setFieldValue}
             value={values.code.language_code}
             onClose={codeModalRef.current?.closeHandler}
             height="300px"
-          />
+          /> */}
           <FormGroup>
             <Textarea
               name="content"
@@ -176,10 +185,10 @@ const AddPost = ({ cookie }: Props) => {
                   { id: "2", label: "Css" },
                   { id: "3", label: "Js" },
                 ]}
-                defaultValues={values.tags}
-                getOptionLabel={(option) => option?.label}
-                setValues={setFieldValue}
-                startIcon={<FaTag />}
+                defaultValue={values.tags as any}
+                getOptionLabel={(option) => option.label}
+                setValues={(values) => setFieldValue("tags", values)}
+                startIcon={<FaTag className="me-2" />}
               >
                 <IconButton
                   icon={<FaTimes />}
@@ -237,15 +246,15 @@ const AddPost = ({ cookie }: Props) => {
           </FormGroup>
           <hr />
           <Box className="post-footer d-flex align-items-center justify-content-between">
-            <Select
+            {/* <Select
               name="privacy"
               defaultValue={values.privacy}
-              setValues={setFieldValue}
+              setValues={(values) => setFieldValue("privacy", values!)}
               onChange={handleChange}
               onBlur={handleBlur}
               className="w-25"
               options={PostPrivacy}
-            />
+            /> */}
             <Box className="d-flex ms-3">
               <Button
                 className="me-3"

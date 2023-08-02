@@ -6,7 +6,7 @@ import { FaCircle } from "react-icons/fa";
 type Props<T> = SelectProps<T> &
   React.HtmlHTMLAttributes<HTMLDivElement> & {
     currentIndex: number;
-    selectedItems: T[];
+    defaultValues: string | T | T[];
     addItem: (option: T) => void;
   };
 
@@ -16,11 +16,20 @@ const TagCreatorList = <T extends unknown>({
   getOptionLabel,
   children,
   className,
-  selectedItems,
+  defaultValues,
   addItem,
   ...rest
 }: Props<T>) => {
   const classes = classNames("tags-menu", className);
+
+  const activeElement = (row: T) =>
+    Array.isArray(defaultValues) &&
+    defaultValues?.find(
+      (item) => getOptionLabel?.(item) === getOptionLabel?.(row)
+    ) ? (
+      <FaCircle />
+    ) : null;
+
   return (
     <Box className={classes} {...rest}>
       <ul className="tags-list">
@@ -31,11 +40,10 @@ const TagCreatorList = <T extends unknown>({
               key={index}
               className={currentIndex === index ? "active" : ""}
             >
-              {selectedItems.find(
-                (item) => getOptionLabel?.(item) === getOptionLabel?.(row)
-              ) ? (
-                <FaCircle />
-              ) : null}
+              {Array.isArray(defaultValues)
+                ? activeElement(row)
+                : getOptionLabel?.(defaultValues as T) ===
+                    getOptionLabel?.(row) && <FaCircle />}
               {getOptionLabel?.(row)}
             </li>
           ))

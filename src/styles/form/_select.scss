@@ -1,0 +1,39 @@
+.select {
+  position: relative;
+  z-index: 9;
+  .form-control {
+    border-color: $gray-200;
+    background-color: transparent;
+  }
+
+  &-menu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: $white;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.08);
+    padding: 10px;
+    z-index: 99;
+    border-radius: 0 0 5px 5px;
+
+    &-item {
+      padding: 5px 10px;
+      border-radius: 3px;
+      // cursor: pointer;
+      &:not(:last-child) {
+        border-bottom: 1px solid $gray-100;
+        margin-bottom: 2px;
+      }
+      &:not(.active) {
+        &:hover {
+          background-color: $gray-100;
+        }
+      }
+
+      &.active {
+        background-color: $gray-200;
+        color: $primary;
+      }
+    }
+  }
+}

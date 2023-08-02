@@ -12,70 +12,79 @@ type TagProps<T> = SelectProps<T> & {
   children?: ReactNode;
 };
 const TagCreator = <T extends Readonly<T>>({
-  options,
-  defaultValues,
-  getOptionLabel,
-  keyExtractor,
-  setValues,
   startIcon,
   children,
+  keyExtractor,
+  defaultValue,
+  getOptionLabel,
+  isMulti,
+  ...rest
 }: TagProps<T>) => {
   const classes = classNames("tags");
 
   const {
+    inpRef,
     isOpen,
     tagRef,
     currentIndex,
-    inputValue,
+    search,
+    textValue,
     filteredOptions,
-
     handleChange,
     onRemoveItem,
     addItem,
     onKeyHandler,
     openHandler,
   } = useTags({
-    options,
-    defaultValues,
-    getOptionLabel,
     keyExtractor,
-    setValues,
+    defaultValue,
+    getOptionLabel,
+    isMulti,
+    ...rest,
   });
+  console.log("defaultValue", defaultValue);
+  let element = null;
+  if (Array.isArray(defaultValue)) {
+    element = defaultValue?.length !== 0 && (
+      <Box className="tags-list-inline">
+        {defaultValue?.map((row: T, index: number) => (
+          <Chip
+            key={keyExtractor?.(row) ?? index}
+            label={getOptionLabel?.(row)!}
+            onRemove={(ev?: React.MouseEvent<HTMLButtonElement>) => {
+              ev?.preventDefault();
+              onRemoveItem(row);
+            }}
+          />
+        ))}
+      </Box>
+    );
+  }
 
   return (
     <Box className={classes} onKeyDown={onKeyHandler}>
-      {defaultValues?.length !== 0 && (
-        <Box className="tags-list-inline">
-          {defaultValues?.map((row: T, index: number) => (
-            <Chip
-              key={keyExtractor?.(row) ?? index}
-              label={getOptionLabel?.(row)!}
-              onRemove={() => onRemoveItem(row)}
-            />
-          ))}
-        </Box>
-      )}
+      {isMulti && element}
 
       <Box ref={tagRef}>
         <Box className="form-control-input">
-          <Box className="">
-            {startIcon}
-            <Input
-              onFocus={openHandler}
-              value={inputValue}
-              name="name"
-              onChange={handleChange}
-              placeholder="Select or generate new tag"
-            />
-          </Box>
-          {children}
+          <Input
+            ref={inpRef}
+            startIcon={startIcon}
+            value={search || textValue}
+            name="name"
+            onClick={openHandler}
+            onChange={handleChange}
+            placeholder="Select or generate new tag"
+          >
+            {children}
+          </Input>
         </Box>
         {isOpen && (
           <TagCreatorList
             options={filteredOptions}
             getOptionLabel={getOptionLabel}
             currentIndex={currentIndex}
-            selectedItems={defaultValues!}
+            defaultValues={defaultValue!}
             addItem={addItem}
           />
         )}
