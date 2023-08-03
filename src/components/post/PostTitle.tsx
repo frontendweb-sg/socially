@@ -26,7 +26,13 @@ const PostTitle = ({
       {...rest}
     >
       <Box className="post-title-name">
-        <Avatar size={40} alt={name!} src={image!} className="me-3" />
+        <Avatar
+          priority={false}
+          size={40}
+          alt={name!}
+          src={image!}
+          className="me-3"
+        />
         <Typography className="mb-0" variant="subtitle1">
           {name}
           <DateTime date={insertAt!} />

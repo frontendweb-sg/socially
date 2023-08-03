@@ -9,12 +9,10 @@ type Props<T> = {
 
 const Chip = <T extends unknown>({ label, onRemove }: Props<T>) => {
   return (
-    <Box className="badge chip rounded-pill me-2">
+    <button className="select-chip" onClick={onRemove}>
       {label}
-      <button className="ms-2" onClick={onRemove}>
-        <FaTimes />
-      </button>
-    </Box>
+      <FaTimes className="ms-2" />
+    </button>
   );
 };
 export default memo(Chip) as typeof Chip;

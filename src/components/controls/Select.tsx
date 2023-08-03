@@ -2,14 +2,14 @@ import { memo, forwardRef } from "react";
 import Box from "./Box";
 import classNames from "classnames";
 
-type Props<T> = SffSelectProps<T> &
+type Props<T> = SelectProps<T> &
   React.SelectHTMLAttributes<HTMLSelectElement> & {};
 export type selectRef = HTMLSelectElement;
 const Select = forwardRef(
   <T extends unknown>(
     {
       name,
-      defaultValues,
+      defaultValue,
       options,
       getOptionLabel = (option: any) => option.label,
       keyExtractor,
@@ -20,7 +20,6 @@ const Select = forwardRef(
     ref: React.Ref<selectRef>
   ) => {
     const classes = classNames("form-control", className);
-
     return (
       <Box className={classes}>
         <select className="fw-input" name={name} {...rest}>
@@ -35,4 +34,4 @@ const Select = forwardRef(
   }
 );
 
-export default memo(SffSelectProps) as typeof Select;
+export default memo(Select) as typeof Select;

@@ -17,11 +17,12 @@ interface SelectProps<T> {
   defaultValue?: null | T | T[];
   keyExtractor?: (option: T) => string;
   getOptionLabel?: (option: T) => string;
-  setValues?: (option: T | T[]) => void;
+  setValues?: (option: null | T | T[]) => void;
   isMulti?: boolean;
   isSearch?: boolean;
   isCreatable?: boolean;
   className?: string;
+  isClear?: boolean;
 }
 
 type Extention = {

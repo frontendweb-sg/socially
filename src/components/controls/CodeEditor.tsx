@@ -12,7 +12,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaFile } from "react-icons/fa";
 import { type editor } from "monaco-editor";
 import { AppContent, Extensions, Languages } from "@/utils/content";
 import IconButton from "./IconButton";
@@ -120,6 +120,8 @@ const CodeEditor = forwardRef<editorRefs, Props>(
               <Upload
                 setValues={loadFile}
                 name="code"
+                icon={<FaFile />}
+                title="Select from file"
                 accept={Extensions[language as keyof typeof Extensions]}
               />
             )}

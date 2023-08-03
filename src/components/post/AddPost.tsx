@@ -2,7 +2,6 @@
 import Panel from "../controls/Panel";
 import FormGroup from "../controls/FormGroup";
 import Textarea from "../controls/Textarea";
-import TagCreator from "../controls/TagCreator";
 import Box from "../controls/Box";
 import Button from "../controls/Button";
 import Form from "../controls/Form";
@@ -10,19 +9,18 @@ import CodeEditor from "../controls/CodeEditor";
 import Upload from "../controls/Uploader/Upload";
 import MediaDisplay from "../controls/Uploader/MediaDisplay";
 import Stack from "../controls/Stack";
-import IconButton from "../controls/IconButton";
-import Modal, { modalRef } from "../controls/Modal";
 import LoggedInUserAvatar from "../user/LoggedInUserAvatar";
 import Typography from "../controls/Typography";
 import Dropdown from "../controls/Dropdown";
 import NavItem from "../layout/NavItem";
+import { modalRef } from "../controls/Modal";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { AppContent, PostPrivacy } from "@/utils/content";
 import { postService } from "@/services/post.service";
 import {
-  FaCode,
+  FaCaretDown,
   FaEdit,
   FaImage,
   FaSmile,
@@ -34,10 +32,12 @@ import { Media } from "@/models/post";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import Select from "../controls/Select";
+import CustomSelect from "../controls/CustomSelect";
+import IconButton from "../controls/IconButton";
 
 const validation = yup.object().shape({
   content: yup.string().required("Content is required!"),
-  tags: yup.array().min(1).required("Tags required"),
+  //tags: yup.array().min(1).required("Tags required"),
 });
 /**
  * Add post
@@ -49,6 +49,7 @@ type Props = {
 };
 const AddPost = ({ cookie }: Props) => {
   const [enableTag, setEnableTag] = useState(false);
+  const [enableStatus, setEnableStatus] = useState(false);
   const [loading, setLoading] = useState(false);
   const codeModalRef = useRef<modalRef>(null);
   const router = useRouter();
@@ -71,6 +72,11 @@ const AddPost = ({ cookie }: Props) => {
       const tags = values.tags?.map((tag: any) => tag.label) as string[];
       values.tags = tags as string[];
       values.code = JSON.parse(values?.code as unknown as string);
+
+      console.log("v", values);
+      setLoading(false);
+      setSubmitting(false);
+      return;
       if (values.images.length > 0) {
         const formdata = new FormData();
         values.images.forEach((file: any) => {
@@ -149,52 +155,47 @@ const AddPost = ({ cookie }: Props) => {
         </Dropdown>
       </Panel.Title>
       <Panel.Body>
-        <Select
+        <CustomSelect
           startIcon={<FaTag className="me-2" />}
           options={[
-            { id: "1", label: "Html" },
-            { id: "2", label: "Css" },
-            { id: "3", label: "Js" },
+            { id: 1, label: "Html" },
+            { id: 2, label: "Css" },
+            { id: 3, label: "Js" },
+            { id: 4, label: "React" },
+            { id: 5, label: "Vue" },
+            { id: 6, label: "Angular" },
           ]}
-          getOptionLabel={(option) => option?.label}
-        />
+          defaultValue={values.tags as any}
+          setValues={(options) => setFieldValue("tags", options)}
+          isClear
+          isMulti
+        >
+          <IconButton icon={<FaTimes />} />
+        </CustomSelect>
+
         <Form onSubmit={handleSubmit}>
-          {/* <CodeEditor
+          <CodeEditor
             name="code"
             setFieldValue={setFieldValue}
             value={values.code.language_code}
             onClose={codeModalRef.current?.closeHandler}
             height="300px"
-          /> */}
-          <FormGroup>
-            <Textarea
-              name="content"
-              value={values.content}
-              placeholder="What's on your mind?"
-              errors={errors}
-              touched={touched}
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
-          </FormGroup>
+          />
+          {enableStatus && (
+            <FormGroup>
+              <Textarea
+                name="content"
+                value={values.content}
+                placeholder="What's on your mind?"
+                errors={errors}
+                touched={touched}
+                onBlur={handleBlur}
+                onChange={handleChange}
+              />
+            </FormGroup>
+          )}
           {enableTag && (
             <FormGroup>
-              <TagCreator
-                options={[
-                  { id: "1", label: "Html" },
-                  { id: "2", label: "Css" },
-                  { id: "3", label: "Js" },
-                ]}
-                defaultValue={values.tags as any}
-                getOptionLabel={(option) => option.label}
-                setValues={(values) => setFieldValue("tags", values)}
-                startIcon={<FaTag className="me-2" />}
-              >
-                <IconButton
-                  icon={<FaTimes />}
-                  onClick={() => setEnableTag(false)}
-                />
-              </TagCreator>
               {errors["tags"] && touched["tags"] && (
                 <p className="text-danger mt-2">Tags are required!</p>
               )}
@@ -225,12 +226,12 @@ const AddPost = ({ cookie }: Props) => {
               >
                 {AppContent.images}
               </Upload>
-
               <Button
                 startIcon={<FaSmile className="me-1" />}
                 variant="outline"
                 className="me-2"
                 color="light"
+                onClick={() => setEnableStatus(true)}
               >
                 {AppContent.feelingActivity}
               </Button>
@@ -246,15 +247,13 @@ const AddPost = ({ cookie }: Props) => {
           </FormGroup>
           <hr />
           <Box className="post-footer d-flex align-items-center justify-content-between">
-            {/* <Select
-              name="privacy"
-              defaultValue={values.privacy}
-              setValues={(values) => setFieldValue("privacy", values!)}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className="w-25"
+            <Select
               options={PostPrivacy}
-            /> */}
+              onChange={handleChange}
+              className="w-25"
+              name="privacy"
+              value={values.privacy}
+            />
             <Box className="d-flex ms-3">
               <Button
                 className="me-3"

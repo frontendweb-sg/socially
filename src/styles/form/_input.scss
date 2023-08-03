@@ -1,16 +1,17 @@
 .form-control {
-  padding: 0 8px;
   display: flex;
   align-items: center;
   display: flex;
   align-items: center;
+  padding: 0 5px 0;
   .fw-input,
   .fw-textarea {
     flex: 1;
     border: none;
     outline: none;
     padding: 8px;
-    background-color: $white;
+    border-radius: inherit;
+    background-color: transparent;
   }
   &:focus-within {
     background-color: $gray-100;

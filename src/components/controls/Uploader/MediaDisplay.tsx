@@ -47,6 +47,7 @@ const MediaDisplay = ({ name, data, setValues, className, ...rest }: Props) => {
                     fill
                     src={file.preview!}
                     alt="media"
+                    sizes="100vw"
                     onLoad={() => {
                       URL.revokeObjectURL(file.preview!);
                     }}

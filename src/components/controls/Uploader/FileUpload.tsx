@@ -83,7 +83,13 @@ const FileUpload = forwardRef<fileRef, Props>(
           <Box className="upload-media">
             {media.map((file: string) => (
               <Box className="upload-media-item" key={file}>
-                <Image fill src={file} alt={file} />
+                <Image
+                  fill
+                  priority={false}
+                  sizes="100vw"
+                  src={file}
+                  alt={file}
+                />
               </Box>
             ))}
           </Box>

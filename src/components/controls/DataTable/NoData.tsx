@@ -8,7 +8,13 @@ import Box from "../Box";
 const NoData = () => {
   return (
     <Box className="no-data">
-      <Image fill src="/no-data.png" alt="no data" />
+      <Image
+        fill
+        priority={false}
+        sizes="100vw"
+        src="/no-data.png"
+        alt="no data"
+      />
     </Box>
   );
 };

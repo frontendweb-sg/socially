@@ -2,21 +2,29 @@
   border-radius: 5px;
   overflow: hidden;
   position: relative;
+
   section {
     overflow: hidden;
     border-radius: inherit;
   }
   &-toolbar {
     display: flex;
-    background-color: $gray-100;
-    padding: 5px;
-    margin-bottom: 10px;
     justify-content: space-between;
+    margin-bottom: 10px;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    padding: 10px;
+    transition: all 200ms linear;
     &.readonly {
       position: absolute;
       top: 0px;
       z-index: 9;
       right: 0px;
     }
+  }
+  .monaco-editor {
+    transition: all 200ms linear;
+    padding-top: 60px;
   }
 }

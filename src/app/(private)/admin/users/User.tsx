@@ -23,6 +23,7 @@ const Users = ({ user }: { user: IUserDoc }) => {
               fill
               src={user.image || "/password.jpg"}
               alt={user.name}
+              sizes="100vw"
             />
           </Box>
         </Box>

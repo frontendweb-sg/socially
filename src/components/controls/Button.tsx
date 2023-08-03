@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { FC, ReactElement, forwardRef } from "react";
+import { ReactElement, forwardRef } from "react";
 import { Color, Size } from "@/utils/types";
 import { FaSpinner } from "react-icons/fa";
 import type { IconType } from "react-icons";
