@@ -34,9 +34,10 @@ import * as yup from "yup";
 import Select from "../controls/Select";
 import CustomSelect from "../controls/CustomSelect";
 import IconButton from "../controls/IconButton";
+import Input from "../controls/Input";
 
 const validation = yup.object().shape({
-  content: yup.string().required("Content is required!"),
+  content: yup.string(),
   //tags: yup.array().min(1).required("Tags required"),
 });
 /**
@@ -155,24 +156,6 @@ const AddPost = ({ cookie }: Props) => {
         </Dropdown>
       </Panel.Title>
       <Panel.Body>
-        <CustomSelect
-          startIcon={<FaTag className="me-2" />}
-          options={[
-            { id: 1, label: "Html" },
-            { id: 2, label: "Css" },
-            { id: 3, label: "Js" },
-            { id: 4, label: "React" },
-            { id: 5, label: "Vue" },
-            { id: 6, label: "Angular" },
-          ]}
-          defaultValue={values.tags as any}
-          setValues={(options) => setFieldValue("tags", options)}
-          isClear
-          isMulti
-        >
-          <IconButton icon={<FaTimes />} />
-        </CustomSelect>
-
         <Form onSubmit={handleSubmit}>
           <CodeEditor
             name="code"
@@ -182,8 +165,8 @@ const AddPost = ({ cookie }: Props) => {
             height="300px"
           />
           {enableStatus && (
-            <FormGroup>
-              <Textarea
+            <FormGroup className="mt-3">
+              <Input
                 name="content"
                 value={values.content}
                 placeholder="What's on your mind?"
@@ -196,6 +179,23 @@ const AddPost = ({ cookie }: Props) => {
           )}
           {enableTag && (
             <FormGroup>
+              <CustomSelect
+                startIcon={<FaTag className="me-2" />}
+                options={[
+                  { id: 1, label: "Html" },
+                  { id: 2, label: "Css" },
+                  { id: 3, label: "Js" },
+                  { id: 4, label: "React" },
+                  { id: 5, label: "Vue" },
+                  { id: 6, label: "Angular" },
+                ]}
+                defaultValue={values.tags as any}
+                setValues={(options) => setFieldValue("tags", options)}
+                isClear
+                isMulti
+              >
+                <IconButton icon={<FaTimes />} />
+              </CustomSelect>
               {errors["tags"] && touched["tags"] && (
                 <p className="text-danger mt-2">Tags are required!</p>
               )}
@@ -231,7 +231,7 @@ const AddPost = ({ cookie }: Props) => {
                 variant="outline"
                 className="me-2"
                 color="light"
-                onClick={() => setEnableStatus(true)}
+                onClick={() => setEnableStatus((prev) => !prev)}
               >
                 {AppContent.feelingActivity}
               </Button>
@@ -239,7 +239,7 @@ const AddPost = ({ cookie }: Props) => {
                 color="light"
                 startIcon={<FaTag className="me-1" />}
                 variant="outline"
-                onClick={() => setEnableTag(true)}
+                onClick={() => setEnableTag((prev) => !prev)}
               >
                 {AppContent.tagFriends}
               </Button>
