@@ -1,0 +1,47 @@
+import Logo from "@/components/layout/Logo";
+import Container from "@/components/controls/Container";
+import Col from "@/components/controls/Col";
+import Typography from "@/components/controls/Typography";
+import Box from "@/components/controls/Box";
+import ResendEmail from "./ResendEmail";
+
+type Status = "token expired" | "success";
+const Page = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | Status };
+}) => {
+  return (
+    <>
+      <Col
+        sm={12}
+        md={6}
+        className="bg-primary text-light align-items-center justify-content-center d-flex"
+      >
+        <Container size="sm">
+          <Logo className="mb-5" href="/" />
+          <Typography>Welcome to sign in</Typography>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit eius
+          sint, voluptatem nesciunt, laborum placeat sunt culpa magni expedita
+          facilis aut iste amet, reprehenderit consequatur voluptate ullam
+          veniam ipsam quae!
+          <Typography variant="h5" className="mt-4">
+            Learn frontend technologies by expert
+          </Typography>
+        </Container>
+      </Col>
+      <Col
+        className="justify-content-center align-items-center d-flex"
+        sm={12}
+        md={6}
+        style={{ position: "relative" }}
+      >
+        <Box className="auth-verify">
+          <ResendEmail />
+        </Box>
+      </Col>
+    </>
+  );
+};
+
+export default Page;

@@ -3,7 +3,7 @@ import Box from "./Box";
 import Panel from "./Panel";
 import classNames from "classnames";
 
-type As = "avatar" | "progressbar";
+type As = "avatar" | "progressbar" | "page";
 type SkeletonProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   as?: As;
   size?: number;
@@ -17,6 +17,9 @@ const Skeleton = ({
   className,
   ...rest
 }: SkeletonProps) => {
+  if (as === "page") {
+    return <Box className="page-loader"></Box>;
+  }
   if (as === "avatar") {
     return (
       <Box

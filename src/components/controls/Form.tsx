@@ -1,17 +1,18 @@
 import Button from "./Button";
 import Box from "./Box";
 import { AppProps } from "@/utils/types";
-import { FC } from "react";
+import { FC, forwardRef } from "react";
 import { AppContent } from "@/utils/content";
-interface IFormProps extends React.FormHTMLAttributes<HTMLFormElement> {}
 
-const Form: FC<IFormProps> = ({ children, ...rest }) => {
+interface Props extends React.FormHTMLAttributes<HTMLFormElement> {}
+type formRef = HTMLFormElement;
+const Form = forwardRef<formRef, Props>(({ children, ...rest }, ref) => {
   return (
-    <form noValidate {...rest}>
+    <form ref={ref} noValidate {...rest}>
       {children}
     </form>
   );
-};
+});
 
 interface IFormButton extends AppProps {
   label?: string;

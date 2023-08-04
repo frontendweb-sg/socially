@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { MouseEventHandler, useContext, useState } from "react";
 import { AppContext } from "../../../components/providers/AppProvider";
 import { alertAction } from "../../../components/store/reducers/alert";
+import { toast } from "react-toastify";
 
 const validation = yup.object().shape({
   name: yup.string().required("Name is required!"),
@@ -24,18 +25,14 @@ const validation = yup.object().shape({
   password: yup.string().required("Password is required!"),
   mobile: yup.string().required("Mobile is requried!"),
 });
+
 /**
  * Sign-in component
  * @returns
  */
-interface SigninProps {
-  onChange?: MouseEventHandler<HTMLAnchorElement>;
-}
 const SignupForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { state, dispatch } = useContext(AppContext);
-  const { alertState } = state;
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -52,16 +49,11 @@ const SignupForm = () => {
         const result = await signup(values);
         const data = await result.json();
 
-        if (data.errors) {
-          alertAction.alertShow(dispatch, {
-            message: data.errors.message,
-            color: "danger",
-          });
-        }
+        if (data.errors) toast.error(data.errors.message);
 
         if (result.status === 201) {
           setTimeout(() => {
-            router.replace("/signin");
+            router.replace("/email-verification?status=" + btoa(values.email));
           }, 3000);
         }
 
@@ -72,7 +64,6 @@ const SignupForm = () => {
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <Alert alert={alertState} />
         <Alert
           alert={{
             visible: loading,

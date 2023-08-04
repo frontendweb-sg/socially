@@ -12,6 +12,7 @@ export const AppContent = {
   delete: "Delete",
   cancel: "Cancel",
   ok: "Ok",
+  send: "Send",
   close: "Close",
   signIn: "Sign in",
   signUp: "Sign up",
@@ -37,6 +38,9 @@ export const AppContent = {
   images: "Images",
   feelingActivity: "Feeling and activity",
   tagFriends: "Tag Friends",
+  linkExpired: "Link expired",
+  verifyEmail: "Please verify your email",
+  verifyEmailMessage: "You are almost there! please check your mail",
 };
 
 export const PostPrivacy = [

@@ -43,3 +43,15 @@ export async function updateUser(body: { mobile: string; name: string }) {
   const data = await response.json();
   return data;
 }
+
+export async function sendMail({ email }: { email: string }) {
+  const response = await fetch(process.env.NEXTAUTH_URL + "/verify-email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  return response.json();
+}

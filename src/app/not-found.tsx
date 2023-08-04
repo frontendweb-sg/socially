@@ -1,5 +1,11 @@
 const NotFound = () => {
-  return <div>Not found</div>;
+  return (
+    <div className="space-y-4 text-vercel-pink">
+      <h2 className="text-lg font-bold">Not Found</h2>
+
+      <p className="text-sm">Could not find requested resource</p>
+    </div>
+  );
 };
 
 export default NotFound;

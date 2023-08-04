@@ -28,6 +28,7 @@ const schema = new Schema(
     verify: { type: Boolean, default: false },
     resetToken: { type: String, default: null },
     active: { type: Boolean, default: true },
+    accessToken: { type: String, default: "" },
   },
   {
     timestamps: true,
