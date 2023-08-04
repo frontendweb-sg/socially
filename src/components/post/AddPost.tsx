@@ -19,26 +19,16 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { AppContent, PostPrivacy } from "@/utils/content";
 import { postService } from "@/services/post.service";
-import {
-  FaCaretDown,
-  FaEdit,
-  FaImage,
-  FaSmile,
-  FaTag,
-  FaTimes,
-  FaUser,
-} from "react-icons/fa";
+import { FaEdit, FaImage, FaSmile, FaTag, FaUser } from "react-icons/fa";
 import { Media } from "@/models/post";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import Select from "../controls/Select";
-import CustomSelect from "../controls/CustomSelect";
-import IconButton from "../controls/IconButton";
+
 import Input from "../controls/Input";
 
 const validation = yup.object().shape({
   content: yup.string(),
-  //tags: yup.array().min(1).required("Tags required"),
 });
 /**
  * Add post
@@ -74,10 +64,6 @@ const AddPost = ({ cookie }: Props) => {
       values.tags = tags as string[];
       values.code = JSON.parse(values?.code as unknown as string);
 
-      console.log("v", values);
-      setLoading(false);
-      setSubmitting(false);
-      return;
       if (values.images.length > 0) {
         const formdata = new FormData();
         values.images.forEach((file: any) => {
@@ -177,30 +163,6 @@ const AddPost = ({ cookie }: Props) => {
               />
             </FormGroup>
           )}
-          {enableTag && (
-            <FormGroup>
-              <CustomSelect
-                startIcon={<FaTag className="me-2" />}
-                options={[
-                  { id: 1, label: "Html" },
-                  { id: 2, label: "Css" },
-                  { id: 3, label: "Js" },
-                  { id: 4, label: "React" },
-                  { id: 5, label: "Vue" },
-                  { id: 6, label: "Angular" },
-                ]}
-                defaultValue={values.tags as any}
-                setValues={(options) => setFieldValue("tags", options)}
-                isClear
-                isMulti
-              >
-                <IconButton icon={<FaTimes />} />
-              </CustomSelect>
-              {errors["tags"] && touched["tags"] && (
-                <p className="text-danger mt-2">Tags are required!</p>
-              )}
-            </FormGroup>
-          )}
 
           <FormGroup>
             {values.images.length > 0 && (
@@ -235,14 +197,14 @@ const AddPost = ({ cookie }: Props) => {
               >
                 {AppContent.feelingActivity}
               </Button>
-              <Button
+              {/* <Button
                 color="light"
                 startIcon={<FaTag className="me-1" />}
                 variant="outline"
                 onClick={() => setEnableTag((prev) => !prev)}
               >
                 {AppContent.tagFriends}
-              </Button>
+              </Button> */}
             </Stack>
           </FormGroup>
           <hr />

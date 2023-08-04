@@ -17,6 +17,7 @@ import { AppContent } from "@/utils/content";
 import { AppContext } from "../providers/AppProvider";
 import { FaEyeSlash, FaPen, FaTrash } from "react-icons/fa";
 import { deletePost } from "@/lib/post";
+import SharePost from "./SharePost";
 
 export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   post?: IPostDoc;
@@ -89,6 +90,7 @@ const Post = ({ post }: PostProps) => {
         />
       )}
       <Likes likes={post?.likes! as ILikeDoc[]} postId={post?.id} />
+      <SharePost />
       {post?.content && (
         <Box className="post-body">
           <p>
