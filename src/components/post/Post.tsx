@@ -24,8 +24,7 @@ export type PostProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
 };
 
 const Post = ({ post }: PostProps) => {
-  const { onConfirm, state, editHandler, onCancelConfirm } =
-    useContext(AppContext);
+  const { onConfirm, onCancelConfirm } = useContext(AppContext);
 
   const onDeletePost = () => {
     onConfirm({
@@ -90,7 +89,7 @@ const Post = ({ post }: PostProps) => {
         />
       )}
       <Likes likes={post?.likes! as ILikeDoc[]} postId={post?.id} />
-      <SharePost />
+      <SharePost postId={post?.id} />
       {post?.content && (
         <Box className="post-body">
           <p>

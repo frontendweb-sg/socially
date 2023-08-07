@@ -26,9 +26,9 @@ type Props = {
 const SharePost = ({ postId }: Props) => {
   return (
     <Box>
-      <FacebookShareButton url="''"></FacebookShareButton>
+      {/* <FacebookShareButton url="''"></FacebookShareButton>
       <EmailShareButton url="''"></EmailShareButton>
-      <TwitterShareButton></TwitterShareButton>
+      <TwitterShareButton></TwitterShareButton> */}
     </Box>
   );
 };
