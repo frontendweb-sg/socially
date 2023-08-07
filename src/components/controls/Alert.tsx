@@ -1,8 +1,7 @@
 import Box from "./Box";
 import classNames from "classnames";
-import { forwardRef, memo, useContext } from "react";
-import { IAlert, alertAction } from "../store/reducers/alert";
-import { AppContext, useAppState } from "../providers/AppProvider";
+import { forwardRef, memo } from "react";
+import { IAlert } from "../store/reducers/alert";
 
 export interface AlertProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   alert: IAlert;
@@ -16,17 +15,17 @@ const Alert = forwardRef<alertRef, AlertProps>(
       ["alert-" + alert.direction]: alert.direction,
     });
 
-    const { dispatch } = useAppState();
-
     return alert.visible ? (
       <Box ref={ref} className={classes} role="alert">
-        {children ? children : alert.message}
+        <Box className="d-flex justify-content-between align-items-center">
+          {alert.message}
+          {children}
+        </Box>
         <button
           type="button"
           className="btn-close"
           data-bs-dismiss="alert"
           aria-label="Close"
-          onClick={() => alertAction.alertHide(dispatch)}
         ></button>
       </Box>
     ) : null;

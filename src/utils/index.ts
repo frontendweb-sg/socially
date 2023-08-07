@@ -1,5 +1,3 @@
-import { SetStateAction } from "react";
-
 export const getKeyByValue = <T extends unknown, K extends string>(
   object: T,
   value: K

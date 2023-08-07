@@ -3,7 +3,10 @@ import Container from "@/components/controls/Container";
 import Col from "@/components/controls/Col";
 import Typography from "@/components/controls/Typography";
 import Box from "@/components/controls/Box";
-import ResendEmail from "./ResendEmail";
+import { Base64 } from "js-base64";
+import TokenExpired from "./TokenExpired";
+import { FaCheck, FaEnvelope } from "react-icons/fa";
+import Link from "next/link";
 
 type Status = "token expired" | "success";
 const Page = ({
@@ -11,6 +14,22 @@ const Page = ({
 }: {
   searchParams: { [key: string]: string | Status };
 }) => {
+  const status = Base64.decode(searchParams.status);
+  let element = null;
+  if (status === "token expired") element = <TokenExpired />;
+  if (status === "verified")
+    element = (
+      <Box>
+        <div className="email-icon">
+          <FaCheck size={50} />
+        </div>
+        <Typography>Thank you</Typography>
+        <Typography>You have verified your email!</Typography>
+        <Link href="/signin" className="btn btn-sm mt-4 btn-primary">
+          Sign in
+        </Link>
+      </Box>
+    );
   return (
     <>
       <Col
@@ -37,7 +56,8 @@ const Page = ({
         style={{ position: "relative" }}
       >
         <Box className="auth-verify">
-          <ResendEmail />
+          {element}
+          {/* <ResendEmail /> */}
         </Box>
       </Col>
     </>

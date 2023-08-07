@@ -7,6 +7,7 @@ import { AppContent } from "@/utils/content";
 import { useFormik } from "formik";
 import { notFound, useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
 /**
@@ -39,9 +40,10 @@ const ResendEmail = () => {
     async onSubmit(values, { setSubmitting }) {
       setLoading(true);
       startTransition(async () => {
-        const response = await sendMail(values);
-
-        console.log(response);
+        const data = await sendMail(values.email!);
+        if (data) {
+          toast.success(data?.message!);
+        }
       });
       setLoading(false);
       setSubmitting(false);

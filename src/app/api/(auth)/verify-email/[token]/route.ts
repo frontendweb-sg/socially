@@ -1,10 +1,9 @@
 import { AuthError } from "@/app/api/errors/auth-error";
-import { CustomError } from "@/app/api/errors/custom-error";
-import { errorHandler } from "@/app/api/middleware/error-handler";
 import { connectDb } from "@/lib/db";
 import { User } from "@/models/user";
 import { Jwt } from "@/utils/jwt";
 import { NextRequest, NextResponse } from "next/server";
+import { Base64 } from "js-base64";
 
 export async function GET(
   req: NextRequest,
@@ -15,9 +14,14 @@ export async function GET(
   try {
     const url = req.nextUrl.clone();
     const verify = Jwt.verifyToken(token) as any;
-    if (!token) throw new AuthError("Token expire!");
+    if (!token)
+      return NextResponse.redirect(
+        process.env.NEXTAUTH_URL +
+          "/email-verification?status=" +
+          Base64.encode("token expired")
+      );
     let isTrue: string = new Boolean(!!verify).toString();
-    url.searchParams.set("status", isTrue && "verified");
+    url.searchParams.set("status", isTrue && Base64.encode("verified"));
     url.pathname = encodeURI("/email-verification");
 
     const date = new Date(verify.exp * 1000);
@@ -39,7 +43,7 @@ export async function GET(
     return NextResponse.redirect(
       process.env.NEXTAUTH_URL +
         "/email-verification?status=" +
-        btoa(encodeURIComponent("token expired"))
+        Base64.encode("token expired")
     );
   }
 }

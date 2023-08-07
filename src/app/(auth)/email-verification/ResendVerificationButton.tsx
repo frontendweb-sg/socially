@@ -1,22 +1,29 @@
 "use client";
 
 import Button from "@/components/controls/Button";
+import { sendMail } from "@/lib/user";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 /**
  * Send again
  * @returns
  */
 const ResendEmailButton = ({ email }: { email: string }) => {
+  const [loading, setLoading] = useState(false);
   const onSend = async () => {
-    const response = await fetch(process.env.NEXTAUTH_URL + "/verify-email", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
+    setLoading(true);
+    const data = await sendMail(email!);
+    if (data) {
+      toast.success(data.message);
+    }
+    setLoading(false);
   };
-  return <Button onClick={onSend}>Resend verification email</Button>;
+  return (
+    <Button loading={loading} disabled={loading} onClick={onSend}>
+      Resend verification email
+    </Button>
+  );
 };
 
 export default ResendEmailButton;

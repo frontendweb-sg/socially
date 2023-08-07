@@ -1,5 +1,6 @@
 "use server";
 
+import axios from "axios";
 import { cookies } from "next/headers";
 
 const url = process.env.NEXT_PUBLIC_API_URL + "/user";
@@ -44,14 +45,14 @@ export async function updateUser(body: { mobile: string; name: string }) {
   return data;
 }
 
-export async function sendMail({ email }: { email: string }) {
-  const response = await fetch(process.env.NEXTAUTH_URL + "/verify-email", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email }),
-  });
-
-  return response.json();
+export async function sendMail(email: string) {
+  try {
+    const response = await axios.post(
+      process.env.NEXT_PUBLIC_API_URL + "/verify-email",
+      { email }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 }
