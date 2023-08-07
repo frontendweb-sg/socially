@@ -15,7 +15,6 @@ export async function POST(req: NextRequest) {
   try {
     const token = await auth(req);
     const body = (await req.json()) as IPost;
-    console.log("body", body);
     body.user = token.id as string;
     const newPost = new Post(body);
     const result = (await newPost.save()) as IPostDoc;
@@ -30,7 +29,9 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   await connectDb();
   try {
-    const token = await auth(req);
+    await auth(req);
+    const searchParams = req.nextUrl.searchParams;
+    console.log("s", searchParams);
     const posts = (await Post.find().sort({ createdAt: -1 })) as IPostDoc[];
     return NextResponse.json(posts, { status: 200 });
   } catch (error) {

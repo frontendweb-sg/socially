@@ -1,26 +1,27 @@
-import { IError } from "@/app/api/errors/custom-error";
-import AddPost from "@/components/post/AddPost";
-import Post from "@/components/post/Post";
-import { getPosts } from "@/lib/post";
-import { IPostDoc } from "@/models/post";
-import { cookies } from "next/headers";
+import { getCurrentUser } from "@/app/action/getCurrentUser";
+import Col from "@/components/controls/Col";
+import Row from "@/components/controls/Row";
+import PostList from "@/components/post/PostList";
+import Birthday from "@/components/user/Birthday";
+import { getPostsByUser } from "@/lib/post";
+import { IUserDoc } from "@/models/user";
 
 const Page = async () => {
-  const cookie = cookies();
-  const posts = (await getPosts()) as any;
+  const session = (await getCurrentUser()) as IUserDoc;
+  const posts = (await getPostsByUser(session?.id)) as any;
 
   if (posts?.errors) {
     return <div>{posts.errors.message}</div>;
   }
-
   return (
-    <div>
-      <h1>User posts</h1>
-      <AddPost cookie={cookie} />
-      {posts?.map((post: IPostDoc) => (
-        <Post post={post} key={post.id} />
-      ))}
-    </div>
+    <Row>
+      <Col md={8}>
+        <PostList posts={posts} />
+      </Col>
+      <Col md={4}>
+        <Birthday />
+      </Col>
+    </Row>
   );
 };
 

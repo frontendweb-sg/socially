@@ -4,17 +4,27 @@ import { IPost, IPostDoc } from "@/models/post";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-export async function getPosts(query?: string) {
+export async function getPosts(query: string = "") {
   const cookie = cookies();
-  const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/post", {
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: `${cookie}`,
-    },
-  });
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_API_URL + "/post" + (!!query ? "?" + query : ""),
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `${cookie}`,
+      },
+    }
+  );
 
   const data: IPostDoc[] | Promise<{ errors: IError }> = await response.json();
   return data;
+}
+
+export async function getPostsByUser(userId: string) {
+  const posts = (await getPosts()) as IPostDoc[];
+  const userPosts = posts?.filter((post: IPostDoc) => post.user == userId);
+
+  return userPosts;
 }
 
 export async function getPost(postId: string) {

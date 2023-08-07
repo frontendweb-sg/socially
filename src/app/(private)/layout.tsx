@@ -6,12 +6,11 @@ import { Suspense } from "react";
 import { getCurrentUser } from "../action/getCurrentUser";
 import Alert from "@/components/controls/Alert";
 import { IUserDoc } from "@/models/user";
-import ResendEmail from "../(auth)/email-verification/ResendEmail";
 import ResendEmailButton from "../(auth)/email-verification/ResendVerificationButton";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const session = (await getCurrentUser()) as IUserDoc;
-  console.log("s", session);
+
   return (
     <>
       <Header />
@@ -30,7 +29,6 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         <div className="row row-mod">
           <Sidebar />
           <div className="col-lg-9">
-            {/* <Title /> */}
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>
         </div>
