@@ -47,7 +47,7 @@ const Input = forwardRef<inputRef, IProps>(
             name={name}
             className="fw-input"
             ref={ref}
-            placeholder={placeholder ?? upperFirst(name) + " :"}
+            placeholder={placeholder ?? upperFirst(name)}
             {...rest}
           />
           {endIcon}

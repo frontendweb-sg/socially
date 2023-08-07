@@ -8,12 +8,15 @@ import { AppContent } from "@/utils/content";
 import { AdminMenu, USER_MENU } from "./menu";
 import { FaCog } from "react-icons/fa";
 import { useSession } from "next-auth/react";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 /**
  * Sidebar
  * @returns
  */
 const Sidebar = () => {
+  const segment = useSelectedLayoutSegment();
+
   const { data: session, status } = useSession();
   let Menu = session?.user.role === "admin" ? AdminMenu : USER_MENU;
   return (
@@ -31,7 +34,7 @@ const Sidebar = () => {
             <li>
               <hr className="sidebar-divider" />
             </li>
-            <NavItem href={"/settings"}>
+            <NavItem href={"/" + segment + "/settings"}>
               <FaCog /> {AppContent.setting}
             </NavItem>
           </ul>
